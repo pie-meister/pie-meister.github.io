@@ -1,0 +1,5 @@
+.vscode
+build
+*_save*
+*-test*
+test*

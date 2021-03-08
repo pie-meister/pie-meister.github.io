@@ -1,0 +1,166 @@
+<html>
+  <head>
+    <script src="elements.pie-meister.js"></script>
+    <script src="elements.pie-meister.min.js"></script>
+    <style>
+      body {
+        font-family: Arial;
+        max-width: 1024px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Pie Meister 0.1</h1>
+    There are some large pies available. Would it be possible to draw pies wih a 1024 Bytes (Gzip) maximum?
+    <section>
+      <table>
+        <thead>
+          <tr>
+            <td>Library</td>
+            <td>
+              Minified size<br />
+              Exlcuding jQuery
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- <script>
+            document.write(
+              [
+                { name: "ChartJS", uri: "https://www.chartjs.org/samples/latest/charts/pie.html", size: "51" },
+                { name: "D3.js", uri: "http://bl.ocks.org/dbuezas/9306799", size: "64" },
+                {
+                  name: "GoogleCharts",
+                  uri: "https://developers.google.com/chart/interactive/docs/gallery/piechart",
+                  size: "66",
+                },
+                { name: "HighCharts", uri: "https://www.highcharts.com/demo/pie-basic", size: "95" },
+                {
+                  name: "ZoomCharts",
+                  uri: "https://zoomcharts.com/en/javascript-charts-library/html5-charts/piechart/",
+                  size: "300",
+                },
+                { name: "AMCharts", uri: "https://www.amcharts.com/demos/dragging-pie-slices/", size: "272" },
+                { name: "Pie Meister", uri: "https://pie-meister.github.io", size: "< 1" },
+              ].map((c) => `<tr><td><a href="${c.uri}">${c.name}</a></td><td align=right>${c.size} kB</td></tr>`)
+            );
+          </script> -->
+        </tbody>
+      </table>
+    </section>
+    <section>
+      <style>
+        pie-chart {
+          max-width: 49vw;
+          background: grey;
+        }
+      </style>
+      <template id="PIE-CHART">
+        <style></style>
+      </template>
+
+      <pie-chart id="pie1" gap="1" pull="100">
+        <style>
+          #pie1 text {
+            display: inline-block;
+            font-size: 80px;
+            text-anchor: middle;
+            alignment-baseline: central;
+            fill: black;
+          }
+          #pie1 #slice10 text {
+            fill: white;
+          }
+        </style>
+        <slice size="20%" stroke-width="600"></slice>
+        <slice size="45"></slice>
+        <slice size="30"></slice>
+        <slice size="20" stroke-width="600"></slice>
+        <slice size="30"></slice>
+        <slice size="45"></slice>
+        <slice size="20"></slice>
+        <slice size="25"></slice>
+        <slice size="45"></slice>
+        <slice size="25"></slice>
+        <slice size="25"></slice>
+      </pie-chart>
+      <script>
+        pie1.addEventListener("pie1", (evt) => {
+          console.log(evt.composedPath());
+          console.log(evt.composedPath()[0].slice);
+          evt.composedPath()[0].slice.pull(1);
+        });
+      </script>
+      <pie-chart id="pie2" pull="100">
+        <style>
+          svg text {
+            font-size: 100px;
+            text-anchor: middle;
+            alignment-baseline: central;
+            fill: black;
+            stroke: black;
+            stroke-width: 0.1;
+          }
+          #slice1 text {
+            fill: blue;
+            translate: 100px 100px;
+          }
+          #slice1 {
+            displa1y: none;
+          }
+        </style>
+        <g opacity=".7" onmouseover="console.log(this)">
+          <slice size="40" stroke="gold" pull border="black">Angular</slice>
+          <slice size="60" onmouseover="console.log(this.slice.pull(1))">Vue</slice>
+          <slice size="100">React</slice>
+        </g>
+      </pie-chart>
+      <pie-chart id="pie3" pull="100">
+        <style>
+          svg text {
+            font-size: 150px;
+            text-anchor: middle;
+            alignment-baseline: central;
+            fill: black;
+            stroke: yellow;
+            stroke-width: 0.1;
+          }
+          #slice1 text {
+            fill: white;
+          }
+        </style>
+        <circle r="450" cx="50%" cy="50%" fill="lightgrey"></circle>
+        <slice size="90%" stroke="blue"></slice>
+        <slice size="45" stroke="gold" pull></slice>
+        <slice size="30" stroke="firebrick" pull></slice>
+      </pie-chart>
+      <pie-chart id="rounded" pull="-50" xgap="2" stroke-width="200" xstroke-linecap="round" stroke="red">
+        <defs>
+          <filter id="round">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur"></feGaussianBlur>
+            <feColorMatrix
+              in="blur"
+              mode="matrix"
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9"
+              result="blurred"
+            ></feColorMatrix>
+            <feComposite in="SourceGraphic" in2="blurred" operator="atop"></feComposite>
+          </filter>
+        </defs>
+        <slice size="45" stroke="blue"></slice>
+        <slice size="90" stroke="orange"></slice>
+        <slice size="45" stroke="rebeccapurple"></slice>
+        <slice size="45" stroke="gold"></slice>
+        <slice size="45" stroke="firebrick" pull></slice>
+        <!-- <circle r="30" cx="50%" cy="50%" fill="beige"></circle> -->
+      </pie-chart>
+    </section>
+    <section>
+      <h2>GZip analysis</h2>
+      <p>Can you squeeze out more bytes? (red = costly encoding)</p>
+      <img src="gzip_analysis.png" />
+      <!-- <img src="https://www.rgraph.net/images/svg-activity-meter-snippet.png"> -->
+    </section>
+  </body>
+</html>
