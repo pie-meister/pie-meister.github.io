@@ -1,16 +1,17 @@
 <html>
   <head>
-    <script src="elements.pie-meister.js"></script>
-    <script src="elements.pie-meister.site-elements.js"></script>
     <script src="prism.js"></script>
     <link rel="stylesheet" href="prism.css" data-noprefix />
+    <script src="elements.pie-meister.js"></script>
+    <script src="elements.pie-meister.site-elements.js"></script>
     <template id="PIE-DEMO">
       <style>
         :host {
+          display:inline-block;
         }
         div {
           display: grid;
-          grid-template-columns: 1fr 1fr;
+          grid-template-columns: 2fr 1fr 2fr;
         }
       </style>
       <div>
@@ -26,32 +27,47 @@
         padding: 1em;
         margin: 0 auto;
       }
+      section{
+        background:beige;
+      }
       h1 img {
         width: 400px;
         text-align: justify;
       }
-      .pie {
+      .pi {
         font-size: 1.2em;
+      }
+      pie-demo{
+        padding-top:1em;
+      }
+      pie-demo pre{
+        padding-left:2em;
+
+      }
+      pie-demo p{
+        padding: 0em 1em;
       }
     </style>
   </head>
   <body>
     <h1><img src="https://www-static.dreambox.com/wp-content/uploads/Pi-Day.jpg" />Pie Meister v3.14</h1>
+    <h3>A <content-length src="elements.pie-meister.min.js"></content-length> &lt;pie-chart> Web Component for ... drumroll... pie-charts</h3>
     <section>
-      <h2>Minimal HTML to hap<i class="pie">pie</i>ness</h2>
-     
+      <h2>Minimal HTML to hap<i class="pi">pi</i>ness</h2>
       <pie-demo>
-        <pre slot="html"><code class="language-html">&lt;pie-chart>
-          &lt;slice size="10">&lt;/slice>
-          &lt;slice size="20">&lt;/slice>
-          &lt;slice size="40">&lt;/slice>
-        &lt;/pie-chart>
-        </code></pre>
         <pie-chart>
           <slice size="10"></slice>
           <slice size="20"></slice>
           <slice size="40"></slice>
         </pie-chart>
+      </pie-demo>
+      <pie-demo data-line="2">
+        <pie-chart>
+          <slice size="10%"></slice>
+          <slice size="20"></slice>
+          <slice size="40"></slice>
+        </pie-chart>
+        <p>Mark the <b>first</b> slice as a percentage to create a 100 percent pie</p>
       </pie-demo>
     </section>
     <section>
