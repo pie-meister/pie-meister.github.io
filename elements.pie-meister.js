@@ -18,7 +18,7 @@ customElements.define(
       dashoffset = 0, // clockwise - incremental stroke offset for each slice
       namespace = "http://www.w3.org/2000/svg",
       // ================================================================================== pathlength for all slices
-      pathlength = 0 // determined by first slice size, 360 for size=N% notation
+      pathlength = 0 // determined by first slice size, 100 for size=N% notation
     ) {
       // ================================================================================== create SVG
       // inject SVG in shadowDOM so <slice> can be processed
@@ -50,7 +50,7 @@ customElements.define(
             [...this.querySelectorAll("slice")].map((slice) => (pathlength += ~~slice.getAttribute("size") + gap));
           }
         } else {
-          pathlength = 360;
+          pathlength = ~~this.getAttribute("scale") || 100; // 100% pie
         }
         // ================================================================================== createPath
         this.slice = (
@@ -114,7 +114,7 @@ customElements.define(
         sliceBase.parentNode.replaceChild(group, sliceBase);
 
         // abuse no longer required sliceBase
-        path.slice =  {
+        path.slice = {
           p: path,
           c: centerPoint,
           l: label,

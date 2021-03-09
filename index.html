@@ -1,19 +1,62 @@
 <html>
   <head>
     <script src="elements.pie-meister.js"></script>
-    <script src="elements.pie-meister.min.js"></script>
+    <script src="elements.pie-meister.site-elements.js"></script>
+    <script src="prism.js"></script>
+    <link rel="stylesheet" href="prism.css" data-noprefix />
+    <template id="PIE-DEMO">
+      <style>
+        :host {
+        }
+        div {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+        }
+      </style>
+      <div>
+        <slot name="html"></slot>
+        <slot></slot>
+      </div>
+    </template>
+    <!-- <script src="elements.pie-meister.min.js"></script> -->
     <style>
       body {
         font-family: Arial;
         max-width: 1024px;
+        padding: 1em;
         margin: 0 auto;
+      }
+      h1 img {
+        width: 400px;
+        text-align: justify;
+      }
+      .pie {
+        font-size: 1.2em;
       }
     </style>
   </head>
   <body>
-    <h1>Pie Meister 0.1</h1>
-    There are some large pies available. Would it be possible to draw pies wih a 1024 Bytes (Gzip) maximum?
+    <h1><img src="https://www-static.dreambox.com/wp-content/uploads/Pi-Day.jpg" />Pie Meister v3.14</h1>
     <section>
+      <h2>Minimal HTML to hap<i class="pie">pie</i>ness</h2>
+     
+      <pie-demo>
+        <pre slot="html"><code class="language-html">&lt;pie-chart>
+          &lt;slice size="10">&lt;/slice>
+          &lt;slice size="20">&lt;/slice>
+          &lt;slice size="40">&lt;/slice>
+        &lt;/pie-chart>
+        </code></pre>
+        <pie-chart>
+          <slice size="10"></slice>
+          <slice size="20"></slice>
+          <slice size="40"></slice>
+        </pie-chart>
+      </pie-demo>
+    </section>
+    <section>
+      <h2>Pie Chart Libraries</h2>
+      <p>There are some large pies available. Would it be possible to draw pies wih a 1024 Bytes (Gzip) maximum?</p>
       <table>
         <thead>
           <tr>
@@ -25,7 +68,7 @@
           </tr>
         </thead>
         <tbody>
-          <!-- <script>
+          <script>
             document.write(
               [
                 { name: "ChartJS", uri: "https://www.chartjs.org/samples/latest/charts/pie.html", size: "51" },
@@ -43,9 +86,9 @@
                 },
                 { name: "AMCharts", uri: "https://www.amcharts.com/demos/dragging-pie-slices/", size: "272" },
                 { name: "Pie Meister", uri: "https://pie-meister.github.io", size: "< 1" },
-              ].map((c) => `<tr><td><a href="${c.uri}">${c.name}</a></td><td align=right>${c.size} kB</td></tr>`)
+              ].map((c) => `<tr><td><a href="${c.uri}">${c.name}</a></td><td align=right>${c.size} kB</td></tr>`).join``
             );
-          </script> -->
+          </script>
         </tbody>
       </table>
     </section>
@@ -56,9 +99,7 @@
           background: grey;
         }
       </style>
-      <template id="PIE-CHART">
-        <style></style>
-      </template>
+      <template id="PIE-CHART"> </template>
 
       <pie-chart id="pie1" gap="1" pull="100">
         <style>
@@ -131,7 +172,7 @@
           }
         </style>
         <circle r="450" cx="50%" cy="50%" fill="lightgrey"></circle>
-        <slice size="90%" stroke="blue"></slice>
+        <slice size="90" stroke="blue"></slice>
         <slice size="45" stroke="gold" pull></slice>
         <slice size="30" stroke="firebrick" pull></slice>
       </pie-chart>
