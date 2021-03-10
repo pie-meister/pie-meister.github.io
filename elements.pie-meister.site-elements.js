@@ -140,10 +140,10 @@ customElements.define(
       this.innerHTML = `<table>
         <thead>
           <tr>
-            <td>Library</td>
-            <td>
+            <th></th>
+            <th align=right>
               GZip size
-            </td>
+            </th>
           </tr>
         </thead>
         <tbody>`+rows+`

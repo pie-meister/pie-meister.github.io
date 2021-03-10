@@ -71,6 +71,9 @@
       :not(:defined) {
         background: red;
       }
+      table content-length{
+        padding-left:3em;
+      }
     </style>
   </head>
   <body>
@@ -80,8 +83,7 @@
         <div>
           <h1><meister-name></meister-name></h1>
           <p>
-            In memory of the <a href="https://en.wikipedia.org/wiki/TRS-80">first computer</a> I programmed (it had 4 kB
-            memory)<br />I tried to create a &lt;pie-chart> Web Component in a maximum of <b>3.14</b> kB... and failed
+            My <a href="https://en.wikipedia.org/wiki/TRS-80">first computer</a> learned me to program in 4 kB memory.<br />I tried to create a &lt;pie-chart> Web Component in a maximum of <b>3.14</b> kB... and failed
           </p>
           <chart-libraries-table></chart-libraries-table>
         </div>
@@ -91,10 +93,10 @@
     <section>
       <h2>Usage:</h2>
       <pie-demo>
-        <pie-chart pull="200">
+        <pie-chart id="pies" pull="50">
           <style>
             text {
-              font-size: 3em;
+              font-size: 2em;
               text-anchor: middle;
             }
             [label="Blueberry"] text{
@@ -104,15 +106,22 @@
           <slice size="20%" stroke="#6c3">Apple</slice>
           <slice size="18" stroke="#fc5a8d">Strawberry</slice>
           <slice size="16" stroke="#ff7518">Pumpkin</slice>
-          <slice size="20" stroke="#790604">Cherry</slice>
+          <slice size="10" stroke="#790604">Cherry</slice>
           <slice size="5" stroke="#4f86f7">Blueberry</slice>
           <slice size="5" stroke="#fff44f">Lemon</slice>
           <slice size="5" stroke="#d2691e">Chocolate</slice>
-          <slice size="" x=100 stroke="beige">Other</slice>
         </pie-chart>
         <pie-description hide></pie-description>
       </pie-demo>
-      <pie-demo>
+      <script>
+        pies.addEventListener("slice", (evt) => {
+          let slice = evt.target.g;
+          slice.pull(!slice.pulled);
+        });
+      </script>
+
+
+<pie-demo>
         <pie-chart>
           <slice size="10"></slice>
           <slice size="20"></slice>
@@ -265,7 +274,7 @@
       <h2><meister-name></meister-name> - interacting with a pie</h2>
       <p>Pie slices emit mouseenter & mouseout Events to the pie-chart Element</p>
       <pre><code class="language-javascript">
-          pullpie.addEventListener("pullpie", (evt) => {
+          pullpie.addEventListener("slice", (evt) => {
             let slice = evt.target.g; // SVG &lt;g> element
             slice.pull(!slice.pulled)
           });
@@ -280,7 +289,7 @@
         </pie-chart>
       </pie-demo>
       <script>
-        pullpie.addEventListener("pullpie", (evt) => {
+        pullpie.addEventListener("slice", (evt) => {
           let slice = evt.target.g;
           slice.pull(!slice.pulled);
         });

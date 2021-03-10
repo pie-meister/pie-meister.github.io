@@ -39,7 +39,6 @@ customElements.define(
       }
       // ================================================================================== convert <slice>s to paths
       this.slices = [...this.shadowRoot.querySelectorAll("slice")].map((sliceBase, idx) => {
-
         let sizeString = sliceBase.getAttribute("size");
         let sliceSize = ~~sizeString.replace(/\%/, "");
 
@@ -91,26 +90,26 @@ customElements.define(
         let group = document.createElementNS(namespace, "g");
         let label = document.createElementNS(namespace, "text");
 
-        group.text = label;
         // determine color
         path.setAttribute("stroke", sliceBase.getAttribute("stroke") || colors.shift());
         //! 43 Bytes for Events
-        path.onmouseenter = () => ((this.g = group), this.dispatchEvent(new Event(this.id)));
-        path.onmouseout = () => ((this.g = group), this.dispatchEvent(new Event(this.id)));
+        group.onmouseover = () => ((this.g = group), this.dispatchEvent(new Event("slice")));
+        group.onmouseout = () => ((this.g = group), this.dispatchEvent(new Event("slice")));
 
+        // set extra properties on slice <g> for easy CSS selecting
         group.setAttribute("size", sizeString);
         group.setAttribute("label", (label.innerHTML = sliceBase.innerHTML || sizeString));
-        group.pull = (state) => {
-          //(group.setAttribute("x", pullPoint.x+pull), group.setAttribute("y", pullPoint.y)),
-          group.pulled = state;
+        // create method .pull(T/F)
+        group.pull = (state) =>
           group.setAttribute(
             "transform",
-            state ? `translate(${pullPoint.x - centerPoint.x} ${pullPoint.y - centerPoint.y})` : `translate(0 0)`
+            (group.pulled = state)
+              ? `translate(${pullPoint.x - centerPoint.x} ${pullPoint.y - centerPoint.y})`
+              : `translate(0 0)`
           );
-        };
 
         // calculate dashoffset ONCE for each slice
-        path.setAttribute("stroke-dashoffset", dashoffset += sliceSize + gap);
+        path.setAttribute("stroke-dashoffset", (dashoffset += sliceSize + gap));
 
         // add user defined <slice> attributes to path
         [...sliceBase.attributes].map((x) => path.setAttribute(x.name, x.value));
