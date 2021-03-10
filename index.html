@@ -79,7 +79,10 @@
         <img src="pi-day-logo.jpg" />
         <div>
           <h1><meister-name></meister-name></h1>
-          <p>The <a href="https://en.wikipedia.org/wiki/TRS-80">first computer</a> I programmed had 4 kB memory. In memory of that computer I tried to create a &lt;pie-chart> Web Component in a maximum of <b>3.14</b> kB... and failed</p>
+          <p>
+            In memory of the <a href="https://en.wikipedia.org/wiki/TRS-80">first computer</a> I programmed (4 kB memory) I tried to create a &lt;pie-chart> Web Component in a maximum of <b>3.14</b> kB...
+            and failed
+          </p>
           <chart-libraries-table></chart-libraries-table>
         </div>
       </header>
@@ -135,7 +138,7 @@
           >Format a single pie with <b>inline</b> CSS (styling SVG elements)<br /><br />By default labels are positioned
           60 SVG units <b>outward</b> from the slice center point</pie-description
         >
-        <pie-chart>
+        <pie-chart label>
           <style>
             text {
               font-size: 5em;
@@ -233,19 +236,25 @@
           <slice size="40"></slice>
         </pie-chart>
       </pie-demo>
-    <pie-demo>
+      <pie-demo>
         <pie-description>Polar chart (attempt)</pie-description>
-        <pie-chart pull1="100">
-          <slice size="10" stroke-width="500"></slice>
-          <slice size="20" stroke-width="200"></slice>
-          <slice size="40" stroke-width="300"></slice>
-          <slice size="40" stroke-width="100"></slice>
+        <pie-chart polar>
+          <slice size="10" stroke-width="100" push="200"></slice>
+          <slice size="10" stroke-width="200" push="150"></slice>
+          <slice size="10" stroke-width="300" push="100"></slice>
+          <slice size="10" stroke-width="400" push="50"></slice>
         </pie-chart>
       </pie-demo>
     </section>
     <section>
-      <h2><meister-name></meister-name> - interacting with a  pie</h2>
-      <p>Pie slices emit a mouseover Event</p>
+      <h2><meister-name></meister-name> - interacting with a pie</h2>
+      <p>Pie slices emit mouseenter & mouseout Events to the pie-chart Element</p>
+      <pre><code class="language-javascript">
+          pullpie.addEventListener("pullpie", (evt) => {
+            let slice = evt.target.slice;
+            slice.pull(!slice.pulled)
+          });
+      </code></pre>
       <pie-demo>
         <pie-description></pie-description>
         <pie-chart id="pullpie" pull="100">
@@ -256,16 +265,9 @@
         </pie-chart>
       </pie-demo>
       <script>
-        let pulledslice;
         pullpie.addEventListener("pullpie", (evt) => {
-          let slice = evt.composedPath()[0];
-          console.log(evt.composedPath());
-          console.log(21,evt.path);
-          console.log(22,evt.target);
-          console.log(22,evt.target.slice);
-          console.log(evt.composedPath()[0].slice);
-          console.log(evt.composedPath()[0].slice.pull(1));
-          slice?.pull(1);
+          let slice = evt.target.slice;
+          slice.pull(!slice.pulled)
         });
       </script>
     </section>

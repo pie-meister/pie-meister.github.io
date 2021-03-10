@@ -62,7 +62,9 @@ customElements.define(
           pre.slot = "html";
           pre.innerHTML = `<code class="language-html"></code>`;
           this.prepend(pre);
-          let html = this.querySelector("pie-chart").outerHTML.replace(/pull=""/g, "pull");
+          let html = this.querySelector("pie-chart").outerHTML;
+          html = html.replace(/pull=""/g, "pull");
+          html = html.replace(/label=""/g, "label");
           this.querySelector("code").innerHTML = formatHTMLasCode(html);
           Prism.highlightAllUnder(this.shadowRoot);
         }
@@ -127,7 +129,7 @@ customElements.define(
         },
         { name: "D3.js", uri: "http://bl.ocks.org/dbuezas/9306799", size: "64 kB" },
         { name: "ChartJS", uri: "https://www.chartjs.org/samples/latest/charts/pie.html", size: "51 kB" },
-        { name: "Pie Meister", uri: "https://pie-meister.github.io", size: "<content-length src='elements.pie-meister.min.js'></content-length>" },
+        { name: "<meister-name></meister-name>", uri: "https://pie-meister.github.io", size: "<content-length src='elements.pie-meister.min.js'></content-length>" },
       ].map((c) => `<tr><td><a href="${c.uri}">${c.name}</a></td><td align=right>${c.size}</td></tr>`).join``;
       this.innerHTML = `<table>
         <thead>
