@@ -36,7 +36,7 @@ customElements.define(
   "meister-name",
   class extends HTMLElement {
     connectedCallback() {
-      this.innerHTML = `Pie Meister v3.14`;
+      this.innerHTML = `Pie Meister v3.14 `;
     }
   }
 );
@@ -64,7 +64,7 @@ customElements.define(
           this.prepend(pre);
           let html = this.querySelector("pie-chart").outerHTML;
           html = html.replace(/pull=""/g, "pull");
-          html = html.replace(/label=""/g, "label");
+          html = html.replace(/polar=""/g, "polar");
           this.querySelector("code").innerHTML = formatHTMLasCode(html);
           Prism.highlightAllUnder(this.shadowRoot);
         }
@@ -76,7 +76,7 @@ customElements.define(
   "content-length",
   class extends HTMLElement {
     connectedCallback() {
-      fetch(this.getAttribute("src")).then((res) => (this.innerHTML = res.headers.get("content-length") + " Bytes"));
+      fetch(this.getAttribute("src")).then((res) => (this.innerHTML = " " + res.headers.get("content-length") + " Bytes"));
     }
   }
 );
@@ -84,6 +84,12 @@ customElements.define(
   "pie-description",
   class extends HTMLElement {
     connectedCallback() {
+      if(this.hasAttribute("hide")){
+          console.log(this);
+          //this.closest("pie-demo").style.setProperty("--description-fr","0fr")
+          //this.closest("pie-demo").style.setProperty("--pie-fr","2fr");
+          this.remove();
+      }
       this.slot = "description";
     }
   }

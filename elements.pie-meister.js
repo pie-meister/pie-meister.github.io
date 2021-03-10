@@ -39,8 +39,10 @@ customElements.define(
       }
       // ================================================================================== convert <slice>s to paths
       this.slices = [...this.shadowRoot.querySelectorAll("slice")].map((sliceBase, idx) => {
+
         let sizeString = sliceBase.getAttribute("size");
         let sliceSize = ~~sizeString.replace(/\%/, "");
+
         let strokeWidth =
           ~~sliceBase.getAttribute("stroke-width") || // <slice stroke-width=X>
           ~~this.getAttribute("stroke-width") || // <pie-chart stroke-width=X>
@@ -59,8 +61,6 @@ customElements.define(
           // user parameters
           extraRadius, // 0 = slice middle point
 
-          width = strokeWidth,
-
           // calculations:
           R = (500 + pull / 2) / 2 -
             pull / 2 +
@@ -71,7 +71,7 @@ customElements.define(
           path.setAttribute("d", `m${500 + pull / 2} ${500 + pull / 2}m0 ${-R}a1 1 0 000 ${R * 2}a1 1 0 000-${R * 2}`),
           path.setAttribute("pathLength", pathlength),
           path.setAttribute("fill", "none"),
-          path.setAttribute("stroke-width", width),
+          path.setAttribute("stroke-width", strokeWidth),
           path.setAttribute("stroke-dasharray", sliceSize + " " + (pathlength - sliceSize)),
           // stick .M method on path to get a Point position x,y later
           (path.M = () =>
@@ -88,15 +88,18 @@ customElements.define(
         let pullPoint = this.sliced(Math.abs(~~sliceBase.getAttribute("pull") || pull)).M();
         // textPoint is used for calculations, not drawn on SVG
         let textPoint = this.sliced(~~this.getAttribute("text") || 60).M();
-        let label = document.createElementNS(namespace, "text");
         let group = document.createElementNS(namespace, "g");
+        let label = document.createElementNS(namespace, "text");
 
+        group.text = label;
         // determine color
         path.setAttribute("stroke", sliceBase.getAttribute("stroke") || colors.shift());
         //! 43 Bytes for Events
-        path.onmouseenter = () => ((this.slice = group), this.dispatchEvent(new Event(this.id)));
-        path.onmouseout = () => ((this.slice = group), this.dispatchEvent(new Event(this.id)));
+        path.onmouseenter = () => ((this.g = group), this.dispatchEvent(new Event(this.id)));
+        path.onmouseout = () => ((this.g = group), this.dispatchEvent(new Event(this.id)));
 
+        group.setAttribute("size", sizeString);
+        group.setAttribute("label", (label.innerHTML = sliceBase.innerHTML || sizeString));
         group.pull = (state) => {
           //(group.setAttribute("x", pullPoint.x+pull), group.setAttribute("y", pullPoint.y)),
           group.pulled = state;
@@ -106,8 +109,8 @@ customElements.define(
           );
         };
 
-        dashoffset += sliceSize + gap;
-        path.setAttribute("stroke-dashoffset", dashoffset);
+        // calculate dashoffset ONCE for each slice
+        path.setAttribute("stroke-dashoffset", dashoffset += sliceSize + gap);
 
         // add user defined <slice> attributes to path
         [...sliceBase.attributes].map((x) => path.setAttribute(x.name, x.value));
@@ -115,14 +118,15 @@ customElements.define(
         // ------------------------------------------------------------------ create slice(idx) content
         label.setAttribute("x", textPoint.x + ~~sliceBase.getAttribute("x"));
         label.setAttribute("y", textPoint.y + ~~sliceBase.getAttribute("y"));
-        label.innerHTML = sliceBase.innerHTML || sizeString;
+
         //addCircle(point.M(0), "green");
         //addCircle(text_point, "grey");
         // addCircle(pull_point, "red");
 
-        group.append(path, 
+        group.append(
+          path,
           this.querySelector("style") && label // if lightDOM has a style element, append <text>
-          );
+        );
         group.id = "slice" + (idx + 1);
         // --- add path and label to SVG, at <slice> position
         // parentNode can be SVG or user element <g>

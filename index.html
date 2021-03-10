@@ -11,7 +11,7 @@
         }
         div {
           display: grid;
-          grid-template-columns: 1fr 2fr 1fr;
+          grid-template-columns: var(--description-fr, 1fr) 2fr auto;
           gap: 1em;
         }
       </style>
@@ -80,30 +80,37 @@
         <div>
           <h1><meister-name></meister-name></h1>
           <p>
-            In memory of the <a href="https://en.wikipedia.org/wiki/TRS-80">first computer</a> I programmed (4 kB memory) I tried to create a &lt;pie-chart> Web Component in a maximum of <b>3.14</b> kB...
-            and failed
+            In memory of the <a href="https://en.wikipedia.org/wiki/TRS-80">first computer</a> I programmed (it had 4 kB
+            memory)<br />I tried to create a &lt;pie-chart> Web Component in a maximum of <b>3.14</b> kB... and failed
           </p>
           <chart-libraries-table></chart-libraries-table>
         </div>
       </header>
     </section>
+    <section></section>
     <section>
       <h2>Usage:</h2>
       <pie-demo>
-        <pie-chart pull="200" text="350">
+        <pie-chart pull="200">
           <style>
             text {
-              font-size: 5em;
+              font-size: 3em;
               text-anchor: middle;
             }
+            [label="Blueberry"] text{
+              fill:white;
+            }
           </style>
-          <slice size="10">Configure IDE</slice>
-          <slice size="10">Updating dependencies</slice>
-          <slice size="40">Programming</slice>
-          <slice size="20">Testing</slice>
-          <slice size="5">Debugging</slice>
+          <slice size="20%" stroke="#6c3">Apple</slice>
+          <slice size="18" stroke="#fc5a8d">Strawberry</slice>
+          <slice size="16" stroke="#ff7518">Pumpkin</slice>
+          <slice size="20" stroke="#790604">Cherry</slice>
+          <slice size="5" stroke="#4f86f7">Blueberry</slice>
+          <slice size="5" stroke="#fff44f">Lemon</slice>
+          <slice size="5" stroke="#d2691e">Chocolate</slice>
+          <slice size="" x=100 stroke="beige">Other</slice>
         </pie-chart>
-        <pie-description>Minimal HTML to hap<i class="pi">pi</i>ness</pie-description>
+        <pie-description hide></pie-description>
       </pie-demo>
       <pie-demo>
         <pie-chart>
@@ -136,7 +143,8 @@
       <pie-demo>
         <pie-description
           >Format a single pie with <b>inline</b> CSS (styling SVG elements)<br /><br />By default labels are positioned
-          60 SVG units <b>outward</b> from the slice center point<br><br>Labels are only shown when a &lt;style> is defined</pie-description
+          60 SVG units <b>outward</b> from the slice center point<br /><br />Labels are only shown when a &lt;style> is
+          defined</pie-description
         >
         <pie-chart>
           <style>
@@ -237,14 +245,19 @@
         </pie-chart>
       </pie-demo>
       <pie-demo>
-        <pie-description>Polar chart (attempt)</pie-description>
+        <pie-description>Polar chart. The stroke-width defines the slice radius</pie-description>
         <pie-chart polar>
-          <slice size="10" stroke-width="300"></slice>
-          <slice size="10" stroke-width="200"></slice>
-          <slice size="10" stroke-width="300"></slice>
-          <slice size="10" stroke-width="500"></slice>
-          <slice size="10" stroke-width="400"></slice>
-          <slice size="10" stroke-width="500"></slice>
+          <slice size="2" stroke-width="300"></slice>
+          <slice size="2" stroke-width="200"></slice>
+          <slice size="2" stroke-width="300"></slice>
+          <slice size="1" stroke-width="400"></slice>
+          <slice size="1" stroke-width="500"></slice>
+          <style>
+            text {
+              font-size: 4em;
+              text-anchor: middle;
+            }
+          </style>
         </pie-chart>
       </pie-demo>
     </section>
@@ -253,7 +266,7 @@
       <p>Pie slices emit mouseenter & mouseout Events to the pie-chart Element</p>
       <pre><code class="language-javascript">
           pullpie.addEventListener("pullpie", (evt) => {
-            let slice = evt.target.slice;
+            let slice = evt.target.g; // SVG &lt;g> element
             slice.pull(!slice.pulled)
           });
       </code></pre>
@@ -268,8 +281,8 @@
       </pie-demo>
       <script>
         pullpie.addEventListener("pullpie", (evt) => {
-          let slice = evt.target.slice;
-          slice.pull(!slice.pulled)
+          let slice = evt.target.g;
+          slice.pull(!slice.pulled);
         });
       </script>
     </section>
