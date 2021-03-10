@@ -71,8 +71,8 @@
       :not(:defined) {
         background: red;
       }
-      table content-length{
-        padding-left:3em;
+      table content-length {
+        padding-left: 3em;
       }
     </style>
   </head>
@@ -83,7 +83,8 @@
         <div>
           <h1><meister-name></meister-name></h1>
           <p>
-            My <a href="https://en.wikipedia.org/wiki/TRS-80">first computer</a> learned me to program in 4 kB memory.<br />I tried to create a &lt;pie-chart> Web Component in a maximum of <b>3.14</b> kB... and failed
+            My <a href="https://en.wikipedia.org/wiki/TRS-80">first computer</a> learned me to program in 4 kB
+            memory.<br />I tried to create a &lt;pie-chart> Web Component in a maximum of <b>3.14</b> kB... and failed
           </p>
           <chart-libraries-table></chart-libraries-table>
         </div>
@@ -95,12 +96,15 @@
       <pie-demo>
         <pie-chart id="pies" pull="50">
           <style>
+            [id*="slice"] {
+              cursor: pointer;
+            }
             text {
               font-size: 2em;
               text-anchor: middle;
             }
-            [label="Blueberry"] text{
-              fill:white;
+            [label="Blueberry"] text {
+              fill: white;
             }
           </style>
           <slice size="20%" stroke="#6c3">Apple</slice>
@@ -110,6 +114,7 @@
           <slice size="5" stroke="#4f86f7">Blueberry</slice>
           <slice size="5" stroke="#fff44f">Lemon</slice>
           <slice size="5" stroke="#d2691e">Chocolate</slice>
+          <slice size="" stroke="grey">Other</slice>
         </pie-chart>
         <pie-description hide></pie-description>
       </pie-demo>
@@ -120,8 +125,7 @@
         });
       </script>
 
-
-<pie-demo>
+      <pie-demo>
         <pie-chart>
           <slice size="10"></slice>
           <slice size="20"></slice>
@@ -141,7 +145,7 @@
         <pie-description
           >To 'pull' a slice, specify the distance you want to pull, and which slice to pull<br /><br />The SVG has a
           1000 x 1000 units viewBox<br /><br />
-          A pull=200 creates a 1200x1200 viewBox so pulled sliced are not cut off</pie-description
+          A pull=200 creates a 1200x1200 viewBox so pulled slices are not cut off</pie-description
         >
         <pie-chart pull="200">
           <slice size="10" pull></slice>
@@ -168,16 +172,26 @@
         </pie-chart>
       </pie-demo>
       <pie-demo>
-        <pie-description>Add any SVG you want</pie-description>
-        <pie-chart>
-          <circle r="50%" cx="50%" cy="50%" fill="beige"></circle>
+        <pie-description
+          >Add any SVG you want<br /><br />And I almost forgot; size="" autocompletes to a full 100%
+          pie</pie-description
+        >
+        <pie-chart pull="30">
+          <circle r="505" cx="50%" cy="50%" fill="teal"></circle>
+
           <slice size="10%"></slice>
           <slice size="20%"></slice>
           <slice size="40%"></slice>
-          <text x="250" y="400">Not 100% yet!</text>
+          <slice size="" stroke="grey">Not 100% yet!</slice>
+
           <circle r="100" cx="50%" cy="50%" fill="darkgreen"></circle>
+          <text x="50%" y="50%" fill="white">Pie Meister</text>
           <style>
             text {
+              font-size: 8em;
+              text-anchor: middle;
+            }
+            [id*="slice"] text {
               font-size: 4em;
               text-anchor: middle;
             }
@@ -195,7 +209,7 @@
       </pie-demo>
       <pie-demo>
         <pie-description
-          >A negative pull value makes the viewBox <b>smaller</b> removing (unwanted) padding. <br /><br />The slice is
+          >A negative pull value makes the viewBox <b>smaller</b>, removing (unwanted) padding. <br /><br />The slice is
           <b>not</b> pulled inward</pie-description
         >
         <pie-chart stroke-width="200" pull="-85">
@@ -207,7 +221,7 @@
       </pie-demo>
       <pie-demo>
         <pie-description
-          >The text setting adds or subtracts an extra radius distance value, positioning the label.<br /><br />And you
+          >The <attr-setting>text="160"</attr-setting> setting adds or subtracts an extra radius distance value, positioning the label.<br /><br />And you
           can add extra x and y <b>offset</b> settings on a slice</pie-description
         >
         <pie-chart stroke-width="200" pull="-25" text="160">

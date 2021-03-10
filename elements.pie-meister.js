@@ -55,6 +55,9 @@ customElements.define(
         } else {
           pathlength = 100; // 100% pie
         }
+        // size="0" calculates % remainder
+        if (!sliceSize) sliceSize = 100 - dashoffset;
+
         // ================================================================================== createPath
         this.sliced = (
           // user parameters
@@ -82,11 +85,13 @@ customElements.define(
         );
         // ------------------------------------------------------------------ create SVG slice
         let path = this.sliced(0); // path stroke positioning 0 = middle of slice
+        // centerPoint is middle of <path> strokeWidth draws the path
         let centerPoint = path.M(); // sliceSize is a variable in scope
-        // pullPoint is used for calculations, not drawn on SVG
+        // pullPoint used for pull distance, not drawn on SVG
         let pullPoint = this.sliced(Math.abs(~~sliceBase.getAttribute("pull") || pull)).M();
-        // textPoint is used for calculations, not drawn on SVG
+        // textPoint used for <text> label position calculation, not drawn on SVG
         let textPoint = this.sliced(~~this.getAttribute("text") || 60).M();
+        // <g> is the slice containing <path> and <text> label
         let group = document.createElementNS(namespace, "g");
         let label = document.createElementNS(namespace, "text");
 

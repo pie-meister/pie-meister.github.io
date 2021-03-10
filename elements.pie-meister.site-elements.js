@@ -81,6 +81,17 @@ customElements.define(
   }
 );
 customElements.define(
+  "attr-setting",
+  class extends HTMLElement {
+    connectedCallback() {
+      setTimeout(() => {
+        //this.attachShadow({mode:"open"}).innerHTML=`<code>${this.innerHTML}</code>`;
+        this.innerHTML=`<code style="background:lightgrey">${this.innerHTML}</code>`;
+      });
+    }
+  }
+);
+customElements.define(
   "pie-description",
   class extends HTMLElement {
     connectedCallback() {
@@ -152,3 +163,4 @@ customElements.define(
     }
   }
 );
+
