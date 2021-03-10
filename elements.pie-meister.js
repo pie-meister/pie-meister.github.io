@@ -6,11 +6,11 @@ customElements.define(
         // shadowDOM can only be attached once
         mode: "open",
       });
-      setTimeout(() => this.render()); // wait till DOM children are parsed
+      setTimeout(() => this.svg()); // wait till DOM children are parsed
     }
-    render(
+    svg(
       // optional used parameters
-      colors = this.getAttribute("colors") || ["#e24", "#2a4", "#fe2", "#46e", "#f92"], //, "#4ef", "#f2e", "#962"],
+      colors = (this.getAttribute("colors") || "#e24,#2a4,#fe2,#46e,#f92").split`,`, //, "#4ef", "#f2e", "#962"],
       pull = ~~this.getAttribute("pull") || 0,
       gap = ~~this.getAttribute("gap") || 0,
 
@@ -88,7 +88,7 @@ customElements.define(
           10
         );
         let pullPoint = this.slice(Math.abs(pull), 0).M();
-        let textPoint = this.slice(this.getAttribute("text") || 60, 0).M();
+        let textPoint = this.slice(~~this.getAttribute("text") || 60, 0).M();
         let group = document.createElementNS(namespace, "g");
         let label = document.createElementNS(namespace, "text");
         let pullSlice = sliceBase.hasAttribute("pull");

@@ -7,14 +7,15 @@
     <template id="PIE-DEMO">
       <style>
         :host {
-          display:inline-block;
+          display: inline-block;
         }
         div {
           display: grid;
-          grid-template-columns: 2fr 1fr 2fr;
+          grid-template-columns: 1fr 2fr 1fr;
         }
       </style>
       <div>
+        <slot name="description"></slot>
         <slot name="html"></slot>
         <slot></slot>
       </div>
@@ -22,102 +23,142 @@
     <!-- <script src="elements.pie-meister.min.js"></script> -->
     <style>
       body {
+        --pie-demo-background: none;
         font-family: Arial;
         max-width: 1024px;
         padding: 1em;
         margin: 0 auto;
       }
-      section{
-        background:beige;
+      pie-chart {
+        max-width: 49vw;
+        background: var(--pie-demo-background);
       }
-      h1 img {
-        width: 400px;
-        text-align: justify;
+      section {
+        background: beige;
       }
       .pi {
         font-size: 1.2em;
       }
-      pie-demo{
-        padding-top:1em;
+      pie-demo {
+        padding-top: 1em;
       }
-      pie-demo pre{
-        padding-left:2em;
-
+      pie-demo pre {
+        padding-left: 2em;
       }
-      pie-demo p{
+      pie-demo p {
         padding: 0em 1em;
+      }
+      pie-description {
+        padding: 1em;
+      }
+      header {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      header img {
+        width: 100%;
+      }
+      header div {
+        padding: 0 1em;
+      }
+      :not(:defined) {
+        background: red;
       }
     </style>
   </head>
   <body>
-    <h1><img src="https://www-static.dreambox.com/wp-content/uploads/Pi-Day.jpg" />Pie Meister v3.14</h1>
-    <h3>A <content-length src="elements.pie-meister.min.js"></content-length> &lt;pie-chart> Web Component for ... drumroll... pie-charts</h3>
     <section>
-      <h2>Minimal HTML to hap<i class="pi">pi</i>ness</h2>
+      <header>
+        <img src="pi-day-logo.jpg" />
+        <div>
+          <h1><meister-name></meister-name></h1>
+          <h3>
+            A <content-length src="elements.pie-meister.min.js"></content-length> &lt;pie-chart> Web Component <br />for
+            ... drumroll... pie-charts
+          </h3>
+          <chart-libraries-table></chart-libraries-table>
+          <p>How the Pie Meister tried to  create a Web Component in a maximum of 3.14 kiloBytes... and failed</p>
+        </div>
+      </header>
+    </section>
+    <section>
+      <h2>Usage:</h2>
+      <pie-demo>
+        <pie-chart pull=200 text=350>
+          <style>
+            text {
+              font-size: 5em;
+              text-anchor: middle;
+            }
+          </style>
+          <slice size="10">Configure IDE</slice>
+          <slice size="10">Updating dependencies</slice>
+          <slice size="40">Programming</slice>
+          <slice size="20">Testing</slice>
+          <slice size="5">Debugging</slice>
+        </pie-chart>
+        <pie-description>Minimal HTML to hap<i class="pi">pi</i>ness</pie-description>
+      </pie-demo>
       <pie-demo>
         <pie-chart>
           <slice size="10"></slice>
           <slice size="20"></slice>
           <slice size="40"></slice>
         </pie-chart>
+        <pie-description>Minimal HTML to hap<i class="pi">pi</i>ness</pie-description>
       </pie-demo>
-      <pie-demo data-line="2">
+      <pie-demo data-line="0-">
         <pie-chart>
           <slice size="10%"></slice>
           <slice size="20"></slice>
           <slice size="40"></slice>
         </pie-chart>
-        <p>Mark the <b>first</b> slice as a percentage to create a 100 percent pie</p>
+        <pie-description>Mark the <b>first</b> slice as a percentage to create a 100 percent pie</pie-description>
+      </pie-demo>
+      <pie-demo>
+        <pie-description>Format one pie size values with inline CSS</pie-description>
+        <pie-chart>
+          <style>
+            text {
+              font-size: 5em;
+              text-anchor: middle;
+            }
+          </style>
+          <slice size="10"></slice>
+          <slice size="20"></slice>
+          <slice size="40"></slice>
+        </pie-chart>
+      </pie-demo>
+      <pie-demo>
+        <pie-description>To 'pull' a slice, specify how far you want to pull, and which slice to pull</pie-description>
+        <pie-chart pull="100">
+          <style>
+            text {
+              font-size: 5em;
+              text-anchor: middle;
+            }
+          </style>
+          <slice size="10" pull></slice>
+          <slice size="20"></slice>
+          <slice size="40"></slice>
+        </pie-chart>
+      </pie-demo>
+      <pie-demo>
+        <pie-description>Don't like the 6 default colors? Specify an array of colors and/or color a slice.<br><br>Note how the slice stroke="gold" 'saves' using a color from the colors array</pie-description>
+        <pie-chart pull="100" colors="blue,red,green">
+          <slice size="10" pull></slice>
+          <slice size="20" pull></slice>
+          <slice size="40" stroke="gold"></slice>
+          <slice size="40"></slice>
+        </pie-chart>
       </pie-demo>
     </section>
     <section>
       <h2>Pie Chart Libraries</h2>
       <p>There are some large pies available. Would it be possible to draw pies wih a 1024 Bytes (Gzip) maximum?</p>
-      <table>
-        <thead>
-          <tr>
-            <td>Library</td>
-            <td>
-              Minified size<br />
-              Exlcuding jQuery
-            </td>
-          </tr>
-        </thead>
-        <tbody>
-          <script>
-            document.write(
-              [
-                { name: "ChartJS", uri: "https://www.chartjs.org/samples/latest/charts/pie.html", size: "51" },
-                { name: "D3.js", uri: "http://bl.ocks.org/dbuezas/9306799", size: "64" },
-                {
-                  name: "GoogleCharts",
-                  uri: "https://developers.google.com/chart/interactive/docs/gallery/piechart",
-                  size: "66",
-                },
-                { name: "HighCharts", uri: "https://www.highcharts.com/demo/pie-basic", size: "95" },
-                {
-                  name: "ZoomCharts",
-                  uri: "https://zoomcharts.com/en/javascript-charts-library/html5-charts/piechart/",
-                  size: "300",
-                },
-                { name: "AMCharts", uri: "https://www.amcharts.com/demos/dragging-pie-slices/", size: "272" },
-                { name: "Pie Meister", uri: "https://pie-meister.github.io", size: "< 1" },
-              ].map((c) => `<tr><td><a href="${c.uri}">${c.name}</a></td><td align=right>${c.size} kB</td></tr>`).join``
-            );
-          </script>
-        </tbody>
-      </table>
     </section>
     <section>
-      <style>
-        pie-chart {
-          max-width: 49vw;
-          background: grey;
-        }
-      </style>
-      <template id="PIE-CHART"> </template>
-
-      <pie-chart id="pie1" gap="1" pull="100">
+      <pie-chart id="pie1" gap="0" pull="100">
         <style>
           #pie1 text {
             display: inline-block;
@@ -130,17 +171,11 @@
             fill: white;
           }
         </style>
-        <slice size="20%" stroke-width="600"></slice>
-        <slice size="45"></slice>
-        <slice size="30"></slice>
-        <slice size="20" stroke-width="600"></slice>
-        <slice size="30"></slice>
-        <slice size="45"></slice>
-        <slice size="20"></slice>
-        <slice size="25"></slice>
-        <slice size="45"></slice>
-        <slice size="25"></slice>
-        <slice size="25"></slice>
+        <slice size="12%">VVD</slice>
+        <slice size="14"></slice>
+        <slice size="13"></slice>
+        <slice size="12"></slice>
+        <slice size="13"></slice>
       </pie-chart>
       <script>
         pie1.addEventListener("pie1", (evt) => {
@@ -168,29 +203,10 @@
           }
         </style>
         <g opacity=".7" onmouseover="console.log(this)">
-          <slice size="40" stroke="gold" pull border="black">Angular</slice>
-          <slice size="60" onmouseover="console.log(this.slice.pull(1))">Vue</slice>
-          <slice size="100">React</slice>
+          <slice size="25%" stroke="gold" pull border="black">Angular</slice>
+          <slice size="15" onmouseover="console.log(this.slice.pull(1))">Vue</slice>
+          <slice size="60">React</slice>
         </g>
-      </pie-chart>
-      <pie-chart id="pie3" pull="100">
-        <style>
-          svg text {
-            font-size: 150px;
-            text-anchor: middle;
-            alignment-baseline: central;
-            fill: black;
-            stroke: yellow;
-            stroke-width: 0.1;
-          }
-          #slice1 text {
-            fill: white;
-          }
-        </style>
-        <circle r="450" cx="50%" cy="50%" fill="lightgrey"></circle>
-        <slice size="90" stroke="blue"></slice>
-        <slice size="45" stroke="gold" pull></slice>
-        <slice size="30" stroke="firebrick" pull></slice>
       </pie-chart>
       <pie-chart id="rounded" pull="-50" xgap="2" stroke-width="200" xstroke-linecap="round" stroke="red">
         <defs>
