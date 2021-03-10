@@ -113,36 +113,34 @@ customElements.define(
         };
       }
       let rows = [
-        { name: "ChartJS", uri: "https://www.chartjs.org/samples/latest/charts/pie.html", size: "51" },
-        { name: "D3.js", uri: "http://bl.ocks.org/dbuezas/9306799", size: "64" },
-        {
-          name: "GoogleCharts",
-          uri: "https://developers.google.com/chart/interactive/docs/gallery/piechart",
-          size: "66",
-        },
-        { name: "HighCharts", uri: "https://www.highcharts.com/demo/pie-basic", size: "95" },
         {
           name: "ZoomCharts",
           uri: "https://zoomcharts.com/en/javascript-charts-library/html5-charts/piechart/",
-          size: "300",
+          size: "300 kB",
         },
-        { name: "AMCharts", uri: "https://www.amcharts.com/demos/dragging-pie-slices/", size: "272" },
-        { name: "Pie Meister", uri: "https://pie-meister.github.io", size: "< 1" },
-      ].map((c) => `<tr><td><a href="${c.uri}">${c.name}</a></td><td align=right>${c.size} kB</td></tr>`).join``;
-      this.innerHTML = html`<table>
+        { name: "AMCharts", uri: "https://www.amcharts.com/demos/dragging-pie-slices/", size: "272 kB" },
+        { name: "HighCharts", uri: "https://www.highcharts.com/demo/pie-basic", size: "95 kB" },
+        {
+          name: "GoogleCharts",
+          uri: "https://developers.google.com/chart/interactive/docs/gallery/piechart",
+          size: "66 kB",
+        },
+        { name: "D3.js", uri: "http://bl.ocks.org/dbuezas/9306799", size: "64 kB" },
+        { name: "ChartJS", uri: "https://www.chartjs.org/samples/latest/charts/pie.html", size: "51 kB" },
+        { name: "Pie Meister", uri: "https://pie-meister.github.io", size: "<content-length src='elements.pie-meister.min.js'></content-length>" },
+      ].map((c) => `<tr><td><a href="${c.uri}">${c.name}</a></td><td align=right>${c.size}</td></tr>`).join``;
+      this.innerHTML = `<table>
         <thead>
           <tr>
             <td>Library</td>
             <td>
-              Minified size<br />
-              Exlcuding jQuery
+              GZip size
             </td>
           </tr>
         </thead>
-        <tbody>
-          ${21} ${rows}
+        <tbody>`+rows+`
         </tbody>
-      </table>`(21);
+      </table>`;
     }
   }
 );

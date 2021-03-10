@@ -55,7 +55,7 @@ customElements.define(
           pathlength = ~~this.getAttribute("scale") || 100; // 100% pie
         }
         // ================================================================================== createPath
-        this.slice = (
+        this.sliced = (
           // user parameters
           extraRadius, // 0 = slice middle point
           // determine color, 0/false value prevents shifting auto-color
@@ -82,18 +82,25 @@ customElements.define(
           path
         );
         // ------------------------------------------------------------------ create SVG slice
-        let path = this.slice(0);
+        let path = this.sliced(0);
         let centerPoint = path.M(); // sliceSize is a variable in scope
-        let pullPoint = this.slice(Math.abs(~~sliceBase.getAttribute("pull") || pull), 0).M();
-        let textPoint = this.slice(~~this.getAttribute("text") || 60, 0).M();
-        let group = document.createElementNS(namespace, "g");
+        let pullPoint = this.sliced(Math.abs(~~sliceBase.getAttribute("pull") || pull), 0).M();
+        let textPoint = this.sliced(~~this.getAttribute("text") || 60, 0).M();
         let label = document.createElementNS(namespace, "text");
-        let pullSlice = sliceBase.hasAttribute("pull");
-        path.onmouseover = () => path.dispatchEvent(new Event(this.id, { bubbles: 1, composed: 1 }));
+        let group = document.createElementNS(namespace, "g");
+        path.onmouseover = () => ((this.slice = group), this.dispatchEvent(new Event(this.id)));
+        group.pull = (state) =>
+          //(group.setAttribute("x", pullPoint.x+pull), group.setAttribute("y", pullPoint.y)),
+          group.setAttribute(
+            "transform",
+            state ? `translate(${pullPoint.x - centerPoint.x} ${pullPoint.y - centerPoint.y})` : `translate(0 0)`
+          );
 
         dashoffset += sliceSize + gap;
         path.setAttribute("stroke-dashoffset", dashoffset);
-        [...sliceBase.attributes].map((x) => path.setAttribute(x.name, x.value)); // add user defined attributes
+
+        // add user defined <slice> attributes to path
+        [...sliceBase.attributes].map((x) => path.setAttribute(x.name, x.value)); 
 
         // ------------------------------------------------------------------ create slice(idx) content
         label.setAttribute("x", textPoint.x + ~~sliceBase.getAttribute("x"));
@@ -109,21 +116,8 @@ customElements.define(
         // parentNode can be SVG or user element <g>
         sliceBase.parentNode.replaceChild(group, sliceBase);
 
-        // abuse no longer required sliceBase
-        path.slice = {
-          p: path,
-          c: centerPoint,
-          l: label,
-          pull: (state) => 
-          //(group.setAttribute("x", pullPoint.x+pull), group.setAttribute("y", pullPoint.y)),
-          group.setAttribute(
-            "transform",
-            state ? `translate(${pullPoint.x - centerPoint.x} ${pullPoint.y - centerPoint.y})` : `translate(0 0)`
-          )
-        };
-        path.slice.pull(pullSlice);
-
-        return path.slice;
+        group.pull(sliceBase.hasAttribute("pull"));
+        return group;
       }); // convert all slices
     } // render
   } // class
