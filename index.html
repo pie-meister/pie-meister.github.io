@@ -31,7 +31,8 @@
       }
       pie-chart {
         max-width: 49vw;
-        background: var(--pie-demo-background);
+        /* background: var(--pie-demo-background); */
+        --dropsize:2px;
       }
       section {
         background: beige;
@@ -176,18 +177,32 @@
         </pie-chart>
       </pie-demo>
       <pie-demo>
-        <pie-description>Labels are positioned from the original pie <pre>stroke-width="500"</pre> default setting. the <pre>text</pre> setting add or subtract an extra radius value</pie-description
+        <pie-description>Add any SVG you want</pie-description>
+        <pie-chart>
+          <circle r="500" cx="50%" cy="50%" fill="beige"></circle>
+          <slice size="10%"></slice>
+          <slice size="20" pull></slice>
+          <slice size="40"></slice>
+          <text x="100" y="400" font-size="3em">Not at 100% yet!</text>
+          <circle r="100" cx="50%" cy="50%" fill="beige"></circle>
+        </pie-chart>
+      </pie-demo>
+      <pie-demo>
+        <pie-description
+          >Labels are positioned from the original pie slice middle point. The text setting adds or subtracts an extra
+          radius distance value.<br /><br />And you can add extra x and y <b>offset</b> settings on a
+          slice</pie-description
         >
         <pie-chart stroke-width="200" pull="-25" text="160">
           <style>
             text {
-              font-size: 5em;
+              font-size: 4em;
               text-anchor: middle;
             }
           </style>
           <slice size="10"></slice>
-          <slice size="20" pull="200"></slice>
-          <slice size="40" x=100></slice>
+          <slice size="20" pull="20"></slice>
+          <slice size="40" x="-100" y="70">Label yellow slice</slice>
           <slice size="40"></slice>
         </pie-chart>
       </pie-demo>
@@ -216,8 +231,10 @@
     <section>
       <h2><meister-name></meister-name> restrictions</h2>
       <ul>
-        <li>A &lt;slice> is converted to a SVG &lt;path> which can <b>not</b> contain HTML<br>
-        <pre>&lt;slize size="10">&lt;span> HTML here breaks the SVG &lt;/span>&lt;/slice></pre></li>
+        <li>
+          A &lt;slice> is converted to a SVG &lt;path> which can <b>not</b> contain HTML<br />
+          <pre>&lt;slize size="10">&lt;span> HTML here breaks the SVG &lt;/span>&lt;/slice></pre>
+        </li>
       </ul>
     </section>
     <section>
@@ -301,6 +318,28 @@
       <p>Can you squeeze out more bytes? (red = costly encoding)</p>
       <img src="gzip_analysis.png" />
       <!-- <img src="https://www.rgraph.net/images/svg-activity-meter-snippet.png"> -->
+    </section>
+    <section>
+      <h2>Experiments</h2>
+      <pie-demo>
+        <pie-description>CSS filter styles all SVG elements.</pie-description>
+        <pie-chart pull="200">
+          <style>
+            svg{
+              background:transparent;
+              filter: drop-shadow(5px 0px 0px darkgreen);
+            }
+            text {
+              font-size: 4em;
+              text-anchor: middle;
+            }
+          </style>
+          <slice size="10%"></slice>
+          <slice size="20%" pull></slice>
+          <slice size="40%" x=400 y=100>Label</slice>
+          <slice size="30%"></slice>
+        </pie-chart>
+      </pie-demo>
     </section>
   </body>
 </html>

@@ -43,8 +43,8 @@ customElements.define(
         let sliceSize = ~~sizeString.replace(/\%/, "");
         let strokeWidth =
           ~~sliceBase.getAttribute("stroke-width") || // <slice stroke-width=X>
-            ~~this.getAttribute("stroke-width") || // <pie-chart stroke-width=X>
-            500 + pull / 2 - pull; // default Center + HALF pull margin - the pulled slice distance
+          ~~this.getAttribute("stroke-width") || // <pie-chart stroke-width=X>
+          500 + pull / 2 - pull; // default Center + HALF pull margin - the pulled slice distance
         // ------------------------------------------------------------------ determine pathLength from lightDOM <slice>
         // first slice size% set pathlength for all other slices
         if (sliceSize == sizeString) {
@@ -84,12 +84,7 @@ customElements.define(
         // ------------------------------------------------------------------ create SVG slice
         let path = this.slice(0);
         let centerPoint = path.M(); // sliceSize is a variable in scope
-        let borderline = this.slice(
-          strokeWidth / 2,
-          sliceBase.getAttribute("border") || this.getAttribute("border"),
-          10
-        );
-        let pullPoint = this.slice(Math.abs(~~sliceBase.getAttribute("pull")||pull), 0).M();
+        let pullPoint = this.slice(Math.abs(~~sliceBase.getAttribute("pull") || pull), 0).M();
         let textPoint = this.slice(~~this.getAttribute("text") || 60, 0).M();
         let group = document.createElementNS(namespace, "g");
         let label = document.createElementNS(namespace, "text");
@@ -98,7 +93,6 @@ customElements.define(
 
         dashoffset += sliceSize + gap;
         path.setAttribute("stroke-dashoffset", dashoffset);
-        borderline.setAttribute("stroke-dashoffset", dashoffset);
         [...sliceBase.attributes].map((x) => path.setAttribute(x.name, x.value)); // add user defined attributes
 
         // ------------------------------------------------------------------ create slice(idx) content
@@ -109,7 +103,7 @@ customElements.define(
         //addCircle(text_point, "grey");
         // addCircle(pull_point, "red");
 
-        group.append(path, label, borderline);
+        group.append(path, label);
         group.id = "slice" + (idx + 1);
         // --- add path and label to SVG, at <slice> position
         // parentNode can be SVG or user element <g>
@@ -120,11 +114,12 @@ customElements.define(
           p: path,
           c: centerPoint,
           l: label,
-          pull: (state) =>
-            group.setAttribute(
-              "transform",
-              state ? `translate(${pullPoint.x - centerPoint.x} ${pullPoint.y - centerPoint.y})` : `translate(0 0)`
-            ),
+          pull: (state) => 
+          //(group.setAttribute("x", pullPoint.x+pull), group.setAttribute("y", pullPoint.y)),
+          group.setAttribute(
+            "transform",
+            state ? `translate(${pullPoint.x - centerPoint.x} ${pullPoint.y - centerPoint.y})` : `translate(0 0)`
+          )
         };
         path.slice.pull(pullSlice);
 
