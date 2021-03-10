@@ -8,10 +8,6 @@ customElements.define(
       });
       setTimeout(() => this.svg()); // wait till DOM children are parsed
     }
-    slices1() {
-      console.warn(21);
-      return this.shadowRoot.querySelectorAll("[slice]");
-    }
     svg(
       // optional used parameters
       colors = (this.getAttribute("colors") || "#e24,#2a4,#fe2,#46e,#f92").split`,`, //, "#4ef", "#f2e", "#962"],
@@ -100,6 +96,7 @@ customElements.define(
         let label = document.createElementNS(namespace, "text");
 
         group.path = path;
+        //centerPoint
         group.p = path.M(); // sliceSize is a variable in scope
 
         // determine color
@@ -109,8 +106,8 @@ customElements.define(
         group.onmouseout = () => ((this.g = group), this.dispatchEvent(new Event("slice")));
 
         // set extra properties on slice <g> for easy CSS selecting
-        group.setAttribute("sw", strokeWidth);
-        group.setAttribute("offset", dashoffset);
+        // group.setAttribute("sw", strokeWidth);
+        // group.setAttribute("offset", dashoffset);
         group.setAttribute("slice", idx + 1);
         group.setAttribute("size", sizeString);
         group.setAttribute("label", (label.innerHTML = sliceBase.innerHTML || sizeString));
