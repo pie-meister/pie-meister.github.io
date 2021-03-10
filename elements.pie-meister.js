@@ -11,8 +11,8 @@ customElements.define(
     svg(
       // optional used parameters
       colors = (this.getAttribute("colors") || "#e24,#2a4,#fe2,#46e,#f92").split`,`, //, "#4ef", "#f2e", "#962"],
-      pull = ~~this.getAttribute("pull") || 0,
-      gap = ~~this.getAttribute("gap") || 0,
+      pull = ~~this.getAttribute("pull"),
+      gap = ~~this.getAttribute("gap"),
 
       // Component controlled variables (code gold, saving 4 bytes let statement)
       dashoffset = 0, // clockwise - incremental stroke offset for each slice
@@ -42,7 +42,9 @@ customElements.define(
         let sizeString = sliceBase.getAttribute("size");
         let sliceSize = ~~sizeString.replace(/\%/, "");
         let strokeWidth =
-          (~~sliceBase.getAttribute("stroke-width") || ~~this.getAttribute("stroke-width") || (1000 + pull) / 2) - pull;
+          ~~sliceBase.getAttribute("stroke-width") || // <slice stroke-width=X>
+            ~~this.getAttribute("stroke-width") || // <pie-chart stroke-width=X>
+            500 + pull / 2 - pull; // default Center + HALF pull margin - the pulled slice distance
         // ------------------------------------------------------------------ determine pathLength from lightDOM <slice>
         // first slice size% set pathlength for all other slices
         if (sliceSize == sizeString) {
@@ -87,7 +89,7 @@ customElements.define(
           sliceBase.getAttribute("border") || this.getAttribute("border"),
           10
         );
-        let pullPoint = this.slice(Math.abs(pull), 0).M();
+        let pullPoint = this.slice(Math.abs(~~sliceBase.getAttribute("pull")||pull), 0).M();
         let textPoint = this.slice(~~this.getAttribute("text") || 60, 0).M();
         let group = document.createElementNS(namespace, "g");
         let label = document.createElementNS(namespace, "text");
@@ -100,8 +102,8 @@ customElements.define(
         [...sliceBase.attributes].map((x) => path.setAttribute(x.name, x.value)); // add user defined attributes
 
         // ------------------------------------------------------------------ create slice(idx) content
-        label.setAttribute("x", textPoint.x);
-        label.setAttribute("y", textPoint.y);
+        label.setAttribute("x", textPoint.x + ~~sliceBase.getAttribute("x"));
+        label.setAttribute("y", textPoint.y + ~~sliceBase.getAttribute("y"));
         label.innerHTML = sliceBase.innerHTML || sizeString;
         //addCircle(point.M(0), "green");
         //addCircle(text_point, "grey");

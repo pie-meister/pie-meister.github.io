@@ -23,7 +23,7 @@
     <!-- <script src="elements.pie-meister.min.js"></script> -->
     <style>
       body {
-        --pie-demo-background: none;
+        --pie-demo-background: lightgrey;
         font-family: Arial;
         max-width: 1024px;
         padding: 1em;
@@ -77,14 +77,14 @@
             ... drumroll... pie-charts
           </h3>
           <chart-libraries-table></chart-libraries-table>
-          <p>How the Pie Meister tried to  create a Web Component in a maximum of 3.14 kiloBytes... and failed</p>
+          <p>How the Pie Meister tried to create a Web Component in a maximum of 3.14 kiloBytes... and failed</p>
         </div>
       </header>
     </section>
     <section>
       <h2>Usage:</h2>
       <pie-demo>
-        <pie-chart pull=200 text=350>
+        <pie-chart pull="200" text="350">
           <style>
             text {
               font-size: 5em;
@@ -115,8 +115,16 @@
         </pie-chart>
         <pie-description>Mark the <b>first</b> slice as a percentage to create a 100 percent pie</pie-description>
       </pie-demo>
+      <pie-demo data-line="0-">
+        <pie-chart text="5em">
+          <slice size="10%"></slice>
+          <slice size="20%"></slice>
+          <slice size="40%"></slice>
+        </pie-chart>
+        <pie-description>Mark the <b>first</b> slice as a percentage to create a 100 percent pie</pie-description>
+      </pie-demo>
       <pie-demo>
-        <pie-description>Format one pie size values with inline CSS</pie-description>
+        <pie-description>Format a single pie with <b>inline</b> CSS</pie-description>
         <pie-chart>
           <style>
             text {
@@ -124,13 +132,16 @@
               text-anchor: middle;
             }
           </style>
-          <slice size="10"></slice>
-          <slice size="20"></slice>
-          <slice size="40"></slice>
+          <slice size="10%"></slice>
+          <slice size="20%"></slice>
+          <slice size="40%"></slice>
         </pie-chart>
       </pie-demo>
       <pie-demo>
-        <pie-description>To 'pull' a slice, specify how far you want to pull, and which slice to pull</pie-description>
+        <pie-description
+          >To 'pull' a slice, specify the distance you want to pull (creating extra padding around the chart), and which
+          slice to pull</pie-description
+        >
         <pie-chart pull="100">
           <style>
             text {
@@ -144,7 +155,47 @@
         </pie-chart>
       </pie-demo>
       <pie-demo>
-        <pie-description>Don't like the 6 default colors? Specify an array of colors and/or color a slice.<br><br>Note how the slice stroke="gold" 'saves' using a color from the colors array</pie-description>
+        <pie-description>For a Donut chart, change the default 500 stroke-width to a lower value</pie-description>
+        <pie-chart stroke-width="200">
+          <slice size="10"></slice>
+          <slice size="20"></slice>
+          <slice size="40"></slice>
+          <slice size="40"></slice>
+        </pie-chart>
+      </pie-demo>
+      <pie-demo>
+        <pie-description
+          >Use a negative pull value to remove (unwanted) padding. <br /><br />The slice is <b>not</b> pulled
+          inward</pie-description
+        >
+        <pie-chart stroke-width="200" pull="-85">
+          <slice size="10"></slice>
+          <slice size="20" pull></slice>
+          <slice size="40"></slice>
+          <slice size="40"></slice>
+        </pie-chart>
+      </pie-demo>
+      <pie-demo>
+        <pie-description>Labels are positioned from the original pie <pre>stroke-width="500"</pre> default setting. the <pre>text</pre> setting add or subtract an extra radius value</pie-description
+        >
+        <pie-chart stroke-width="200" pull="-25" text="160">
+          <style>
+            text {
+              font-size: 5em;
+              text-anchor: middle;
+            }
+          </style>
+          <slice size="10"></slice>
+          <slice size="20" pull="200"></slice>
+          <slice size="40" x=100></slice>
+          <slice size="40"></slice>
+        </pie-chart>
+      </pie-demo>
+      <pie-demo>
+        <pie-description
+          >Don't like the 6 default colors? Specify an array of colors and/or color a slice.<br /><br />Note how the
+          slice stroke="gold" 'saves' using a color from the colors array</pie-description
+        >
         <pie-chart pull="100" colors="blue,red,green">
           <slice size="10" pull></slice>
           <slice size="20" pull></slice>
@@ -152,6 +203,22 @@
           <slice size="40"></slice>
         </pie-chart>
       </pie-demo>
+      <pie-demo>
+        <pie-description>Polar chart (attempt)</pie-description>
+        <pie-chart pull1="100">
+          <slice size="10" stroke-width="500"></slice>
+          <slice size="20" stroke-width="200"></slice>
+          <slice size="40" stroke-width="300"></slice>
+          <slice size="40" stroke-width="100"></slice>
+        </pie-chart>
+      </pie-demo>
+    </section>
+    <section>
+      <h2><meister-name></meister-name> restrictions</h2>
+      <ul>
+        <li>A &lt;slice> is converted to a SVG &lt;path> which can <b>not</b> contain HTML<br>
+        <pre>&lt;slize size="10">&lt;span> HTML here breaks the SVG &lt;/span>&lt;/slice></pre></li>
+      </ul>
     </section>
     <section>
       <h2>Pie Chart Libraries</h2>
