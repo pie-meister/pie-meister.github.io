@@ -21,6 +21,22 @@
         <slot></slot>
       </div>
     </template>
+    <template id="PIE-EXAMPLE">
+      <style>
+        :host {
+          display: inline-block;
+        }
+        div {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1em;
+        }
+      </style>
+      <div>
+        <slot name="html"></slot>
+        <slot></slot>
+      </div>
+    </template>
     <!-- <script src="elements.pie-meister.min.js"></script> -->
     <style>
       body {
@@ -44,12 +60,15 @@
       .pi {
         font-size: 1.2em;
       }
+      pie-example,
       pie-demo {
         padding-top: 1em;
       }
+      pie-example pre,
       pie-demo pre {
         padding-left: 2em;
       }
+      pie-example p,
       pie-demo p {
         padding: 0em 1em;
       }
@@ -93,10 +112,19 @@
     <section></section>
     <section>
       <h2>Usage:</h2>
-      <pie-demo>
+      <pie-example>
         <pie-chart id="pies" pull="50">
+          <slice size="20%" stroke="#6c3">Apple</slice>
+          <slice size="18" stroke="#fc5a8d">Strawberry</slice>
+          <slice size="16" stroke="#ff7518">Pumpkin</slice>
+          <slice size="10" stroke="#790604">Cherry</slice>
+          <slice size="5" stroke="#4f86f7">Blueberry</slice>
+          <slice size="5" stroke="#fff44f">Lemon</slice>
+          <slice size="5" stroke="#d2691e">Chocolate</slice>
+          <slice size="" stroke="grey">Other</slice>
+
           <style>
-            [id*="slice"] {
+            [slice] {
               cursor: pointer;
             }
             text {
@@ -107,24 +135,14 @@
               fill: white;
             }
           </style>
-          <slice size="20%" stroke="#6c3">Apple</slice>
-          <slice size="18" stroke="#fc5a8d">Strawberry</slice>
-          <slice size="16" stroke="#ff7518">Pumpkin</slice>
-          <slice size="10" stroke="#790604">Cherry</slice>
-          <slice size="5" stroke="#4f86f7">Blueberry</slice>
-          <slice size="5" stroke="#fff44f">Lemon</slice>
-          <slice size="5" stroke="#d2691e">Chocolate</slice>
-          <slice size="" stroke="grey">Other</slice>
         </pie-chart>
-        <pie-description hide></pie-description>
-      </pie-demo>
-      <script>
-        pies.addEventListener("slice", (evt) => {
-          let slice = evt.target.g;
-          slice.pull(!slice.pulled);
-        });
-      </script>
-
+        <script>
+          pies.addEventListener("slice", (evt) => {
+            let slice = evt.target.g;
+            slice.pull(!slice.pulled);
+          });
+        </script>
+      </pie-example>
       <pie-demo>
         <pie-chart>
           <slice size="10"></slice>
@@ -133,19 +151,19 @@
         </pie-chart>
         <pie-description>Minimal HTML to hap<i class="pi">pi</i>ness</pie-description>
       </pie-demo>
-      <pie-demo data-line="2">
+      <pie-demo>
         <pie-chart>
           <slice size="10%"></slice>
           <slice size="20"></slice>
           <slice size="40"></slice>
         </pie-chart>
-        <pie-description>Mark the <b>first</b> slice as a percentage to create a 100 percent pie</pie-description>
+        <pie-description>Mark the <b>first</b> slice as a percentage <attr-setting>size="10%"</attr-setting> to create a 100 percent pie</pie-description>
       </pie-demo>
       <pie-demo>
         <pie-description
           >To 'pull' a slice, specify the distance you want to pull, and which slice to pull<br /><br />The SVG has a
           1000 x 1000 units viewBox<br /><br />
-          A pull=200 creates a 1200x1200 viewBox so pulled slices are not cut off</pie-description
+          A <attr-setting>pull="200"</attr-setting> creates a 1200x1200 viewBox so pulled slices are not cut off</pie-description
         >
         <pie-chart pull="200">
           <slice size="10" pull></slice>
@@ -156,7 +174,7 @@
       <pie-demo>
         <pie-description
           >Format a single pie with <b>inline</b> CSS (styling SVG elements)<br /><br />By default labels are positioned
-          60 SVG units <b>outward</b> from the slice center point<br /><br />Labels are only shown when a &lt;style> is
+          60 SVG units <b>outward</b> from the slice center point<br /><br />Labels are only shown when a <attr-setting>&lt;style></attr-setting> is
           defined</pie-description
         >
         <pie-chart>
@@ -173,7 +191,7 @@
       </pie-demo>
       <pie-demo>
         <pie-description
-          >Add any SVG you want<br /><br />And I almost forgot; size="" autocompletes to a full 100%
+          >Add any SVG you want<br /><br />And I almost forgot; <attr-setting>size="0"</attr-setting> autocompletes to a full 100%
           pie</pie-description
         >
         <pie-chart pull="30">
@@ -182,7 +200,7 @@
           <slice size="10%"></slice>
           <slice size="20%"></slice>
           <slice size="40%"></slice>
-          <slice size="" stroke="grey">Not 100% yet!</slice>
+          <slice size="0" stroke="grey">Not 100% yet!</slice>
 
           <circle r="100" cx="50%" cy="50%" fill="darkgreen"></circle>
           <text x="50%" y="50%" fill="white">Pie Meister</text>
@@ -191,7 +209,7 @@
               font-size: 8em;
               text-anchor: middle;
             }
-            [id*="slice"] text {
+            [slice] text {
               font-size: 4em;
               text-anchor: middle;
             }
@@ -199,7 +217,7 @@
         </pie-chart>
       </pie-demo>
       <pie-demo>
-        <pie-description>For a Donut chart, change the default 500 stroke-width to a lower value</pie-description>
+        <pie-description>For a Donut chart, change the <attr-setting>(default) stroke-width="500"</attr-setting> to a lower value</pie-description>
         <pie-chart stroke-width="200">
           <slice size="10"></slice>
           <slice size="20"></slice>
@@ -209,7 +227,7 @@
       </pie-demo>
       <pie-demo>
         <pie-description
-          >A negative pull value makes the viewBox <b>smaller</b>, removing (unwanted) padding. <br /><br />The slice is
+          >A negative pull value <attr-setting>pull="-85"</attr-setting>makes the viewBox <b>smaller</b>, removing (unwanted) padding. <br /><br />The slice is
           <b>not</b> pulled inward</pie-description
         >
         <pie-chart stroke-width="200" pull="-85">
@@ -221,8 +239,9 @@
       </pie-demo>
       <pie-demo>
         <pie-description
-          >The <attr-setting>text="160"</attr-setting> setting adds or subtracts an extra radius distance value, positioning the label.<br /><br />And you
-          can add extra x and y <b>offset</b> settings on a slice</pie-description
+          >The <attr-setting>text="160"</attr-setting> setting adds or subtracts an extra radius distance value,
+          positioning the label.<br /><br />And you can add extra x and y <b>offset</b> settings on a
+          slice</pie-description
         >
         <pie-chart stroke-width="200" pull="-25" text="160">
           <style>
@@ -268,7 +287,7 @@
         </pie-chart>
       </pie-demo>
       <pie-demo>
-        <pie-description>Polar chart. The stroke-width defines the slice radius</pie-description>
+        <pie-description>Set the <attr-setting>polar</attr-setting> for Polar chart. The stroke-width defines the slice radius</pie-description>
         <pie-chart polar>
           <slice size="2" stroke-width="300"></slice>
           <slice size="2" stroke-width="200"></slice>
@@ -318,50 +337,7 @@
         </li>
       </ul>
     </section>
-    <section>
-      <pie-chart id="pie1" gap="0" pull="100">
-        <style>
-          #pie1 text {
-            display: inline-block;
-            font-size: 80px;
-            text-anchor: middle;
-            alignment-baseline: central;
-            fill: black;
-          }
-          #pie1 #slice10 text {
-            fill: white;
-          }
-        </style>
-        <slice size="12%">VVD</slice>
-        <slice size="14"></slice>
-        <slice size="13"></slice>
-        <slice size="12"></slice>
-        <slice size="13"></slice>
-      </pie-chart>
-      <pie-chart id="pie2" pull="100">
-        <style>
-          svg text {
-            font-size: 100px;
-            text-anchor: middle;
-            alignment-baseline: central;
-            fill: black;
-            stroke: black;
-            stroke-width: 0.1;
-          }
-          #slice1 text {
-            fill: blue;
-            translate: 100px 100px;
-          }
-          #slice1 {
-            displa1y: none;
-          }
-        </style>
-        <g opacity=".7" onmouseover="console.log(this)">
-          <slice size="25%" stroke="gold" pull border="black">Angular</slice>
-          <slice size="15" onmouseover="console.log(this.slice.pull(1))">Vue</slice>
-          <slice size="60">React</slice>
-        </g>
-      </pie-chart>
+    <section hidden>
       <pie-chart id="rounded" pull="-50" xgap="2" stroke-width="200" xstroke-linecap="round" stroke="red">
         <defs>
           <filter id="round">

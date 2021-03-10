@@ -40,43 +40,45 @@ customElements.define(
     }
   }
 );
-customElements.define(
-  "pie-demo",
-  class extends HTMLElement {
-    constructor() {
-      // if docs say "use super() first" then docs are wrong
-      let template = (id = "") => {
-        let templ = document.getElementById(this.nodeName + id);
-        if (templ) return templ.content.cloneNode(true);
-        else return []; // empty content for .append
-      };
-      super().attachShadow({ mode: "open" }).append(template());
-      this.showPrismContent();
-    }
-    showPrismContent() {
-      setTimeout(() => {
-        if (!window.Prism) return requestAnimationFrame(() => this.showPrismContent());
-        else {
-          let pre = document.createElement("pre");
-          [...this.attributes].map((attr) => pre.setAttribute(attr.name, attr.value));
-          pre.slot = "html";
-          pre.innerHTML = `<code class="language-html"></code>`;
-          this.prepend(pre);
-          let html = this.querySelector("pie-chart").outerHTML;
-          html = html.replace(/pull=""/g, "pull");
-          html = html.replace(/polar=""/g, "polar");
-          this.querySelector("code").innerHTML = formatHTMLasCode(html);
-          Prism.highlightAllUnder(this.shadowRoot);
-        }
-      }, 0);
-    }
+class PieMeister extends HTMLElement {
+  constructor() {
+    // if docs say "use super() first" then docs are wrong
+    let template = (id = "") => {
+      let templ = document.getElementById(this.nodeName + id);
+      if (templ) return templ.content.cloneNode(true);
+      else return []; // empty content for .append
+    };
+    super().attachShadow({ mode: "open" }).append(template());
+    this.showPrismContent();
   }
-);
+  showPrismContent() {
+    setTimeout(() => {
+      if (!window.Prism) return requestAnimationFrame(() => this.showPrismContent());
+      else {
+        let pre = document.createElement("pre");
+        [...this.attributes].map((attr) => pre.setAttribute(attr.name, attr.value));
+        pre.slot = "html";
+        pre.innerHTML = `<code class="language-html"></code>`;
+        this.prepend(pre);
+        let html = this.querySelector("pie-chart").outerHTML;
+        html = html.replace(/pull=""/g, "pull");
+        html = html.replace(/polar=""/g, "polar");
+        this.querySelector("code").innerHTML = formatHTMLasCode(html);
+        Prism.highlightAllUnder(this.shadowRoot);
+      }
+    }, 0);
+  }
+}
+customElements.define("pie-demo", class extends PieMeister {});
+customElements.define("pie-example", class extends PieMeister {});
+
 customElements.define(
   "content-length",
   class extends HTMLElement {
     connectedCallback() {
-      fetch(this.getAttribute("src")).then((res) => (this.innerHTML = " " + res.headers.get("content-length") + " Bytes"));
+      fetch(this.getAttribute("src")).then(
+        (res) => (this.innerHTML = " " + res.headers.get("content-length") + " Bytes")
+      );
     }
   }
 );
@@ -86,7 +88,7 @@ customElements.define(
     connectedCallback() {
       setTimeout(() => {
         //this.attachShadow({mode:"open"}).innerHTML=`<code>${this.innerHTML}</code>`;
-        this.innerHTML=`<code style="background:lightgrey">${this.innerHTML}</code>`;
+        this.innerHTML = `<code style="background:lightgrey">${this.innerHTML}</code>`;
       });
     }
   }
@@ -95,11 +97,11 @@ customElements.define(
   "pie-description",
   class extends HTMLElement {
     connectedCallback() {
-      if(this.hasAttribute("hide")){
-          console.log(this);
-          //this.closest("pie-demo").style.setProperty("--description-fr","0fr")
-          //this.closest("pie-demo").style.setProperty("--pie-fr","2fr");
-          this.remove();
+      if (this.hasAttribute("hide")) {
+        console.log(this);
+        //this.closest("pie-demo").style.setProperty("--description-fr","0fr")
+        //this.closest("pie-demo").style.setProperty("--pie-fr","2fr");
+        this.remove();
       }
       this.slot = "description";
     }
@@ -146,9 +148,14 @@ customElements.define(
         },
         { name: "D3.js", uri: "http://bl.ocks.org/dbuezas/9306799", size: "64 kB" },
         { name: "ChartJS", uri: "https://www.chartjs.org/samples/latest/charts/pie.html", size: "51 kB" },
-        { name: "<meister-name></meister-name>", uri: "https://pie-meister.github.io", size: "<content-length src='elements.pie-meister.min.js'></content-length>" },
+        {
+          name: "<meister-name></meister-name>",
+          uri: "https://pie-meister.github.io",
+          size: "<content-length src='elements.pie-meister.min.js'></content-length>",
+        },
       ].map((c) => `<tr><td><a href="${c.uri}">${c.name}</a></td><td align=right>${c.size}</td></tr>`).join``;
-      this.innerHTML = `<table>
+      this.innerHTML =
+        `<table>
         <thead>
           <tr>
             <th></th>
@@ -157,10 +164,11 @@ customElements.define(
             </th>
           </tr>
         </thead>
-        <tbody>`+rows+`
+        <tbody>` +
+        rows +
+        `
         </tbody>
       </table>`;
     }
   }
 );
-

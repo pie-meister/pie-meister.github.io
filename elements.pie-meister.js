@@ -102,6 +102,7 @@ customElements.define(
         group.onmouseout = () => ((this.g = group), this.dispatchEvent(new Event("slice")));
 
         // set extra properties on slice <g> for easy CSS selecting
+        group.setAttribute("slice", idx + 1);
         group.setAttribute("size", sizeString);
         group.setAttribute("label", (label.innerHTML = sliceBase.innerHTML || sizeString));
         // create method .pull(T/F)
@@ -131,7 +132,6 @@ customElements.define(
           path,
           this.querySelector("style") && label // if lightDOM has a style element, append <text>
         );
-        group.id = "slice" + (idx + 1);
         // --- add path and label to SVG, at <slice> position
         // parentNode can be SVG or user element <g>
         sliceBase.parentNode.replaceChild(group, sliceBase);
