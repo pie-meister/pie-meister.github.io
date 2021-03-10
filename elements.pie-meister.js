@@ -8,6 +8,10 @@ customElements.define(
       });
       setTimeout(() => this.svg()); // wait till DOM children are parsed
     }
+    slices1() {
+      console.warn(21);
+      return this.shadowRoot.querySelectorAll("[slice]");
+    }
     svg(
       // optional used parameters
       colors = (this.getAttribute("colors") || "#e24,#2a4,#fe2,#46e,#f92").split`,`, //, "#4ef", "#f2e", "#962"],
@@ -38,7 +42,8 @@ customElements.define(
         return circle;
       }
       // ================================================================================== convert <slice>s to paths
-      this.slices = [...this.shadowRoot.querySelectorAll("slice")].map((sliceBase, idx) => {
+      //this.slices =
+      [...this.shadowRoot.querySelectorAll("slice")].map((sliceBase, idx) => {
         let sizeString = sliceBase.getAttribute("size");
         let sliceSize = ~~sizeString.replace(/\%/, "");
 
@@ -59,7 +64,7 @@ customElements.define(
         if (!sliceSize) sliceSize = 100 - dashoffset;
 
         // ================================================================================== createPath
-        this.sliced = (
+        this.slice = (
           // user parameters
           extraRadius, // 0 = slice middle point
 
@@ -84,16 +89,18 @@ customElements.define(
           path
         );
         // ------------------------------------------------------------------ create SVG slice
-        let path = this.sliced(0); // path stroke positioning 0 = middle of slice
+        let path = this.slice(0); // path stroke positioning 0 = middle of slice
         // centerPoint is middle of <path> strokeWidth draws the path
-        let centerPoint = path.M(); // sliceSize is a variable in scope
         // pullPoint used for pull distance, not drawn on SVG
-        let pullPoint = this.sliced(Math.abs(~~sliceBase.getAttribute("pull") || pull)).M();
+        let pullPoint = this.slice(Math.abs(~~sliceBase.getAttribute("pull") || pull)).M();
         // textPoint used for <text> label position calculation, not drawn on SVG
-        let textPoint = this.sliced(~~this.getAttribute("text") || 60).M();
+        let textPoint = this.slice(~~this.getAttribute("text") || 60).M();
         // <g> is the slice containing <path> and <text> label
         let group = document.createElementNS(namespace, "g");
         let label = document.createElementNS(namespace, "text");
+
+        group.path = path;
+        group.p = path.M(); // sliceSize is a variable in scope
 
         // determine color
         path.setAttribute("stroke", sliceBase.getAttribute("stroke") || colors.shift());
@@ -102,6 +109,8 @@ customElements.define(
         group.onmouseout = () => ((this.g = group), this.dispatchEvent(new Event("slice")));
 
         // set extra properties on slice <g> for easy CSS selecting
+        group.setAttribute("sw", strokeWidth);
+        group.setAttribute("offset", dashoffset);
         group.setAttribute("slice", idx + 1);
         group.setAttribute("size", sizeString);
         group.setAttribute("label", (label.innerHTML = sliceBase.innerHTML || sizeString));
@@ -110,34 +119,31 @@ customElements.define(
           group.setAttribute(
             "transform",
             (group.pulled = state)
-              ? `translate(${pullPoint.x - centerPoint.x} ${pullPoint.y - centerPoint.y})`
+              ? `translate(${pullPoint.x - group.p.x} ${pullPoint.y - group.p.y})`
               : `translate(0 0)`
           );
-
         // calculate dashoffset ONCE for each slice
         path.setAttribute("stroke-dashoffset", (dashoffset += sliceSize + gap));
-
         // add user defined <slice> attributes to path
         [...sliceBase.attributes].map((x) => path.setAttribute(x.name, x.value));
-
         // ------------------------------------------------------------------ create slice(idx) content
         label.setAttribute("x", textPoint.x + ~~sliceBase.getAttribute("x"));
         label.setAttribute("y", textPoint.y + ~~sliceBase.getAttribute("y"));
 
-        //addCircle(point.M(0), "green");
-        //addCircle(text_point, "grey");
-        // addCircle(pull_point, "red");
+        // let circle = document.createElementNS(namespace, "g");
+        // circle.innerHTML = `<circle cx="${group.p.x}" cy="${group.p.y}" r="20" fill="red"/>`;
 
         group.append(
           path,
           this.querySelector("style") && label // if lightDOM has a style element, append <text>
         );
+
         // --- add path and label to SVG, at <slice> position
         // parentNode can be SVG or user element <g>
         sliceBase.parentNode.replaceChild(group, sliceBase);
 
         group.pull(sliceBase.hasAttribute("pull"));
-        return group;
+        // return group;
       }); // convert all slices
     } // render
   } // class
