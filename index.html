@@ -136,9 +136,9 @@
       <pie-demo>
         <pie-description
           >Format a single pie with <b>inline</b> CSS (styling SVG elements)<br /><br />By default labels are positioned
-          60 SVG units <b>outward</b> from the slice center point</pie-description
+          60 SVG units <b>outward</b> from the slice center point<br><br>Labels are only shown when a &lt;style> is defined</pie-description
         >
-        <pie-chart label>
+        <pie-chart>
           <style>
             text {
               font-size: 5em;
@@ -239,10 +239,12 @@
       <pie-demo>
         <pie-description>Polar chart (attempt)</pie-description>
         <pie-chart polar>
-          <slice size="10" stroke-width="100" push="200"></slice>
-          <slice size="10" stroke-width="200" push="150"></slice>
-          <slice size="10" stroke-width="300" push="100"></slice>
-          <slice size="10" stroke-width="400" push="50"></slice>
+          <slice size="10" stroke-width="300"></slice>
+          <slice size="10" stroke-width="200"></slice>
+          <slice size="10" stroke-width="300"></slice>
+          <slice size="10" stroke-width="500"></slice>
+          <slice size="10" stroke-width="400"></slice>
+          <slice size="10" stroke-width="500"></slice>
         </pie-chart>
       </pie-demo>
     </section>

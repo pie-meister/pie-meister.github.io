@@ -52,7 +52,7 @@ customElements.define(
             [...this.querySelectorAll("slice")].map((slice) => (pathlength += ~~slice.getAttribute("size") + gap));
           }
         } else {
-          pathlength = ~~this.getAttribute("scale") || 100; // 100% pie
+          pathlength = 100; // 100% pie
         }
         // ================================================================================== createPath
         this.sliced = (
@@ -120,7 +120,9 @@ customElements.define(
         //addCircle(text_point, "grey");
         // addCircle(pull_point, "red");
 
-        group.append(path, this.hasAttribute("label") && label);
+        group.append(path, 
+          this.querySelector("style") && label // if lightDOM has a style element, append <text>
+          );
         group.id = "slice" + (idx + 1);
         // --- add path and label to SVG, at <slice> position
         // parentNode can be SVG or user element <g>
