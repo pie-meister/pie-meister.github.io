@@ -1,13 +1,16 @@
-// fix 0% count
-// document label %
+// IDE VSCode with comment highlighting for comments (green), todo (orange), warning (red)
+
 // document gap
+// document size=360 , or set fixed pathLength=100
 
 customElements.define(
+  // todo: create/export class so developer can create own "pie-chart"
   "pie-chart",
   class extends HTMLElement {
     connectedCallback() {
       this.attachShadow({
-        // shadowDOM can only be attached once
+        // shadowDOM can only be attached once, user will see error in console
+        // todo: add constructor()
         mode: "open",
       });
       setTimeout(() => this.svg()); // wait till DOM children are parsed
@@ -20,17 +23,16 @@ customElements.define(
     //    <text>  slice label
     // </g>
     svg(
-      // optional user parameters
+      // ================================================================================== optional user parameters
       colors = (this.getAttribute("stroke") || "#e24,#2a4,#fe2,#46e,#f92").split`,`, //, "#4ef", "#f2e", "#962"],
       pull = ~~this.getAttribute("pull"), // how far a slice can be pulled outward
       gap = ~~this.getAttribute("gap"), // gap between slices
-
       // ================================================================================== configuration
       // Component controlled variables (code golf, saves 4 bytes let statement)
       dashoffset = 0, // clockwise - incremental stroke offset for each slice
       namespace = "http://www.w3.org/2000/svg",
       // ================================================================================== pathlength for all slices
-      pathlength = 0 // determined by first slice size, 100 for size=N% notation
+      pathLength = 0 // determined by first slice size, 100 for size=N% notation
     ) {
       // ================================================================================== create SVG
       // inject SVG in shadowDOM so all SVG is parsed and <slice> can be processed
@@ -52,15 +54,15 @@ customElements.define(
         // first slice size="N" sets pathlength for all other slices
         if (sliceSize == sizeString) {
           // NO % on first size="N"
-          if (!pathlength) {
+          if (!pathLength) {
             // calculate AND set the pathlength for No Percentage pie
-            [...this.querySelectorAll("slice")].map((slice) => (pathlength += ~~slice.getAttribute("size") + gap));
+            [...this.querySelectorAll("slice")].map((slice) => (pathLength += ~~slice.getAttribute("size") + gap));
           }
         } else {
-          pathlength = 100; // 100% pie
+          pathLength = ~~this.getAttribute("size") || 100; // 100% pie
         }
         // size="0" or size= "" calculates % remainder
-        if (!sliceSize) sliceSize = 100 - dashoffset;
+        if (!sliceSize) (sliceSize = 100 - dashoffset), (sizeString = sliceSize +"%");
 
         // ================================================================================== createPath
         this.slice = (
@@ -77,11 +79,11 @@ customElements.define(
           path = document.createElementNS(namespace, "path")
         ) => (
           path.setAttribute("d", `m${500 + pull / 2} ${500 + pull / 2}m0 ${-R}a1 1 0 000 ${R * 2}a1 1 0 000-${R * 2}`),
-          path.setAttribute("pathLength", pathlength),
+          path.setAttribute("pathLength", pathLength),
           // No fill because the path IS A FULL circle, we only see parts/slices because of the stroke-dasharray!
           path.setAttribute("fill", "none"),
           path.setAttribute("stroke-width", strokeWidth), // radius size
-          path.setAttribute("stroke-dasharray", sliceSize + " " + (pathlength - sliceSize)),
+          path.setAttribute("stroke-dasharray", sliceSize + " " + (pathLength - sliceSize)),
           // stick .M method on path to get a Point position x,y later
           // function returns the middle of the slice arc
           // becuase the method is defined within! each slice scope all variables for that one slice can be used
@@ -91,7 +93,7 @@ customElements.define(
           // only Mr Creosote (see Youtube) can eat that many pies
           (path.M = () =>
             path.getPointAtLength(
-              path.getTotalLength() - (path.getTotalLength() / pathlength) * (dashoffset + sliceSize / 2)
+              path.getTotalLength() - (path.getTotalLength() / pathLength) * (dashoffset + sliceSize / 2)
             )),
           // return path, so it can be added to the slice <g> group
           // again ... avoiding the use for a 'return' statement .. that is 6 Bytes man!
@@ -129,10 +131,11 @@ customElements.define(
         group.setAttribute(
           "label",
           (label.innerHTML = // set the svg innerHTML
-            // if sliceBase has a label, then replace %
-            (sliceDefinition.innerHTML && sliceDefinition.innerHTML.replace("size", sizeString)) ||
+            /* if sliceBase has a label */ (sliceDefinition.innerHTML &&
+              /* then replace % */ sliceDefinition.innerHTML.replace("size", sizeString)) ||
             /* else use: */ sizeString)
         );
+
         // create method .pull(T/F)
         group.pull = (state) =>
           group.setAttribute(
@@ -150,10 +153,7 @@ customElements.define(
         // let circle = document.createElementNS(namespace, "g");
         // circle.innerHTML = `<circle cx="${group.p.x}" cy="${group.p.y}" r="20" fill="red"/>`;
 
-        group.append(
-          path,
-          this.querySelector("style") && label // if lightDOM has a style element, append <text>
-        );
+        group.append(path, label);
 
         // --- add path and label to SVG, at <slice> position
         // parentNode can be SVG or user element <g>
