@@ -80,27 +80,39 @@ customElements.define(
           path.setAttribute("fill", "none"), 
           path.setAttribute("stroke-width", strokeWidth), // radius size
           path.setAttribute("stroke-dasharray", sliceSize + " " + (pathlength - sliceSize)),
+          
+          
           // stick .M method on path to get a Point position x,y later
+          // function returns the middle of the slice arc
+          // becuase the method is defined within! each slice scope all variables for that one slice can be used
+          // a 'global' method would require everything as function parameters
+          // this takes more memory (who cares about memory when the full library is 1K?)
+          // is only slower when you do over a million calls (that is 1000 pies with 1000 slices each)
+          // only Mr Creosote (see Youtube) can eat that many pies
           (path.M = () =>
             path.getPointAtLength(
               path.getTotalLength() - (path.getTotalLength() / pathlength) * (dashoffset + sliceSize / 2)
             )),
-          // return path
+          // return path, so it can be added to the slice <g> group
+          // again ... avoiding the use for a 'return' statement .. that is 6 Bytes man!
           path
         );
         // ------------------------------------------------------------------ create SVG slice
         let path = this.slice(0); // path stroke positioning 0 = middle of slice
-        // centerPoint is middle of <path> strokeWidth draws the path
-        // pullPoint used for pull distance, not drawn on SVG
+        
+        // pullPoint used to calculate pull distance in the correct direction, not drawn on SVG
         let pullPoint = this.slice(Math.abs(~~sliceDefinition.getAttribute("pull") || pull)).M();
         // textPoint used for <text> label position calculation, not drawn on SVG
         let textPoint = this.slice(~~this.getAttribute("text") || 60).M();
+        
         // <g> is the slice containing <path> and <text> label
         let group = document.createElementNS(namespace, "g");
         let label = document.createElementNS(namespace, "text");
-
-        group.path = path;
-        //centerPoint
+        
+        // TODO: is it worth to have the path METHOD reference available for the outside world?
+        //group.path = path;
+        // group.p is middle of <path> strokeWidth draws the path
+        //! Calculate center point once! Later calls would use other parameters
         group.p = path.M(); // sliceSize is a variable in scope
 
         // determine color
@@ -126,7 +138,7 @@ customElements.define(
             "transform",
             (group.pulled = state)
               ? `translate(${pullPoint.x - group.p.x} ${pullPoint.y - group.p.y})`
-              : `translate(0 0)`
+              : ``//`translate(0 0)`
           );
         // calculate dashoffset ONCE for each slice
         path.setAttribute("stroke-dashoffset", (dashoffset += sliceSize + gap));
