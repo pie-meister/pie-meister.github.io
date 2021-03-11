@@ -102,8 +102,7 @@
           <b style="color:firebrick">Work in progress.. getting ready for 3.14 launch, please contact danny@engelman.nl for questions and suggestions</b>
           <h1><meister-name></meister-name></h1>
           <p>
-            My <a href="https://en.wikipedia.org/wiki/TRS-80">first computer</a> learned me to program in 4 kB
-            memory.<br />I tried to create a &lt;pie-chart> Web Component in a maximum of <b>3.14</b> kB... and failed
+            My <a href="https://en.wikipedia.org/wiki/TRS-80">first computer</a> learned me to program in Z80 Assembly Language and 4 kB memory.</p><p>I tried to create a &lt;pie-chart> Web Component in a maximum of <b>3.14</b> kB... and failed
           </p>
           <chart-libraries-table></chart-libraries-table>
         </div>
@@ -169,9 +168,7 @@
       </pie-demo>
       <pie-demo>
         <pie-description
-          >To 'pull' a slice, specify the distance you want to pull, and which slice to pull<br /><br />The SVG has a
-          1000 x 1000 units viewBox<br /><br />
-          A <attr-setting>pull="200"</attr-setting> creates a 1200x1200 viewBox so pulled slices are not cut
+          >Specify the distance with <attr-setting>pull="200"</attr-setting> and which slice to pull<br /><br />The SVG has a default 1000 x 1000 units viewBox<br><attr-setting>pull="200"</attr-setting> creates a 1200x1200 viewBox so pulled slices are not cut
           off</pie-description
         >
         <pie-chart pull="200">
@@ -183,8 +180,9 @@
       <pie-demo>
         <pie-description
           >Format a single pie with <b>inline</b> CSS (styling SVG elements)<br /><br />By default labels are positioned
-          60 SVG units <b>outward</b> from the slice center point<br /><br />Labels are only shown when a
-          <attr-setting>&lt;style></attr-setting> is defined</pie-description
+          60 SVG units <b>outward</b> from the slice center point<br />
+          <p hidden>Labels are only shown when a
+          <attr-setting>&lt;style></attr-setting> is defined</p></pie-description
         >
         <pie-chart>
           <style>
@@ -200,11 +198,11 @@
       </pie-demo>
       <pie-demo>
         <pie-description
-          >Add any SVG you want<br /><br />And I almost forgot; <attr-setting>&lt<slice size="0"></slice></attr-setting> autocompletes to a
+          >Add any SVG you want<br /><br />And I almost forgot; <br><attr-setting>&lt;slice size="0"></slice></attr-setting> autocompletes to a
           full 100% pie</pie-description
         >
         <pie-chart pull="30">
-          <circle r="505" cx="50%" cy="50%" fill="teal"></circle>
+          <circle r="505" cx="50%" cy="50%" fill="green"></circle>
 
           <slice size="10%"></slice>
           <slice size="20%"></slice>
@@ -212,25 +210,24 @@
 
           <circle r="100" cx="50%" cy="50%" fill="darkgreen"></circle>
           
-          <slice size="0" stroke="grey">Not 100% yet!</slice>
+          <slice size="0" stroke="grey">size to go!</slice>
 
-          <text x="50%" y="50%" fill="white">Pie Meister</text>
+          <text id="title" x="50%" y="50%" fill="white">Pie Meister</text>
           <style>
             text {
-              font-size: 8em;
-              text-anchor: middle;
-            }
-            [slice] text {
               font-size: 4em;
               text-anchor: middle;
+            }
+            #title {
+              font-size: 8em;
             }
           </style>
         </pie-chart>
       </pie-demo>
       <pie-demo>
         <pie-description
-          >For a Donut chart, change the <attr-setting>(default) stroke-width="500"</attr-setting> to a lower
-          value</pie-description
+          >Set the <attr-setting>(default) stroke-width="500"</attr-setting> to a <b>lower</b>
+          value to create a Donut chart</pie-description
         >
         <pie-chart stroke-width="200">
           <slice size="10"></slice>

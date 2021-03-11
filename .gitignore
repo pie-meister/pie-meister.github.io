@@ -5,3 +5,4 @@ build
 *-test*
 test*
 Thumbs.db
+.gitignore
