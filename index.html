@@ -118,19 +118,24 @@
           <slice size="16%" stroke="#ff7518">Pumpkin size</slice>
           <slice size="10%" stroke="#790604">Cherry‍‍ size</slice>
           <slice size="5%" stroke="#4f86f7">Blueberry size</slice>
-          <slice size="5%" stroke="#fff44f">Lemon size</slice>
+          <slice size="5%" stroke="#fff44f" x="-90" y="30" pull>Lemon size</slice>
           <slice size="5%" stroke="#d2691e">Chocolate size</slice>
-          <slice size="0" stroke="grey">Other size</slice>
+          <slice size="0" stroke="lightgrey">Other size</slice>
           <style>
+            #pies{
+              background:grey;
+            }
             [slice] {
               cursor: pointer;
             }
-            text {
+            [label] {
               font-size: 2em;
               text-anchor: middle;
+              fill: blue;
             }
-            [label*="Apple"] text {
-              fill: white;
+            [label*="Other"] text,
+            [label*="Lemon"] text {
+              fill:black;
             }
           </style>
         </pie-chart>

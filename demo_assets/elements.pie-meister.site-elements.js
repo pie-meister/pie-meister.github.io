@@ -149,7 +149,7 @@ customElements.define(
         },
         { name: "D3.js", uri: "http://bl.ocks.org/dbuezas/9306799", size: "64 kB" },
         { name: "ChartJS", uri: "https://www.chartjs.org/samples/latest/charts/pie.html", size: "51 kB" },
-        { name: "React Minimal Pie Chart", uri: "https://bundlephobia.com/result?p=react-minimal-pie-chart@8.1.0", size: "2.1 kB",
+        { name: "React Minimal Pie", uri: "https://bundlephobia.com/result?p=react-minimal-pie-chart@8.1.0", size: "2.1 kB",
         comment:"+ React itself ofcourse!" },
         {
           name: "<meister-name></meister-name>",
