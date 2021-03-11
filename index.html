@@ -1,9 +1,9 @@
 <html>
   <head>
-    <script src="prism.js"></script>
-    <link rel="stylesheet" href="prism.css" data-noprefix />
+    <script src="./demo_assets/prism.js"></script>
+    <link rel="stylesheet" href="./demo_assets/prism.css" data-noprefix />
     <script src="elements.pie-meister.js"></script>
-    <script src="elements.pie-meister.site-elements.js"></script>
+    <script src="./demo_assets/elements.pie-meister.site-elements.js"></script>
     <template id="PIE-DEMO">
       <style>
         :host {
@@ -37,7 +37,6 @@
         <slot></slot>
       </div>
     </template>
-    <!-- <script src="elements.pie-meister.min.js"></script> -->
     <style>
       body {
         --pie-demo-background: lightgrey;
@@ -98,7 +97,7 @@
   <body>
     <section>
       <header>
-        <img src="pi-day-logo.jpg" />
+        <img src="./demo_assets/pi-day-logo.jpg" />
         <div>
           <b style="color:firebrick">Work in progress.. getting ready for 3.14 launch, please contact danny@engelman.nl for questions and suggestions</b>
           <h1><meister-name></meister-name></h1>
@@ -413,6 +412,43 @@
           <slice size="30%"></slice>
         </pie-chart>
       </pie-demo>
+    </section>
+    <section>
+      <h2>About</h2>
+      <p>
+      I have been working with Web Components for some years now. And for the first time since my first HTML experience in 1994 I got excited again.
+      
+    </p>
+    <p>
+      Developing Web Components requires a different mind-set, you can't compare that to 'oldskool' framework development.<br>
+      It took me 5 years to unlearn what I had learned in 25 years. It is 2021, I am slowly getting comfortable with Web Components, but know it is still early days.
+    </p>
+    <p>
+      Where frameworks deliver (semi-) finished products, Web Components are atoms.. or maybe we should say quarks, because a lot of scientists do not understand those either.
+    </p>
+    <p>
+      And yes, Web Components <i>can</i> built (semi-)finished products.
+    </p>
+    <p>
+      I foresee a future where Web Components are used like we use Libraries and CDNs today.
+      <br>But contrary to libraries, Web Components won't have a pletora of functionalities.
+    </p>
+    <p>
+      <ol>
+        <li>Good Web Components do one or two things very well</li>
+        <li>Good Web Components, like Lego bricks, can be joined together to create more functionality</li>
+        <li>Good Web Components can (IMHO) always be extracted from the 'finished' product.</li>
+        <li>Good Web Components will be free to re-use</li>
+        <li>And yes, Leah, we need something to find those Good Web Components, because there already is a lot of shit out there.</p>
+      </ol>
+    </p>
+    <p>
+      This is not a weird idea. This is how Tim Berners-Lee imagined the Web to be
+    </p>
+    <p>
+      <a href="https://webfoundation.org/about/vision/history-of-the-web/">https://webfoundation.org/about/vision/history-of-the-web/</a>
+    </p>
+
     </section>
   </body>
 </html>
