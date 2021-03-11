@@ -63,6 +63,7 @@ class PieMeister extends HTMLElement {
         let html = this.querySelector("pie-chart").outerHTML;
         html = html.replace(/pull=""/g, "pull");
         html = html.replace(/polar=""/g, "polar");
+        html = html.replace(/size=""/g, "size");
         this.querySelector("code").innerHTML = formatHTMLasCode(html);
         Prism.highlightAllUnder(this.shadowRoot);
       }

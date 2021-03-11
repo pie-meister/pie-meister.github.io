@@ -12,7 +12,7 @@ customElements.define(
       });
       setTimeout(() => this.svg()); // wait till DOM children are parsed
     }
-    // declared as method .svg() so user can redraw a chart 
+    // declared as method .svg() so user can redraw a chart
     // this Component does not track for changed attributes (yet)
     // Process the user-defined lightDOM, create an SVG element, then replace all <slice> with:
     // <g slice> grouped as one slice
@@ -45,8 +45,8 @@ customElements.define(
         let sliceSize = ~~sizeString.replace("%", ""); // remove % to create an Integer value
         // strokeWidth = slice radius size from SVG centerpoint (500,500)
         let strokeWidth =
-          ~~sliceDefinition.getAttribute("stroke-width") || // <slice stroke-width=X>
-          ~~this.getAttribute("stroke-width") || // <pie-chart stroke-width=X>
+          ~~sliceDefinition.getAttribute("stroke-width") || // <slice stroke width=X>
+          ~~this.getAttribute("stroke-width") || // <pie-chart stroke width=X>
           500 + pull / 2 - pull; // default Center + HALF pull margin - the pulled slice distance
         // ------------------------------------------------------------------ determine pathLength from lightDOM <slice>
         // first slice size="N" sets pathlength for all other slices
@@ -68,20 +68,20 @@ customElements.define(
           extraRadius, // 0 = slice middle point
 
           // calculations, again:preventing the need for 4 Bytes let statement
-          R = (500 + pull / 2) / 2 -
+          R = (500 + pull / 2) / 2 /* center point of SVG */ -
             pull / 2 +
             extraRadius -
-            (this.hasAttribute("polar") ? (500 - strokeWidth) / 2 : 0),
+            (this.getAttribute("fill") == "stroke-width" ? (500 - pull / 2 - strokeWidth) / 2 : 0),
+          //! "fill" on <pie-chart> value is not used for anything
+
           path = document.createElementNS(namespace, "path")
         ) => (
           path.setAttribute("d", `m${500 + pull / 2} ${500 + pull / 2}m0 ${-R}a1 1 0 000 ${R * 2}a1 1 0 000-${R * 2}`),
           path.setAttribute("pathLength", pathlength),
           // No fill because the path IS A FULL circle, we only see parts/slices because of the stroke-dasharray!
-          path.setAttribute("fill", "none"), 
+          path.setAttribute("fill", "none"),
           path.setAttribute("stroke-width", strokeWidth), // radius size
           path.setAttribute("stroke-dasharray", sliceSize + " " + (pathlength - sliceSize)),
-          
-          
           // stick .M method on path to get a Point position x,y later
           // function returns the middle of the slice arc
           // becuase the method is defined within! each slice scope all variables for that one slice can be used
@@ -99,16 +99,16 @@ customElements.define(
         );
         // ------------------------------------------------------------------ create SVG slice
         let path = this.slice(0); // path stroke positioning 0 = middle of slice
-        
+
         // pullPoint used to calculate pull distance in the correct direction, not drawn on SVG
         let pullPoint = this.slice(Math.abs(~~sliceDefinition.getAttribute("pull") || pull)).M();
         // textPoint used for <text> label position calculation, not drawn on SVG
         let textPoint = this.slice(~~this.getAttribute("text") || 60).M();
-        
+
         // <g> is the slice containing <path> and <text> label
         let group = document.createElementNS(namespace, "g");
         let label = document.createElementNS(namespace, "text");
-        
+
         // TODO: is it worth to have the path METHOD reference available for the outside world?
         //group.path = path;
         // group.p is middle of <path> strokeWidth draws the path
@@ -130,15 +130,14 @@ customElements.define(
           "label",
           (label.innerHTML = // set the svg innerHTML
             // if sliceBase has a label, then replace %
-            (sliceDefinition.innerHTML && sliceDefinition.innerHTML.replace("size", sizeString)) || /* else use: */ sizeString)
+            (sliceDefinition.innerHTML && sliceDefinition.innerHTML.replace("size", sizeString)) ||
+            /* else use: */ sizeString)
         );
         // create method .pull(T/F)
         group.pull = (state) =>
           group.setAttribute(
             "transform",
-            (group.pulled = state)
-              ? `translate(${pullPoint.x - group.p.x} ${pullPoint.y - group.p.y})`
-              : ``//`translate(0 0)`
+            (group.pulled = state) ? `translate(${pullPoint.x - group.p.x} ${pullPoint.y - group.p.y})` : `` //`translate(0 0)`
           );
         // calculate dashoffset ONCE for each slice
         path.setAttribute("stroke-dashoffset", (dashoffset += sliceSize + gap));

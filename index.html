@@ -201,7 +201,7 @@
       </pie-demo>
       <pie-demo>
         <pie-description
-          >Add any SVG you want<br /><br />And I almost forgot; <attr-setting>size="0"</attr-setting> autocompletes to a
+          >Add any SVG you want<br /><br />And I almost forgot; <attr-setting>&lt<slice size="0"></slice></attr-setting> autocompletes to a
           full 100% pie</pie-description
         >
         <pie-chart pull="30">
@@ -291,6 +291,24 @@
       </pie-demo>
       <pie-demo>
         <pie-description
+        ><attr-setting>fill="stroke-width"</attr-setting> on the &lt;pie-chart> makes the <attr-setting>stroke-width</attr-setting> <b>start</b> from the Pie Chart <b>center</b> creating a Polar chart</pie-description
+        >
+        <pie-chart fill="stroke-width" pull="50">
+          <style>
+            text {
+              font-size: 4em;
+              text-anchor: middle;
+            }
+          </style>
+          <slice size="2" stroke-width="100">100</slice>
+          <slice size="1" stroke-width="200">200</slice>
+          <slice size="1" stroke-width="300">300</slice>
+          <slice size="1" stroke-width="400">400</slice>
+          <slice size="1">default 500</slice>
+        </pie-chart>
+      </pie-demo>
+      <pie-demo>
+        <pie-description
           >Don't like the 6 default colors? Specify an array of colors: <attr-setting>stroke="blue,red,green"</attr-setting><br><br>And/or color a slice <attr-setting>stroke="gold"</attr-setting>.<br /><br />Note how the
           slice <attr-setting>stroke="gold"</attr-setting> 'saves' using a color from the <attr-setting>stroke</attr-setting> array</pie-description
         >
@@ -299,25 +317,6 @@
           <slice size="20" pull></slice>
           <slice size="40" stroke="gold"></slice>
           <slice size="40"></slice>
-        </pie-chart>
-      </pie-demo>
-      <pie-demo>
-        <pie-description
-          >Set the <attr-setting>polar</attr-setting> attribute for a Polar chart. The <attr-setting>stroke-width</attr-setting> defines the slice
-          radius</pie-description
-        >
-        <pie-chart polar>
-          <slice size="2" stroke-width="300"></slice>
-          <slice size="2" stroke-width="200"></slice>
-          <slice size="2" stroke-width="300"></slice>
-          <slice size="1" stroke-width="400"></slice>
-          <slice size="1" stroke-width="500"></slice>
-          <style>
-            text {
-              font-size: 4em;
-              text-anchor: middle;
-            }
-          </style>
         </pie-chart>
       </pie-demo>
     </section>
