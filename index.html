@@ -114,10 +114,10 @@
       <h2>Usage:</h2>
       <pie-example>
         <pie-chart id="pies" pull="50">
-          <slice size="20%" stroke="#6c3">Apple</slice>
-          <slice size="18" stroke="#fc5a8d">Strawberry</slice>
-          <slice size="16" stroke="#ff7518">Pumpkin</slice>
-          <slice size="10" stroke="#790604">Cherry</slice>
+          <slice size="20%" stroke="#6c3">Apple size</slice>
+          <slice size="18" stroke="#fc5a8d">Strawberry %</slice>
+          <slice size="16" stroke="#ff7518">Pumpkin &percnt;</slice>
+          <slice size="10" stroke="#790604">Cherry‍‍ size</slice>
           <slice size="5" stroke="#4f86f7">Blueberry</slice>
           <slice size="5" stroke="#fff44f">Lemon</slice>
           <slice size="5" stroke="#d2691e">Chocolate</slice>
@@ -210,9 +210,11 @@
           <slice size="10%"></slice>
           <slice size="20%"></slice>
           <slice size="40%"></slice>
-          <slice size="0" stroke="grey">Not 100% yet!</slice>
 
           <circle r="100" cx="50%" cy="50%" fill="darkgreen"></circle>
+          
+          <slice size="0" stroke="grey">Not 100% yet!</slice>
+
           <text x="50%" y="50%" fill="white">Pie Meister</text>
           <style>
             text {
@@ -271,7 +273,7 @@
       </pie-demo>
       <pie-demo>
         <pie-description
-          >Slices can have different pull and stroke-width values.<br /><br />If you know SVG: all slice attributes will
+          >Slices can have different <attr-setting>pull</attr-setting> and <attr-setting>stroke-width</attr-setting> values.<br /><br />If you know SVG: all slice attributes will
           be copied to the SVG &lt;path></pie-description
         >
         <pie-chart stroke-width="200" pull="-140">
@@ -281,18 +283,18 @@
               text-anchor: middle;
             }
           </style>
-          <slice size="10" stroke-width="80">80</slice>
-          <slice size="20" stroke-width="120">120</slice>
+          <slice size="20" stroke-width="80">80</slice>
+          <slice size="30" stroke-width="120">120</slice>
           <slice size="40" stroke-width="160">160</slice>
-          <slice size="40" x="40">default 200</slice>
+          <slice size="50" x="40">default 200</slice>
         </pie-chart>
       </pie-demo>
       <pie-demo>
         <pie-description
-          >Don't like the 6 default colors? Specify an array of colors and/or color a slice.<br /><br />Note how the
-          slice stroke="gold" 'saves' using a color from the colors array</pie-description
+          >Don't like the 6 default colors? Specify an array of colors: <attr-setting>stroke="blue,red,green"</attr-setting><br><br>And/or color a slice <attr-setting>stroke="gold"</attr-setting>.<br /><br />Note how the
+          slice <attr-setting>stroke="gold"</attr-setting> 'saves' using a color from the <attr-setting>stroke</attr-setting> array</pie-description
         >
-        <pie-chart pull="100" colors="blue,red,green">
+        <pie-chart pull="100" stroke="blue,red,green">
           <slice size="10" pull></slice>
           <slice size="20" pull></slice>
           <slice size="40" stroke="gold"></slice>
@@ -301,7 +303,7 @@
       </pie-demo>
       <pie-demo>
         <pie-description
-          >Set the <attr-setting>polar</attr-setting> for Polar chart. The stroke-width defines the slice
+          >Set the <attr-setting>polar</attr-setting> attribute for a Polar chart. The <attr-setting>stroke-width</attr-setting> defines the slice
           radius</pie-description
         >
         <pie-chart polar>
@@ -350,6 +352,16 @@
         <li>
           A &lt;slice> is converted to a SVG &lt;path> which can <b>not</b> contain HTML<br />
           <pre>&lt;slize size="10">&lt;span> HTML here breaks the SVG &lt;/span>&lt;/slice></pre>
+        </li>
+        <li>
+          The word <b>'size'</b> in a <b>label</b> is replaced with the <attr-setting>slice size</attr-setting><br>
+          To prevent replacing regular words with the string 'size', add the (no space width) WordJoiner unicode character <attr-setting>&amp;#8288;</attr-setting> <br>so the replace code never finds the word 'size';
+            <pre class="language-html"><code>
+              &lt;pie-chart>
+                &lt;slice size="20%">Big si&amp;#8288;zed Apple (size)&lt;/slice>  &lt;!-- Big sized Apple (20%) -->
+                &lt;slice size="15%">Small si&amp;#8288;zed Apple (size)&lt;/slice> &lt;!-- Small sized Apple (15%) -->
+              &lt;/pie-chart>
+            </code></pre>
         </li>
       </ul>
     </section>

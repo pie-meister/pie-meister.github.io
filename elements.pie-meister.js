@@ -1,3 +1,6 @@
+//document label %
+// document gap
+
 customElements.define(
   "pie-chart",
   class extends HTMLElement {
@@ -10,7 +13,7 @@ customElements.define(
     }
     svg(
       // optional used parameters
-      colors = (this.getAttribute("colors") || "#e24,#2a4,#fe2,#46e,#f92").split`,`, //, "#4ef", "#f2e", "#962"],
+      colors = (this.getAttribute("stroke") || "#e24,#2a4,#fe2,#46e,#f92").split`,`, //, "#4ef", "#f2e", "#962"],
       pull = ~~this.getAttribute("pull"),
       gap = ~~this.getAttribute("gap"),
 
@@ -41,7 +44,7 @@ customElements.define(
       //this.slices =
       [...this.shadowRoot.querySelectorAll("slice")].map((sliceBase, idx) => {
         let sizeString = sliceBase.getAttribute("size");
-        let sliceSize = ~~sizeString.replace(/\%/, "");
+        let sliceSize = ~~sizeString.replace("%", "");
 
         let strokeWidth =
           ~~sliceBase.getAttribute("stroke-width") || // <slice stroke-width=X>
@@ -110,7 +113,12 @@ customElements.define(
         // group.setAttribute("offset", dashoffset);
         group.setAttribute("slice", idx + 1);
         group.setAttribute("size", sizeString);
-        group.setAttribute("label", (label.innerHTML = sliceBase.innerHTML || sizeString));
+        group.setAttribute(
+          "label",
+          (label.innerHTML = // set the svg innerHTML
+            // if sliceBase has a label, then replace %
+            (sliceBase.innerHTML && sliceBase.innerHTML.replace("size", sizeString)) || /* else use: */ sizeString)
+        );
         // create method .pull(T/F)
         group.pull = (state) =>
           group.setAttribute(
