@@ -45,7 +45,7 @@ customElements.define(
         // default viewBox = 1000 x 1000 extra padding with pull attribute
         root.innerHTML = `<style>:host{display:inline-block}svg{width:100%}</style><svg id=${
           this.id
-        } xmlns=${namespace} viewBox="0 0 ${1000 + pull} ${1000 + pull}">${
+        } xmlns=${namespace} viewBox="0,0,${1000 + pull},${1000 + pull}">${
           this.innerHTML
         }</svg>`;
         // ================================================================================== convert <slice>s to paths
@@ -81,10 +81,7 @@ customElements.define(
                   : 0),
               //! "fill" on <pie-chart> value is not used for anything
 
-              path = document.createElementNS(namespace, "path"),
-              log = this.id == "pie1"
-                ? console.warn(idx, this.id, extraRadius, __stroke, colors)
-                : ""
+              path = document.createElementNS(namespace, "path")
             ) => (
               path.setAttribute("stroke", __stroke),
               path.setAttribute("stroke-width", __strokeWidth), // radius size
