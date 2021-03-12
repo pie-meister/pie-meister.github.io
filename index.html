@@ -123,7 +123,7 @@
           <slice size="5%" stroke="#4f86f7">Blueberry size</slice>
           <slice size="5%" stroke="#fff44f" x="-90" y="30" pull>Lemon size</slice>
           <slice size="5%" stroke="#d2691e">Chocolate size</slice>
-          <slice size="0" stroke="lightgrey">10 Other size</slice>
+          <slice size="0" stroke="lightgrey">Other size</slice>
           <style>
             #pies{
               background:grey;
@@ -177,7 +177,10 @@
         </script>
       </pie-example>
       <pie-demo>
-        <pie-chart>
+        <pie-chart id="pie1">
+          <slice size="10"></slice>
+          <slice size="20"></slice>
+          <slice size="40"></slice>
           <slice size="10"></slice>
           <slice size="20"></slice>
           <slice size="40"></slice>
@@ -350,7 +353,7 @@
       <p>Pie slices emit mouseenter & mouseout Events to the pie-chart Element</p>
       <pre><code class="language-javascript">
           pullpie.addEventListener("slice", (evt) => {
-            let slice = evt.target.g; // SVG &lt;g> element
+            let slice = evt.target.g; // SVG &lt;g> element with slice &lt;path> and &lt;text> label
             slice.pull(!slice.pulled)
           });
       </code></pre>
@@ -358,17 +361,18 @@
         <pie-description></pie-description>
         <pie-chart id="pullpie" pull="100">
           <slice size="10" pull></slice>
+          <slice size="40" ></slice>
           <slice size="20" pull></slice>
-          <slice size="40" stroke="gold"></slice>
           <slice size="40"></slice>
+
+          <style>
+            text {
+              font-size: 4em;
+              text-anchor: middle;
+            }
+          </style>
         </pie-chart>
       </pie-demo>
-      <script>
-        pullpie.addEventListener("slice", (evt) => {
-          let slice = evt.target.g;
-          slice.pull(!slice.pulled);
-        });
-      </script>
     </section>
     <section>
       <h2><meister-name></meister-name> - A<i>PI</i></h2>
