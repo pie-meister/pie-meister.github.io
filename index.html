@@ -144,11 +144,24 @@
             console.log('DOMContentLoaded');
             setTimeout(() => {
             let pies = document.querySelector("#pies");
-            console.log(21,pies);
-            pies.slices.map((slice) => {
-              console.warn('slice group:',slice);
-              console.warn('slice path:',slice.path.point());
-              console.warn('slice createSlice:',slice.create);
+            pies.slices.map((slice,idx) => {
+              let svg = slice.parentNode;
+              if(idx==1){
+                console.warn('slice group:',slice);
+                console.warn('slice size:',slice.getAttribute("size"));
+                console.warn('slice path:',slice.path);
+                let pt1 = slice.path.point();
+                console.warn('slice path.point():',);
+                console.warn('slice createSlice:',slice.create);
+                let R= 0; // middleradius
+                let newpath = slice.create(0);
+                //newpath.setAttribute("stroke-width",5);
+                //newpath.setAttribute("stroke-dashoffset",38);
+                newpath.setAttribute("stroke","red");
+                console.error(newpath);
+                //newpath.setAttribute("fill","red");
+                //svg.append(newpath);
+              }
             });
             pies.addEventListener("slice", (evt) => {
               let slice = evt.target.g;
@@ -345,6 +358,40 @@
           <slice size="20" pull></slice>
           <slice size="40" stroke="gold"></slice>
           <slice size="40"></slice>
+        </pie-chart>
+      </pie-demo>
+      <script>
+        pullpie.addEventListener("slice", (evt) => {
+          let slice = evt.target.g;
+          slice.pull(!slice.pulled);
+        });
+      </script>
+    </section>
+    <section>
+      <h2><meister-name></meister-name> - A<i>PI</i></h2>
+      <p></p>
+      <pie-demo>
+        <pie-description>
+
+          <pre><code class="language-javascript">
+            api.addEventListener("slice", (evt) => {
+              let slice = evt.target.g; // SVG &lt;g> element
+              slice.pull(!slice.pulled)
+              console.log(`slice.pull(true/false) method`);
+              //slice
+              //slice.path
+              //slice.create
+              console.log(slice)
+              slice.append("21")
+            });
+        </code></pre>
+  
+
+        </pie-description>
+        <pie-chart id="api">
+          <slice size="30"></slice>
+          <slice size="20"></slice>
+          <slice size="30"></slice>
         </pie-chart>
       </pie-demo>
       <script>

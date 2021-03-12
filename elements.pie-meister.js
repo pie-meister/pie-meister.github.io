@@ -24,7 +24,8 @@ customElements.define(
     // </g>
     svg(
       // ================================================================================== optional user parameters
-      colors = (this.getAttribute("stroke") || "#e24,#2a4,#fe2,#46e,#f92").split`,`, //, "#4ef", "#f2e", "#962"],
+      colors = (this.getAttribute("stroke") || "#e24,#2a4,#fe2,#46e,#f92")
+        .split`,`, //, "#4ef", "#f2e", "#962"],
       pull = ~~this.getAttribute("pull"), // how far a slice can be pulled outward
       gap = ~~this.getAttribute("gap"), // gap between slices
       // ================================================================================== configuration
@@ -39,136 +40,186 @@ customElements.define(
       // default viewBox = 1000 x 1000 extra padding with pull attribute
       this.shadowRoot.innerHTML = `<style>:host{display:inline-block}svg{width:100%}</style><svg id=${
         this.id
-      } xmlns=${namespace} viewBox="0 0 ${1000 + pull} ${1000 + pull}">${this.innerHTML}</svg>`;
+      } xmlns=${namespace} viewBox="0 0 ${1000 + pull} ${1000 + pull}">${
+        this.innerHTML
+      }</svg>`;
       // ================================================================================== convert <slice>s to paths
-      this.slices = [...this.shadowRoot.querySelectorAll("slice")].map((sliceDefinition, idx) => {
-        let sizeString = sliceDefinition.getAttribute("size");
-        let sliceSize = ~~sizeString.replace("%", ""); // remove % to create an Integer value
-        // strokeWidth = slice radius size from SVG centerpoint (500,500)
-        let strokeWidth =
-          ~~sliceDefinition.getAttribute("stroke-width") || // <slice stroke width=X>
-          ~~this.getAttribute("stroke-width") || // <pie-chart stroke width=X>
-          500 + pull / 2 - pull; // default Center + HALF pull margin - the pulled slice distance
-        // ================================================================================== createPath
-        let createSlice = (
-          // user parameter
-          extraRadius, // 0 = slice middle point
+      this.slices = [...this.shadowRoot.querySelectorAll("slice")].map(
+        (sliceDefinition, idx) => {
+          let sizeString = sliceDefinition.getAttribute("size");
+          let sliceSize = ~~sizeString.replace("%", ""); // remove % to create an Integer value
+          // strokeWidth = slice radius size from SVG centerpoint (500,500)
+          let strokeWidth =
+            ~~sliceDefinition.getAttribute("stroke-width") || // <slice stroke width=X>
+            ~~this.getAttribute("stroke-width") || // <pie-chart stroke width=X>
+            500 + pull / 2 - pull; // default Center + HALF pull margin - the pulled slice distance
+          let slice_dashoffset = dashoffset;
+          // ================================================================================== createPath
+          let createSlice = (
+            // user parameter
+            extraRadius, // 0 = slice middle point
 
-          //! required parameters
-          // strokeWidth
-          // sliceSize
-          // dashoffset
-          // pull
+            //! required parameters
+            __strokeWidth = strokeWidth,
+            __sliceSize = sliceSize,
+            __stroke = /* get <slice> color */ sliceDefinition.getAttribute(
+              "stroke"
+            ) /* or a color from the array for first .sliceCreate(0) call */ ||
+              (extraRadius == 0 && colors.shift()),
 
-          // calculations, again:preventing the need for 4 Bytes let statement
-          R = (500 + pull / 2) / 2 /* center point of SVG */ -
-            pull / 2 +
-            extraRadius -
-            (this.getAttribute("fill") == "stroke-width" ? (500 - pull / 2 - strokeWidth) / 2 : 0),
-          //! "fill" on <pie-chart> value is not used for anything
+            // calculations, again:preventing the need for 4 Bytes let statement
+            R = (500 + pull / 2) / 2 /* center point of SVG */ -
+              pull / 2 +
+              extraRadius -
+              (this.getAttribute("fill") == "stroke-width"
+                ? (500 - pull / 2 - __strokeWidth) / 2
+                : 0),
+            //! "fill" on <pie-chart> value is not used for anything
 
-          path = document.createElementNS(namespace, "path")
-        ) => (
-          path.setAttribute("pathLength", pathLength),
-          path.setAttribute("stroke-width", strokeWidth), // radius size
-          path.setAttribute("stroke-dasharray", sliceSize + " " + (pathLength - sliceSize)),
-          //path.setAttribute("d", `m${500 + pull / 2} ${500 + pull / 2}m0 ${-R}a1 1 0 000 ${R * 2}a1 1 0 000-${R * 2}`),
-          path.setAttribute("d", `m${500 + pull / 2} ${500 + pull / 2}m0 ${-R}a2 2 0 000 ${R * 2}a2 2 0 000-${R * 2}`),
-          // No fill because the path IS A FULL circle, we only see parts/slices because of the stroke-dasharray!
-          path.setAttribute("fill", "none"),
-          // stick .point method on path to get a Point position x,y later
-          // function returns the middle of the slice arc
-          // becuase the method is defined within! each slice scope all variables for that one slice can be used
-          // a 'global' method would require everything as function parameters
-          // this takes more memory (who cares about memory when the full library is 1K?)
-          // is only slower when you do over a million calls (that is 1000 pies with 1000 slices each)
-          // only Mr Creosote (see Youtube) can eat that many pies
-          (path.point = () =>
-            path.getPointAtLength(
-              path.getTotalLength() - (path.getTotalLength() / pathLength) * (dashoffset + sliceSize / 2)
-            )),
-          // return path, so it can be added to the slice <g> group
-          // again ... avoiding the use for a 'return' statement .. that is 6 Bytes man!
-          path
-        );
-        // ------------------------------------------------------------------ determine pathLength from lightDOM <slice>
-        // first slice size="N" sets pathlength for all other slices
-        if (sliceSize == sizeString) {
-          // NO % on first size="N"
-          if (!pathLength) {
-            // calculate AND set the pathlength for No Percentage pie
-            [...this.querySelectorAll("slice")].map((slice) => (pathLength += ~~slice.getAttribute("size") + gap));
-          }
-        } else {
-          pathLength = ~~this.getAttribute("size") || 100; // 100% pie
-        }
-        // size="0" or size= "" calculates % remainder
-        if (!sliceSize) (sliceSize = pathLength - dashoffset), (sizeString = sliceSize +"%");
-
-        // ------------------------------------------------------------------ create SVG slice
-        let path = createSlice(0); // path stroke positioning 0 = middle of slice
-
-        // pullPoint used to calculate pull distance in the correct direction, not drawn on SVG
-        let pullPoint = createSlice(Math.abs(~~sliceDefinition.getAttribute("pull") || pull)).point();
-        // textPoint used for <text> label position calculation, not drawn on SVG
-        let textPoint = createSlice(~~this.getAttribute("text") || 60).point();
-
-        // <g> is the slice containing <path> and <text> label
-        let group = document.createElementNS(namespace, "g");
-        let label = document.createElementNS(namespace, "text");
-        // grouppoint is middle of <path> strokeWidth draws the path
-        //! Calculate center point once! Later calls would use other parameters
-        let grouppoint = path.point(); // sliceSize is a variable in scope
-
-        // TODO: is it worth to have the path METHOD reference available for the outside world?
-        group.path = path;
-        group.create = createSlice;
-
-        // determine color
-        path.setAttribute("stroke", sliceDefinition.getAttribute("stroke") || colors.shift());
-        //! 43 Bytes for Events
-        group.onmouseout = () => ((this.g = group), this.dispatchEvent(new Event("slice")));
-        group.onmouseover = () => ((this.g = group), this.dispatchEvent(new Event("slice")));
-
-        // set extra properties on slice <g> for easy CSS selecting
-        // group.setAttribute("sw", strokeWidth);
-        // group.setAttribute("offset", dashoffset);
-        group.setAttribute("size", sizeString);
-        group.setAttribute("slice", idx + 1);
-        group.setAttribute(
-          "label",
-          (label.innerHTML = // set the svg innerHTML
-            /* if sliceBase has a label */ (sliceDefinition.innerHTML &&
-              /* then replace % */ sliceDefinition.innerHTML.replace("size", sizeString)) ||
-              /* else use: */ sizeString)
-              );
-
-        // create method .pull(T/F)
-        group.pull = (state) =>
-          group.setAttribute(
-            "transform",
-            (group.pulled = state) ? `translate(${pullPoint.x - grouppoint.x} ${pullPoint.y - grouppoint.y})` : `` //`translate(0 0)`
+            path = document.createElementNS(namespace, "path")
+          ) => (
+            path.setAttribute("stroke", __stroke),
+            path.setAttribute("stroke-width", __strokeWidth), // radius size
+            path.setAttribute("pathLength", pathLength),
+            path.setAttribute(
+              "stroke-dasharray",
+              __sliceSize + " " + (pathLength - __sliceSize)
+            ),
+            //path.setAttribute("d", `m${500 + pull / 2} ${500 + pull / 2}m0 ${-R}a1 1 0 000 ${R * 2}a1 1 0 000-${R * 2}`),
+            path.setAttribute(
+              "d",
+              //! SVG 1 1 notation are flags, can be any value, 2 2 compresses better
+              `m${500 + pull / 2} ${500 + pull / 2}m0 ${-R}a2 2 0 000 ${
+                R * 2
+              }a2 2 0 000-${R * 2}`
+            ),
+            // No fill because the path IS A FULL circle, we only see parts/slices because of the stroke-dasharray!
+            path.setAttribute("fill", "none"),
+            // stick .point method on path to get a Point position x,y later
+            // function returns the middle of the slice arc
+            // becuase the method is defined within! each slice scope all variables for that one slice can be used
+            // a 'global' method would require everything as function parameters
+            // this takes more memory (who cares about memory when the full library is 1K?)
+            // is only slower when you do over a million calls (that is 1000 pies with 1000 slices each)
+            // only Mr Creosote (see Youtube) can eat that many pies
+            (path.point = () =>
+              path.getPointAtLength(
+                path.getTotalLength() -
+                  (path.getTotalLength() / pathLength) *
+                    (slice_dashoffset + __sliceSize / 2)
+              )),
+            // return path, so it can be added to the slice <g> group
+            // again ... avoiding the use for a 'return' statement .. that is 6 Bytes man!
+            path
           );
-        // calculate dashoffset ONCE for each slice
-        path.setAttribute("stroke-dashoffset", (dashoffset += sliceSize + gap));
-        // add user defined <slice> attributes to path
-        [...sliceDefinition.attributes].map((x) => path.setAttribute(x.name, x.value));
-        // ------------------------------------------------------------------ create slice(idx) content
-        label.setAttribute("y", textPoint.y + ~~sliceDefinition.getAttribute("y"));
-        label.setAttribute("x", textPoint.x + ~~sliceDefinition.getAttribute("x"));
+          // ------------------------------------------------------------------ determine pathLength from lightDOM <slice>
+          // first slice size="N" sets pathlength for all other slices
+          if (sliceSize == sizeString) {
+            // NO % on first size="N"
+            if (!pathLength) {
+              // calculate AND set the pathlength for No Percentage pie
+              [...this.querySelectorAll("slice")].map(
+                (slice) => (pathLength += ~~slice.getAttribute("size") + gap)
+              );
+            }
+          } else {
+            pathLength = ~~this.getAttribute("size") || 100; // 100% pie
+          }
+          // size="0" or size= "" calculates % remainder
+          if (!sliceSize)
+            (sliceSize = pathLength - dashoffset),
+              (sizeString = sliceSize + "%");
 
-        // let circle = document.createElementNS(namespace, "g");
-        // circle.innerHTML = `<circle cx="${group.p.x}" cy="${group.p.y}" r="20" fill="red"/>`;
+          // ------------------------------------------------------------------ create SVG slice
+          let path = createSlice(0); // path stroke positioning 0 = middle of slice
 
-        group.append(path, label);
+          // pullPoint used to calculate pull distance in the correct direction, not drawn on SVG
+          let pullPoint = createSlice(
+            Math.abs(~~sliceDefinition.getAttribute("pull") || pull)
+          ).point();
+          // textPoint used for <text> label position calculation, not drawn on SVG
+          let textPoint = createSlice(
+            ~~this.getAttribute("text") || 60
+          ).point();
 
-        // --- add path and label to SVG, at <slice> position
-        // parentNode can be SVG or user element <g>
-        sliceDefinition.parentNode.replaceChild(group, sliceDefinition);
+          // <g> is the slice containing <path> and <text> label
+          let group = document.createElementNS(namespace, "g");
+          let label = document.createElementNS(namespace, "text");
+          // grouppoint is middle of <path> strokeWidth draws the path
+          //! Calculate center point once! Later calls would use other parameters
+          let grouppoint = path.point(); // sliceSize is a variable in scope
 
-        group.pull(sliceDefinition.hasAttribute("pull"));
-        return group;
-      }); // convert all slices
+          // TODO: is it worth to have the path METHOD reference available for the outside world?
+          group.path = path;
+          group.create = createSlice;
+
+          //! 43 Bytes for Events
+          group.onmouseout = () => (
+            (this.g = group), this.dispatchEvent(new Event("slice"))
+          );
+          group.onmouseover = () => (
+            (this.g = group), this.dispatchEvent(new Event("slice"))
+          );
+
+          // set extra properties on slice <g> for easy CSS selecting
+          // group.setAttribute("sw", strokeWidth);
+          // group.setAttribute("offset", dashoffset);
+          group.setAttribute("size", sizeString);
+          group.setAttribute("slice", idx + 1);
+          group.setAttribute(
+            "label",
+            (label.innerHTML = // set the svg innerHTML
+              /* if sliceBase has a label */ (sliceDefinition.innerHTML &&
+                /* then replace % */ sliceDefinition.innerHTML.replace(
+                  "size",
+                  sizeString
+                )) ||
+              /* else use: */ sizeString)
+          );
+
+          // create method .pull(T/F)
+          group.pull = (state) =>
+            group.setAttribute(
+              "transform",
+              (group.pulled = state)
+                ? `translate(${pullPoint.x - grouppoint.x} ${
+                    pullPoint.y - grouppoint.y
+                  })`
+                : `` //`translate(0 0)`
+            );
+          //! calculate dashoffset ONCE for each slice, I tried to parameterize to for the createSlice function
+          //! but need way more code. This means 3rd party code needs to substract the size from the offset see example
+          path.setAttribute(
+            "stroke-dashoffset",
+            (dashoffset += sliceSize + gap)
+          );
+          // add user defined <slice> attributes to path
+          [...sliceDefinition.attributes].map((x) =>
+            path.setAttribute(x.name, x.value)
+          );
+          // ------------------------------------------------------------------ create slice(idx) content
+          label.setAttribute(
+            "y",
+            textPoint.y + ~~sliceDefinition.getAttribute("y")
+          );
+          label.setAttribute(
+            "x",
+            textPoint.x + ~~sliceDefinition.getAttribute("x")
+          );
+
+          // let circle = document.createElementNS(namespace, "g");
+          // circle.innerHTML = `<circle cx="${group.p.x}" cy="${group.p.y}" r="20" fill="red"/>`;
+
+          group.append(path, label);
+
+          // --- add path and label to SVG, at <slice> position
+          // parentNode can be SVG or user element <g>
+          sliceDefinition.parentNode.replaceChild(group, sliceDefinition);
+
+          group.pull(sliceDefinition.hasAttribute("pull"));
+          return group;
+        }
+      ); // convert all slices
     } // render
   } // class
 ); // define
