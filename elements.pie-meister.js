@@ -180,11 +180,11 @@ customElements.define(
             "stroke-dashoffset",
             (dashoffset += sliceSize + gap)
           );
-          // add user defined <slice> attributes to path
+          // ------------------------------------------------------------------ add user <slice> attributes
           [...sliceDefinition.attributes].map((x) =>
             path.setAttribute(x.name, x.value)
           );
-          // ------------------------------------------------------------------ create slice(idx) content
+          // ------------------------------------------------------------------ set <text x y> position
           label.setAttribute(
             "y",
             textPoint.y + ~~sliceDefinition.getAttribute("y")
@@ -193,7 +193,7 @@ customElements.define(
             "x",
             textPoint.x + ~~sliceDefinition.getAttribute("x")
           );
-          // --- add path and label to SVG, at <slice> position
+          // ------------------------------------------------------------------ add path and label to <group>
           group.append(path, label);
           // parentNode can be SVG or user element <g>
           sliceDefinition.parentNode.replaceChild(group, sliceDefinition);
