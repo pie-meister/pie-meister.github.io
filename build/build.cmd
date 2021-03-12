@@ -38,6 +38,7 @@ set pngfile=gzip_analysis.png
 del /Q %pngfile%
 ren gzthermal-result.png %pngfile%
 
+del /q %gzipsrc%
 del /q %tersrc%
 call cfonts "%minsize% - %gzsize%" -a center -g red,green
 

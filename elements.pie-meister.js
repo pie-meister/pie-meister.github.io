@@ -25,8 +25,8 @@ customElements.define(
     // </g>
     svg(
       // ================================================================================== optional user parameters
-      colors = (this.getAttribute("stroke") || "#e24,#2a4,#fe2,#46e,#f92")
-        .split`,`, //, "#4ef", "#f2e", "#962"],
+      colors = (this.getAttribute("stroke") || "#e24,#2a4,#fe2,#46e,#f92,#4ef")
+        .split`,`, //  #f2e  #962
       pull = ~~this.getAttribute("pull"), // how far a slice can be pulled outward
       gap = ~~this.getAttribute("gap"), // gap between slices
       // ================================================================================== configuration
@@ -165,13 +165,14 @@ customElements.define(
           group.setAttribute("slice", idx + 1);
           group.setAttribute(
             "label",
-            (label.innerHTML = // set the svg innerHTML
-              /* if sliceBase has a label */ (sliceDefinition.innerHTML &&
-                /* then replace % */ sliceDefinition.innerHTML.replace(
-                  "size",
-                  sizeString
-                )) ||
-              /* else use: */ sizeString)
+            (label.innerHTML = this.querySelector("style") // set the svg innerHTML
+              ? /* if sliceBase has a label */ (sliceDefinition.innerHTML &&
+                  /* then replace % */ sliceDefinition.innerHTML.replace(
+                    "size",
+                    sizeString
+                  )) ||
+                /* else use: */ sizeString
+              : "")
           );
 
           //! calculate dashoffset ONCE for each slice, I tried to parameterize to for the createSlice function

@@ -1,4 +1,6 @@
 .ignore
 .vscode
-build
+/build
+build.cmd
+
 elements.pie-meister.min_save.js.gz
