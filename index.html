@@ -140,16 +140,24 @@
           </style>
         </pie-chart>
         <script>
-          let pies = document.getElementById("pies");
-          pies.addEventListener("slice", (evt) => {
-            let slice = evt.target.g;
-            slice.pull(!slice.pulled);
+          document.addEventListener("DOMContentLoaded", ()=>{
+            console.log('DOMContentLoaded');
+            setTimeout(() => {
+            let pies = document.querySelector("#pies");
+            console.log(21,pies);
+            pies.slices.map((slice) => {
+              console.warn('slice group:',slice);
+              console.warn('slice path:',slice.path.point());
+              console.warn('slice createSlice:',slice.create);
+            });
+            pies.addEventListener("slice", (evt) => {
+              let slice = evt.target.g;
+              slice.pull(!slice.pulled);
+            });
+            console.log(pies,pies.slices);
+          }, 0);
           });
-          //console.log(pies.shadowRoot.querySelectorAll("slice"));
-          console.log(pies);
-          pies.slices.map((s) => {
-            console.log(s);
-          });
+</script>
         </script>
       </pie-example>
       <pie-demo>
