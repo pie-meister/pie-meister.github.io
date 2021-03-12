@@ -1,6 +1,5 @@
 .ignore
 .vscode
-/build
 build.cmd
-
+terser.json
 elements.pie-meister.min_save.js.gz
