@@ -112,7 +112,7 @@ customElements.define(
         let label = document.createElementNS(namespace, "text");
 
         // TODO: is it worth to have the path METHOD reference available for the outside world?
-        //group.path = path;
+        group.path = path;
         // group.p is middle of <path> strokeWidth draws the path
         //! Calculate center point once! Later calls would use other parameters
         group.p = path.M(); // sliceSize is a variable in scope
