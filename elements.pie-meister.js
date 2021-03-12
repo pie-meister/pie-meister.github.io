@@ -1,5 +1,6 @@
 // IDE VSCode with comment highlighting for comments (green), todo (orange), warning (red)
 
+// pull on all pull graphs
 // document gap
 // document size=360 , or set fixed pathLength=100
 
@@ -133,10 +134,6 @@ customElements.define(
           // ------------------------------------------------------------------ create SVG slice
           let path = createSlice(0); // path stroke positioning 0 = middle of slice
 
-          // pullPoint used to calculate pull distance in the correct direction, not drawn on SVG
-          let pullPoint = createSlice(
-            Math.abs(~~sliceDefinition.getAttribute("pull") || pull)
-          ).point();
           // textPoint used for <text> label position calculation, not drawn on SVG
           let textPoint = createSlice(
             ~~this.getAttribute("text") || 60
@@ -177,16 +174,6 @@ customElements.define(
               /* else use: */ sizeString)
           );
 
-          // create method .pull(T/F)
-          group.pull = (state) =>
-            group.setAttribute(
-              "transform",
-              (group.pulled = state)
-                ? `translate(${pullPoint.x - grouppoint.x} ${
-                    pullPoint.y - grouppoint.y
-                  })`
-                : `` //`translate(0 0)`
-            );
           //! calculate dashoffset ONCE for each slice, I tried to parameterize to for the createSlice function
           //! but need way more code. This means 3rd party code needs to substract the size from the offset see example
           path.setAttribute(
@@ -206,16 +193,26 @@ customElements.define(
             "x",
             textPoint.x + ~~sliceDefinition.getAttribute("x")
           );
-
-          // let circle = document.createElementNS(namespace, "g");
-          // circle.innerHTML = `<circle cx="${group.p.x}" cy="${group.p.y}" r="20" fill="red"/>`;
-
-          group.append(path, label);
-
           // --- add path and label to SVG, at <slice> position
+          group.append(path, label);
           // parentNode can be SVG or user element <g>
           sliceDefinition.parentNode.replaceChild(group, sliceDefinition);
-
+          // ------------------------------------------------------------------ create method .pull(T/F)
+          group.pull = (
+            state,
+            distance = Math.abs(~~sliceDefinition.getAttribute("pull") || pull),
+            // pullPoint used to calculate pull distance in the correct direction, not drawn on SVG
+            pullPoint = createSlice(distance).point()
+          ) =>
+            group.setAttribute(
+              "transform",
+              (group.pulled = state)
+                ? `translate(${pullPoint.x - grouppoint.x} ${
+                    pullPoint.y - grouppoint.y
+                  })`
+                : `` //`translate(0 0)`
+            );
+          // ------------------------------------------------------------------ pull current slice
           group.pull(sliceDefinition.hasAttribute("pull"));
           return group;
         }

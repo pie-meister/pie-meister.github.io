@@ -45,6 +45,9 @@
         max-width: 1024px;
         margin: 0 auto;
       }
+      2columns{
+
+      }
       pie-chart {
         max-width: 49vw;
         background: var(--pie-demo-background);
@@ -507,5 +510,191 @@
     </p>
 
     </section>
+    <section>
+      <h2>Or if you do not prefer Web Components and want to use React:</h2>
+      <pre><code class="language-javascript">
+        import React from 'react';
+        import { storiesOf } from '@storybook/react';
+        import { PieChart } from '../src';
+        import FullOption from './FullOption';
+        import InteractionStory from './InteractionStory';
+        import InteractionTabStory from './InteractionTabStory';
+        import LoadingIndicatorStory from './LoadingIndicatorStory';
+        import PartialLoadingIndicatorStory from './PartialLoadingIndicatorStory';
+        import Tooltip from './Tooltip';
+        
+        const dataMock = [
+          { title: 'One', value: 10, color: '#E38627' },
+          { title: 'Two', value: 15, color: '#C13C37' },
+          { title: 'Three', value: 20, color: '#6A2135' },
+        ];
+        
+        const defaultLabelStyle = {
+          fontSize: '5px',
+          fontFamily: 'sans-serif',
+        };
+        
+        storiesOf('Pie Chart', module)
+          .add('Full option', () => &lt;FullOption data={dataMock} />)
+          .add('Default', () => &lt;PieChart data={dataMock} />)
+          .add('Custom size', () => (
+            &lt;PieChart data={dataMock} style={{ height: '100px' }} />
+          ))
+          .add('Exploded', () => {
+            const shiftSize = 7;
+            return (
+              &lt;PieChart
+                data={dataMock}
+                radius={PieChart.defaultProps.radius - shiftSize}
+                segmentsShift={(index) => (index === 0 ? shiftSize : 0.5)}
+                label={({ dataEntry }) => dataEntry.value}
+                labelStyle={{
+                  ...defaultLabelStyle,
+                }}
+              />
+            );
+          });
+        
+        storiesOf('Donut Chart', module)
+          .add("Custom arcs' width", () => &lt;PieChart data={dataMock} lineWidth={15} />)
+          .add('Rounded arcs', () => (
+            &lt;PieChart data={dataMock} lineWidth={15} rounded />
+          ))
+          .add('Padded arcs', () => (
+            &lt;PieChart data={dataMock} lineWidth={15} paddingAngle={5} />
+          ));
+        
+        storiesOf('Loading indicator', module)
+          .add('360° indicator', () => &lt;LoadingIndicatorStory />)
+          .add('270° indicator with background', () => (
+            &lt;PartialLoadingIndicatorStory />
+          ));
+        
+        storiesOf('Partial chart', module)
+          .add('180° chart', () => (
+            &lt;PieChart
+              data={dataMock}
+              startAngle={180}
+              lengthAngle={180}
+              viewBoxSize={[100, 50]}
+            />
+          ))
+          .add('90° chart', () => (
+            &lt;PieChart
+              data={dataMock}
+              center={[100, 100]}
+              startAngle={-180}
+              lengthAngle={90}
+              radius={100}
+            />
+          ))
+          .add('Missing slice', () => &lt;PieChart data={dataMock} totalValue={60} />)
+          .add('Missing slice with background', () => (
+            &lt;PieChart data={dataMock} totalValue={60} background="#bfbfbf" />
+          ));
+        
+        storiesOf('Labels', module)
+          .add('Default labels', () => (
+            &lt;PieChart
+              data={dataMock}
+              label={({ dataEntry }) => dataEntry.value}
+              labelStyle={{
+                ...defaultLabelStyle,
+              }}
+            />
+          ))
+          .add('Outer labels', () => (
+            &lt;PieChart
+              data={dataMock}
+              label={({ dataEntry }) => dataEntry.value}
+              labelStyle={(index) => ({
+                fill: dataMock[index].color,
+                fontSize: '5px',
+                fontFamily: 'sans-serif',
+              })}
+              radius={42}
+              labelPosition={112}
+            />
+          ))
+          .add('Inner labels', () => (
+            &lt;PieChart
+              data={dataMock}
+              lineWidth={20}
+              paddingAngle={18}
+              rounded
+              label={({ dataEntry }) => dataEntry.value}
+              labelStyle={(index) => ({
+                fill: dataMock[index].color,
+                fontSize: '5px',
+                fontFamily: 'sans-serif',
+              })}
+              labelPosition={60}
+            />
+          ))
+          .add('Single label', () => (
+            &lt;PieChart
+              data={[{ value: 82, color: '#E38627' }]}
+              totalValue={100}
+              lineWidth={20}
+              label={({ dataEntry }) => dataEntry.value}
+              labelStyle={{
+                fontSize: '25px',
+                fontFamily: 'sans-serif',
+                fill: '#E38627',
+              }}
+              labelPosition={0}
+            />
+          ))
+          .add('Percentage', () => (
+            &lt;PieChart
+              data={dataMock}
+              label={({ dataEntry }) => Math.round(dataEntry.percentage) + '%'}
+              labelStyle={defaultLabelStyle}
+            />
+          ));
+        
+        storiesOf('Animation', module)
+          .add('On mount clockwise', () => &lt;PieChart data={dataMock} animate />)
+          .add('On mount counterclockwise', () => (
+            &lt;PieChart data={dataMock} lengthAngle={-360} animate />
+          ));
+        
+        storiesOf('Interaction', module)
+          .addParameters({ options: { showPanel: true, panelPosition: 'bottom' } })
+          .add('click, mouseOver, mouseOut callbacks', () => (
+            &lt;InteractionStory data={dataMock} />
+          ))
+          .add('Tab + Enter key press', () => &lt;InteractionTabStory data={dataMock} />);
+        
+        storiesOf('Misc', module)
+          .add('Single gradient', () => (
+            &lt;PieChart
+              data={[{ value: 10, color: 'url(#gradient1)' }]}
+              startAngle={-180}
+              lengthAngle={180}
+              lineWidth={20}
+              viewBoxSize={[100, 50]}
+            >
+              &lt;defs>
+                &lt;linearGradient id="gradient1">
+                  &lt;stop offset="0%" stopColor="#4CAF50" />
+                  &lt;stop offset="45%" stopColor="#ffb961" />
+                  &lt;stop offset="55%" stopColor="#ffb961" />
+                  &lt;stop offset="100%" stopColor="#C13C37" />
+                &lt;/linearGradient>
+              &lt;/defs>
+            &lt;/PieChart>
+          ))
+          .add('Squared pie', () => (
+            &lt;PieChart
+              data={dataMock}
+              label={({ dataEntry }) => dataEntry.value}
+              labelStyle={defaultLabelStyle}
+              radius={75}
+            />
+          ))
+          .add('Tooltip integration', () => &lt;Tooltip data={dataMock} />);</code></pre>
+    </section>
+
   </body>
 </html>

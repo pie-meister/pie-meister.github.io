@@ -78,7 +78,7 @@ customElements.define(
   class extends HTMLElement {
     connectedCallback() {
       fetch(this.getAttribute("src")).then(
-        (res) => (this.innerHTML = " " + res.headers.get("content-length") + " Bytes")
+        (res) => (this.innerHTML = " " + res.headers.get("content-length") + "&nbsp;Bytes")
       );
     }
   }
