@@ -27,7 +27,7 @@ customElements.define(
     svg(
       root,
       // ================================================================================== optional user parameters
-      colors = (this.getAttribute("stroke") || "#e24,#2a4,#f92,#46e,#fe2,#4ef")
+      colors = (this.getAttribute("stroke") || "#e24,#2a4,#fe2,#46e,#f62,#4ee")
         .split`,`, //  #f2e  #962
       pull = ~~this.getAttribute("pull"), // how far a slice can be pulled outward
       gap = ~~this.getAttribute("gap"), // gap between slices
