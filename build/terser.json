@@ -1,0 +1,57 @@
+{
+    "toplevel": true,
+    "compress": {
+      "warnings": true,
+      "unsafe": false,
+      "drop_console": true,
+      "drop_debugger": true,
+      "toplevel": true,
+      "dead_code": true,
+      "unused": true,
+      "passes": 1,
+      "hoist_funs": true,
+      "hoist_props": false,
+      "ecma": 2017,
+      "sequences": false,
+      "properties": true,
+      "conditionals": true,
+      "comparisons": true,
+      "booleans": true,
+      "evaluate": true,
+      "loops": true,
+      "if_return": true,
+      "join_vars": true,
+      "collapse_vars": true,
+      "keep_fargs": true
+    },
+    "mangle": {
+      "properties": false,
+      "reserved": [
+        "customElements",
+        "define",
+        "observedAttributes",
+        "attributeChangedCallback",
+        "connectedCallback",
+        "isConnected",
+        "disconnectedCallback",
+        "adoptedCallback"
+      ]
+    },
+    "timings": false,
+    "nameCache": {
+      "vars": {
+        "props": {
+          "document": "pings2"
+        }
+      }
+    },
+    "output": {
+      "comments": false,
+      "beautify": false,
+      "keep_quoted_props": false,
+      "preamble": "",
+      "width": 10
+    },
+    "sourceMap": false
+  }
+  

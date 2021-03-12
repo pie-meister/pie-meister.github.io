@@ -72,7 +72,8 @@ customElements.define(
           path.setAttribute("pathLength", pathLength),
           path.setAttribute("stroke-width", strokeWidth), // radius size
           path.setAttribute("stroke-dasharray", sliceSize + " " + (pathLength - sliceSize)),
-          path.setAttribute("d", `m${500 + pull / 2} ${500 + pull / 2}m0 ${-R}a1 1 0 000 ${R * 2}a1 1 0 000-${R * 2}`),
+          //path.setAttribute("d", `m${500 + pull / 2} ${500 + pull / 2}m0 ${-R}a1 1 0 000 ${R * 2}a1 1 0 000-${R * 2}`),
+          path.setAttribute("d", `m${500 + pull / 2} ${500 + pull / 2}m0 ${-R}a2 2 0 000 ${R * 2}a2 2 0 000-${R * 2}`),
           // No fill because the path IS A FULL circle, we only see parts/slices because of the stroke-dasharray!
           path.setAttribute("fill", "none"),
           // stick .point method on path to get a Point position x,y later
