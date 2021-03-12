@@ -78,12 +78,12 @@ customElements.define(
 
           path = document.createElementNS(namespace, "path")
         ) => (
-          path.setAttribute("d", `m${500 + pull / 2} ${500 + pull / 2}m0 ${-R}a1 1 0 000 ${R * 2}a1 1 0 000-${R * 2}`),
-          path.setAttribute("pathLength", pathLength),
-          // No fill because the path IS A FULL circle, we only see parts/slices because of the stroke-dasharray!
-          path.setAttribute("fill", "none"),
           path.setAttribute("stroke-width", strokeWidth), // radius size
           path.setAttribute("stroke-dasharray", sliceSize + " " + (pathLength - sliceSize)),
+          path.setAttribute("pathLength", pathLength),
+          path.setAttribute("d", `m${500 + pull / 2} ${500 + pull / 2}m0 ${-R}a1 1 0 000 ${R * 2}a1 1 0 000-${R * 2}`),
+          // No fill because the path IS A FULL circle, we only see parts/slices because of the stroke-dasharray!
+          path.setAttribute("fill", "none"),
           // stick .M method on path to get a Point position x,y later
           // function returns the middle of the slice arc
           // becuase the method is defined within! each slice scope all variables for that one slice can be used
@@ -120,8 +120,8 @@ customElements.define(
         // determine color
         path.setAttribute("stroke", sliceDefinition.getAttribute("stroke") || colors.shift());
         //! 43 Bytes for Events
-        group.onmouseover = () => ((this.g = group), this.dispatchEvent(new Event("slice")));
         group.onmouseout = () => ((this.g = group), this.dispatchEvent(new Event("slice")));
+        group.onmouseover = () => ((this.g = group), this.dispatchEvent(new Event("slice")));
 
         // set extra properties on slice <g> for easy CSS selecting
         // group.setAttribute("sw", strokeWidth);
@@ -133,8 +133,8 @@ customElements.define(
           (label.innerHTML = // set the svg innerHTML
             /* if sliceBase has a label */ (sliceDefinition.innerHTML &&
               /* then replace % */ sliceDefinition.innerHTML.replace("size", sizeString)) ||
-            /* else use: */ sizeString)
-        );
+              /* else use: */ sizeString)
+              );
 
         // create method .pull(T/F)
         group.pull = (state) =>
@@ -147,8 +147,8 @@ customElements.define(
         // add user defined <slice> attributes to path
         [...sliceDefinition.attributes].map((x) => path.setAttribute(x.name, x.value));
         // ------------------------------------------------------------------ create slice(idx) content
-        label.setAttribute("x", textPoint.x + ~~sliceDefinition.getAttribute("x"));
         label.setAttribute("y", textPoint.y + ~~sliceDefinition.getAttribute("y"));
+        label.setAttribute("x", textPoint.x + ~~sliceDefinition.getAttribute("x"));
 
         // let circle = document.createElementNS(namespace, "g");
         // circle.innerHTML = `<circle cx="${group.p.x}" cy="${group.p.y}" r="20" fill="red"/>`;
