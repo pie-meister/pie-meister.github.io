@@ -62,7 +62,7 @@ customElements.define(
           pathLength = ~~this.getAttribute("size") || 100; // 100% pie
         }
         // size="0" or size= "" calculates % remainder
-        if (!sliceSize) (sliceSize = 100 - dashoffset), (sizeString = sliceSize +"%");
+        if (!sliceSize) (sliceSize = pathLength - dashoffset), (sizeString = sliceSize +"%");
 
         // ================================================================================== createPath
         this.slice = (
