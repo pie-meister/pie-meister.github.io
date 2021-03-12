@@ -126,8 +126,8 @@ customElements.define(
         // set extra properties on slice <g> for easy CSS selecting
         // group.setAttribute("sw", strokeWidth);
         // group.setAttribute("offset", dashoffset);
-        group.setAttribute("slice", idx + 1);
         group.setAttribute("size", sizeString);
+        group.setAttribute("slice", idx + 1);
         group.setAttribute(
           "label",
           (label.innerHTML = // set the svg innerHTML
