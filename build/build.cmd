@@ -34,7 +34,9 @@ rem set filesize to variable gzsize
 FOR /F "usebackq" %%A IN ('%gzipsrc%') DO set gzsize=%%~zA
 
 call gzthermal.exe %gzipsrc%
-ren gzthermal-result.png
+set pngfile=gzip_analysis.png
+del /Q %pngfile%
+ren gzthermal-result.png %pngfile%
 
 del /q %tersrc%
 call cfonts "%minsize% - %gzsize%" -a center -g red,green
