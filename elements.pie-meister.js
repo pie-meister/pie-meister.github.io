@@ -41,8 +41,7 @@ customElements.define(
         this.id
       } xmlns=${namespace} viewBox="0 0 ${1000 + pull} ${1000 + pull}">${this.innerHTML}</svg>`;
       // ================================================================================== convert <slice>s to paths
-      //this.slices =
-      [...this.shadowRoot.querySelectorAll("slice")].map((sliceDefinition, idx) => {
+      this.slices = [...this.shadowRoot.querySelectorAll("slice")].map((sliceDefinition, idx) => {
         let sizeString = sliceDefinition.getAttribute("size");
         let sliceSize = ~~sizeString.replace("%", ""); // remove % to create an Integer value
         // strokeWidth = slice radius size from SVG centerpoint (500,500)
@@ -50,22 +49,8 @@ customElements.define(
           ~~sliceDefinition.getAttribute("stroke-width") || // <slice stroke width=X>
           ~~this.getAttribute("stroke-width") || // <pie-chart stroke width=X>
           500 + pull / 2 - pull; // default Center + HALF pull margin - the pulled slice distance
-        // ------------------------------------------------------------------ determine pathLength from lightDOM <slice>
-        // first slice size="N" sets pathlength for all other slices
-        if (sliceSize == sizeString) {
-          // NO % on first size="N"
-          if (!pathLength) {
-            // calculate AND set the pathlength for No Percentage pie
-            [...this.querySelectorAll("slice")].map((slice) => (pathLength += ~~slice.getAttribute("size") + gap));
-          }
-        } else {
-          pathLength = ~~this.getAttribute("size") || 100; // 100% pie
-        }
-        // size="0" or size= "" calculates % remainder
-        if (!sliceSize) (sliceSize = pathLength - dashoffset), (sizeString = sliceSize +"%");
-
         // ================================================================================== createPath
-        this.slice = (
+        let createSlice = (
           // user parameter
           extraRadius, // 0 = slice middle point
 
@@ -99,13 +84,27 @@ customElements.define(
           // again ... avoiding the use for a 'return' statement .. that is 6 Bytes man!
           path
         );
+        // ------------------------------------------------------------------ determine pathLength from lightDOM <slice>
+        // first slice size="N" sets pathlength for all other slices
+        if (sliceSize == sizeString) {
+          // NO % on first size="N"
+          if (!pathLength) {
+            // calculate AND set the pathlength for No Percentage pie
+            [...this.querySelectorAll("slice")].map((slice) => (pathLength += ~~slice.getAttribute("size") + gap));
+          }
+        } else {
+          pathLength = ~~this.getAttribute("size") || 100; // 100% pie
+        }
+        // size="0" or size= "" calculates % remainder
+        if (!sliceSize) (sliceSize = pathLength - dashoffset), (sizeString = sliceSize +"%");
+
         // ------------------------------------------------------------------ create SVG slice
-        let path = this.slice(0); // path stroke positioning 0 = middle of slice
+        let path = createSlice(0); // path stroke positioning 0 = middle of slice
 
         // pullPoint used to calculate pull distance in the correct direction, not drawn on SVG
-        let pullPoint = this.slice(Math.abs(~~sliceDefinition.getAttribute("pull") || pull)).M();
+        let pullPoint = createSlice(Math.abs(~~sliceDefinition.getAttribute("pull") || pull)).M();
         // textPoint used for <text> label position calculation, not drawn on SVG
-        let textPoint = this.slice(~~this.getAttribute("text") || 60).M();
+        let textPoint = createSlice(~~this.getAttribute("text") || 60).M();
 
         // <g> is the slice containing <path> and <text> label
         let group = document.createElementNS(namespace, "g");
@@ -160,7 +159,7 @@ customElements.define(
         sliceDefinition.parentNode.replaceChild(group, sliceDefinition);
 
         group.pull(sliceDefinition.hasAttribute("pull"));
-        // return group;
+        return group;
       }); // convert all slices
     } // render
   } // class
