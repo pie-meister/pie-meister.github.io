@@ -154,8 +154,14 @@ customElements.define(
         {
           name: "<meister-name></meister-name>",
           uri: "https://pie-meister.github.io",
-          size: "<content-length src='elements.pie-meister.min.js'></content-length>",
+          size: "<content-length src='https://qomponents.github.io/class/PieMeister.js'></content-length>",
           comment:`<a href="https://github.com/pie-meister/pie-meister.github.io">available on GitHub</a>`
+        },
+        {
+          name: "<meister-name></meister-name>",
+          uri: "https://pie-meister.github.io",
+          size: "<content-length src='https://raw.githubusercontent.com/qomponents/qomponents.github.io/master/class/PieMeister.js'></content-length>",
+          comment:`minified`
         },
       ].map((c) => `<tr><td><a href="${c.uri}">${c.name}</a></td><td align=right>${c.size}</td><td>${c.comment||""}</td></tr>`).join``;
       this.innerHTML =

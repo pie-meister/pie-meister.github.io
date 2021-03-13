@@ -5,7 +5,7 @@ pwd
 
 rem git remote add origin https://github.com/iconmeister/iconmeister.github.io.git
 
-set file=elements.pie-meister
+set file=PieMeister
 set fullsrc=%file%.js
 set minsrc=%file%.min.js
 set tersrc=%file%.min_save.js

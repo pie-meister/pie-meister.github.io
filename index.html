@@ -2,7 +2,11 @@
   <head>
     <script src="./demo_assets/prism.js"></script>
     <link rel="stylesheet" href="./demo_assets/prism.css" data-noprefix />
-    <script src="elements.pie-meister.js"></script>
+    <script type="module">
+      //import PieMeister from 'https://qomponents.github.io/class/PieMeister.js';
+      import PieMeister from './PieMeister.js';
+      customElements.define('pie-chart',PieMeister);
+    </script>
     <script src="./demo_assets/elements.pie-meister.site-elements.js"></script>
     <template id="PIE-DEMO">
       <style>
