@@ -3,9 +3,10 @@
     <script src="./demo_assets/prism.js"></script>
     <link rel="stylesheet" href="./demo_assets/prism.css" data-noprefix />
     <script type="module">
-      //import PieMeister from 'https://qomponents.github.io/class/PieMeister.js';
-      import PieMeister from './PieMeister.js';
-      customElements.define('pie-chart',PieMeister);
+      import PieMeister1 from "https://qomponents.github.io/class/PieMeister.min.js";
+      import PieMeister2 from "./PieMeister.min.js";
+      import PieMeister3 from "./PieMeister.js";
+      customElements.define("pie-chart", PieMeister1);
     </script>
     <script src="./demo_assets/elements.pie-meister.site-elements.js"></script>
     <template id="PIE-DEMO">
@@ -46,11 +47,8 @@
         --pie-demo-background: lightgrey;
         font-family: Arial;
         font-size: 14px;
-        max-width: 1024px;
+        max-width: 1100px;
         margin: 0 auto;
-      }
-      2columns{
-
       }
       pie-chart {
         max-width: 49vw;
@@ -59,9 +57,6 @@
         width: 100%;
         object-fit: contain;
         --dropsize: 2px;
-      }
-      section {
-        xbackground: beige;
       }
       .pi {
         font-size: 1.2em;
@@ -83,8 +78,8 @@
         padding: 1em;
       }
       header {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
+        /* display: grid;
+        grid-template-columns: 1fr 1fr; */
         font-size: 1.5em;
       }
       header img {
@@ -94,43 +89,64 @@
         padding: 0 1em;
       }
       :not(:defined) {
-        opacity:0;
+        opacity: 0;
       }
       table content-length {
         padding-left: 3em;
+      }
+      #about {
+        font-size: 1.5em;
       }
     </style>
   </head>
   <body>
     <section>
       <header>
-        <img src="./demo_assets/pi-day-logo.jpg" />
         <div>
-          <b style="color:firebrick">Work in progress.. getting ready for 3.14 launch, please contact danny@engelman.nl for questions and suggestions</b>
           <h1><meister-name></meister-name></h1>
           <p>
-            My <a href="https://en.wikipedia.org/wiki/TRS-80">first computer</a> learned me to program in Z80 Assembly Language and 4 kB memory.</p><p>I tried to create a &lt;pie-chart> Web Component in a maximum of <b>3.14</b> kB... and failed
+            Pi-Day was approaching; how appropriate to create a pie-chart Web
+            Component
           </p>
+          <p>The internet had plenty of inspiration how not to do it.</p>
+          <p>
+            You have to understand, I once fell in love with HTML, and modern
+            Web Components have rekindled that love for semantic HTML.
+          </p>
+
           <chart-libraries-table></chart-libraries-table>
         </div>
       </header>
     </section>
-    <section></section>
     <section>
-      <h2>Usage:</h2>
+      <h2>Load <meister-name></meister-name></h2>
+      No vendor lock. You can extend and built a Web Component with PieMeister
+      as Base-Class. And Provide your own Custom Element name.
+      <pre class="language-html"><code >
+      &lt;script type="module">
+        import PieMeisterClass from 'https://qomponents.github.io/class/PieMeister.min.js';
+        customElements.define( 'pie-chart' , PieMeisterClass );
+      &lt;/script>
+    </code></pre>
+    </section>
+
+    <section>
+      <h2>Then ALL HTML required is:</h2>
       <pie-example>
-        <pie-chart id="pies" pull="50">
-          <slice size="20%" stroke="#6c3">Apple size</slice>
+        <pie-chart id="pies" pulltext="100" pull="50">
+          <slice size="20%" stroke="#66cc33">Apple size</slice>
           <slice size="18%" stroke="#fc5a8d">Strawberry size</slice>
           <slice size="16%" stroke="#ff7518">Pumpkin size</slice>
           <slice size="10%" stroke="#790604">Cherry‍‍ size</slice>
           <slice size="5%" stroke="#4f86f7">Blueberry size</slice>
-          <slice size="5%" stroke="#fff44f" x="-90" y="30" pull>Lemon size</slice>
+          <slice size="5%" stroke="#fff44f" pulltext="120" pull>
+            Lemon size</slice
+          >
           <slice size="5%" stroke="#d2691e">Chocolate size</slice>
-          <slice size="0" stroke="lightgrey">Other size</slice>
+          <slice size stroke="lightgrey">Other size</slice>
           <style>
-            #pies{
-              background:grey;
+            svg {
+              background: grey;
             }
             [slice] {
               cursor: pointer;
@@ -140,46 +156,17 @@
               text-anchor: middle;
               fill: blue;
             }
-            [label*="Other"] text,
             [label*="Lemon"] text {
-              fill:black;
+              fill: darkgoldenrod;
+              font-size: 1.5em;
+              font-weight: bold;
             }
           </style>
         </pie-chart>
-        <script>
-          document.addEventListener("DOMContentLoaded", ()=>{
-            console.log('DOMContentLoaded');
-            setTimeout(() => {
-            let pies = document.querySelector("#pies");
-            pies.slices.map((slice,idx) => {
-              let svg = slice.parentNode;
-              if(idx==1){
-                console.warn('slice group:',slice);
-                console.warn('slice size:',slice.getAttribute("size"));
-                console.warn('slice path:',slice.path);
-                let pt1 = slice.path.point();
-                console.warn('slice path.point():',);
-                console.warn('slice createSlice:',slice.create);
-                let R= 0; // middleradius
-                let newpath = slice.create(0);
-                //newpath.setAttribute("stroke-width",5);
-                //newpath.setAttribute("stroke-dashoffset",38);
-                newpath.setAttribute("stroke","red");
-                console.error(newpath);
-                //newpath.setAttribute("fill","red");
-                //svg.append(newpath);
-              }
-            });
-            pies.addEventListener("slice", (evt) => {
-              let slice = evt.target.g;
-              slice.pull(!slice.pulled);
-            });
-            console.log(pies,pies.slices);
-          }, 0);
-          });
-</script>
-        </script>
       </pie-example>
+    </section>
+    <section>
+      <h2><meister-name></meister-name> - documentation</h2>
       <pie-demo>
         <pie-chart id="pie1">
           <slice size="10"></slice>
@@ -188,8 +175,12 @@
           <slice size="10"></slice>
           <slice size="20"></slice>
           <slice size="40"></slice>
+          <slice size="10"></slice>
         </pie-chart>
-        <pie-description>Minimal HTML to hap<i class="pi">pi</i>ness</pie-description>
+        <pie-description
+          >Minimal HTML to hap<i class="pi">pi</i>ness.
+          <p>Get 6 colors free</p></pie-description
+        >
       </pie-demo>
       <pie-demo>
         <pie-chart>
@@ -198,16 +189,19 @@
           <slice size="40"></slice>
         </pie-chart>
         <pie-description
-          >Mark the <b>first</b> slice as a percentage <attr-setting>size="10%"</attr-setting> to create a 100 percent
+          >Mark the <b>first</b> slice as a percentage
+          <attr-setting>size="10%"</attr-setting> to create a 100 percent
           pie</pie-description
         >
       </pie-demo>
       <pie-demo>
         <pie-description
-          >Specify the distance with <attr-setting>pull="200"</attr-setting> and which slice to pull<br /><br />The SVG has a default 1000 x 1000 units viewBox<br><attr-setting>pull="200"</attr-setting> creates a 1200x1200 viewBox so pulled slices are not cut
-          off</pie-description
+          >Specify the distance with <attr-setting>pull="200"</attr-setting> and
+          which slice to pull<br /><br />The SVG has a default 1000 x 1000 units
+          viewBox<br /><attr-setting>pull="100"</attr-setting> creates a
+          1100x1100 viewBox so pulled slices are not cut off</pie-description
         >
-        <pie-chart pull="200">
+        <pie-chart pull="100">
           <slice size="10" pull></slice>
           <slice size="20"></slice>
           <slice size="40"></slice>
@@ -215,10 +209,9 @@
       </pie-demo>
       <pie-demo>
         <pie-description
-          >Format a single pie with <b>inline</b> CSS (styling SVG elements)<br /><br />By default labels are positioned
-          60 SVG units <b>outward</b> from the slice center point<br />
-          <p hidden>Labels are only shown when a
-          <attr-setting>&lt;style></attr-setting> is defined</p></pie-description
+          >Add a &lt;style> tag to activate labels. <br /><br />If a custom
+          label is declared, the word 'size' is replaced. <br /><br />
+          An empty slice auto-completes a <b>percentage pie</b></pie-description
         >
         <pie-chart>
           <style>
@@ -228,16 +221,57 @@
             }
           </style>
           <slice size="10%"></slice>
-          <slice size="20%"></slice>
-          <slice size="40%"></slice>
+          <slice size="20%">Green!</slice>
+          <slice size="40%">size Blue!</slice>
+          <slice size=""></slice>
         </pie-chart>
       </pie-demo>
       <pie-demo>
         <pie-description
-          >Add any SVG you want<br /><br />And I almost forgot; <br><attr-setting>&lt;slice size="0"></slice></attr-setting> autocompletes to a
-          full 100% pie</pie-description
+          >Similar concept to <attr-setting>pull</attr-setting> <br /><br />
+          <b>labels</b> can be pulled with
+          <attr-setting>pulltext=</attr-setting> in or outward from the slice
+          middle point</pie-description
         >
-        <pie-chart pull="30">
+        <pie-chart pulltext="120">
+          <style>
+            text {
+              font-size: 5em;
+              text-anchor: middle;
+            }
+          </style>
+          <slice size="10%"></slice>
+          <slice size="20%"></slice>
+          <slice size="40%" pulltext="-150"></slice>
+          <slice size=""></slice>
+        </pie-chart>
+      </pie-demo>
+      <pie-demo>
+        <pie-description
+          >Format a single slice <br /><br />
+          See F12 console: There are plenty of extra attributes available to
+          play with
+        </pie-description>
+        <pie-chart>
+          <style>
+            text {
+              font-size: 5em;
+              text-anchor: middle;
+            }
+            [slice="4"] {
+              font-size: 1.5em;
+              fill: red;
+            }
+          </style>
+          <slice size="10%"></slice>
+          <slice size="20%"></slice>
+          <slice size="40%"></slice>
+          <slice size=""></slice>
+        </pie-chart>
+      </pie-demo>
+      <pie-demo>
+        <pie-description>Add any SVG you want<br /><br /></pie-description>
+        <pie-chart pull="30" pulltext="100">
           <circle r="505" cx="50%" cy="50%" fill="green"></circle>
 
           <slice size="10%"></slice>
@@ -245,7 +279,7 @@
           <slice size="40%"></slice>
 
           <circle r="100" cx="50%" cy="50%" fill="darkgreen"></circle>
-          
+
           <slice size="0" stroke="grey">size to go!</slice>
 
           <text id="title" x="50%" y="50%" fill="white">Pie Meister</text>
@@ -262,8 +296,8 @@
       </pie-demo>
       <pie-demo>
         <pie-description
-          >Set the <attr-setting>(default) stroke-width="500"</attr-setting> to a <b>lower</b>
-          value to create a Donut chart</pie-description
+          >Set the <attr-setting>(default) stroke-width="500"</attr-setting> to
+          a <b>lower</b> value to create a Donut chart</pie-description
         >
         <pie-chart stroke-width="200">
           <slice size="10"></slice>
@@ -274,41 +308,35 @@
       </pie-demo>
       <pie-demo>
         <pie-description
-          >A negative pull value <attr-setting>pull="-85"</attr-setting>makes the viewBox <b>smaller</b>, removing
-          (unwanted) padding. <br /><br />The slice is <b>not</b> pulled inward</pie-description
+          >A negative pull value <attr-setting>pull="-85"</attr-setting>makes
+          the viewBox <b>smaller</b>, removing (unwanted) padding.
+          <br /><br />The
+          <attr-setting>&lt;slice size="20" pull></attr-setting> is
+          <b>still</b> pulled outward</pie-description
         >
         <pie-chart stroke-width="200" pull="-85">
           <slice size="10"></slice>
           <slice size="20" pull></slice>
-          <slice size="40"></slice>
-          <slice size="40"></slice>
-        </pie-chart>
-      </pie-demo>
-      <pie-demo>
-        <pie-description
-          >The <attr-setting>text="160"</attr-setting> setting adds or subtracts an extra radius distance value,
-          positioning the label.<br /><br />And you can add extra x and y <b>offset</b> settings on a
-          slice</pie-description
-        >
-        <pie-chart stroke-width="200" pull="-25" text="160">
+
           <style>
             text {
               font-size: 4em;
               text-anchor: middle;
             }
           </style>
-          <slice size="10"></slice>
-          <slice size="20" pull></slice>
-          <slice size="40" x="-100" y="50">Label yellow slice</slice>
+
+          <slice size="40"></slice>
           <slice size="40"></slice>
         </pie-chart>
       </pie-demo>
       <pie-demo>
         <pie-description
-          >Slices can have different <attr-setting>pull</attr-setting> and <attr-setting>stroke-width</attr-setting> values.<br /><br />If you know SVG: all slice attributes will
-          be copied to the SVG &lt;path></pie-description
+          >Slices can have different <attr-setting>pull</attr-setting> and
+          <attr-setting>stroke-width</attr-setting> values.<br /><br />If you
+          know SVG: all slice attributes will be copied to the SVG
+          &lt;path></pie-description
         >
-        <pie-chart stroke-width="200" pull="-140">
+        <pie-chart id="sw" stroke-width="200" pull="-140">
           <style>
             text {
               font-size: 4em;
@@ -323,9 +351,12 @@
       </pie-demo>
       <pie-demo>
         <pie-description
-        ><attr-setting>fill="stroke-width"</attr-setting> on the &lt;pie-chart> makes the <attr-setting>stroke-width</attr-setting> <b>start</b> from the Pie Chart <b>center</b> creating a Polar chart</pie-description
+          ><attr-setting>fill="stroke-width"</attr-setting> on the
+          &lt;pie-chart> makes the <attr-setting>stroke-width</attr-setting>
+          <b>start</b> from the Pie Chart <b>center</b> creating a Polar
+          chart</pie-description
         >
-        <pie-chart fill="stroke-width" pull="50">
+        <pie-chart fill="stroke-width" pull="50" pulltext="90">
           <style>
             text {
               font-size: 4em;
@@ -336,13 +367,41 @@
           <slice size="1" stroke-width="200">200</slice>
           <slice size="1" stroke-width="300">300</slice>
           <slice size="1" stroke-width="400">400</slice>
-          <slice size="1">default 500</slice>
+          <slice size="1">500 default</slice>
         </pie-chart>
       </pie-demo>
       <pie-demo>
         <pie-description
-          >Don't like the 6 default colors? Specify an array of colors: <attr-setting>stroke="blue,red,green"</attr-setting><br><br>And/or color a slice <attr-setting>stroke="gold"</attr-setting>.<br /><br />Note how the
-          slice <attr-setting>stroke="gold"</attr-setting> 'saves' using a color from the <attr-setting>stroke</attr-setting> array</pie-description
+          ><attr-setting>fill="stroke-width"</attr-setting> on the
+          &lt;pie-chart> makes the <attr-setting>stroke-width</attr-setting>
+          <b>start</b> from the Pie Chart <b>center</b> creating a Polar
+          chart</pie-description
+        >
+        <pie-chart fill="stroke-width" pull="50" pulltext="90">
+          <style>
+            text {
+              font-size: 4em;
+              text-anchor: middle;
+            }
+          </style>
+          <slice size="4" stroke-width="300">300</slice>
+          <slice size="1" stroke-width="200">200</slice>
+          <slice size="1" stroke-width="300">300</slice>
+          <slice size="1" stroke-width="400">400</slice>
+          <slice size="1">
+            <tspan x="50">size</tspan>
+            <tspan x="100" y="100">line2</tspan></slice
+          >
+        </pie-chart>
+      </pie-demo>
+      <pie-demo>
+        <pie-description
+          >Don't like the 6 default colors? Specify an array of colors:
+          <attr-setting>stroke="blue,red,green"</attr-setting><br /><br />And/or
+          color a slice <attr-setting>stroke="gold"</attr-setting>.
+          <br /><br />The slice
+          <attr-setting>stroke="gold"</attr-setting> 'saves' using a color from
+          the <attr-setting>stroke</attr-setting> array</pie-description
         >
         <pie-chart pull="100" stroke="blue,red,green">
           <slice size="10" pull></slice>
@@ -354,7 +413,9 @@
     </section>
     <section>
       <h2><meister-name></meister-name> - interacting with a pie</h2>
-      <p>Pie slices emit mouseenter & mouseout Events to the pie-chart Element</p>
+      <p>
+        Pie slices emit mouseenter & mouseout Events to the pie-chart Element
+      </p>
       <pre><code class="language-javascript">
           pullpie.addEventListener("slice", (evt) => {
             let slice = evt.target.g; // SVG &lt;g> element with slice &lt;path> and &lt;text> label
@@ -365,7 +426,7 @@
         <pie-description></pie-description>
         <pie-chart id="pullpie" pull="100">
           <slice size="10" pull></slice>
-          <slice size="40" ></slice>
+          <slice size="40"></slice>
           <slice size="20" pull></slice>
           <slice size="40"></slice>
 
@@ -380,10 +441,8 @@
     </section>
     <section>
       <h2><meister-name></meister-name> - A<i>PI</i></h2>
-      <p></p>
-      <pie-demo>
+      <!-- <pie-demo>
         <pie-description>
-
           <pre><code class="language-javascript">
             api.addEventListener("slice", (evt) => {
               let slice = evt.target.g; // SVG &lt;g> element
@@ -396,33 +455,43 @@
               slice.append("21")
             });
         </code></pre>
-  
-
-        </pie-description>
+          </pie-description>
         <pie-chart id="api">
           <slice size="30"></slice>
           <slice size="20"></slice>
           <slice size="30"></slice>
         </pie-chart>
-      </pie-demo>
-      <script>
-        pullpie.addEventListener("slice", (evt) => {
-          let slice = evt.target.g;
-          slice.pull(!slice.pulled);
-        });
-      </script>
+      </pie-demo> -->
     </section>
     <section>
-      <h2><meister-name></meister-name> - restrictions</h2>
+      <h2><meister-name></meister-name> - Todo</h2>
       <ul>
+        <li>Fix .createSlice</li>
+        <li>document size=360 , or set fixed pathLength=100</li>
+        <li>Document SVG &lt;tspan></li>
+        <li>Document gap</li>
+        <li>Document slice.point( x , y , z)</li>
+      </ul>
+    </section>
+    <section>
+      <h2><meister-name></meister-name> - Notes</h2>
+      <ul>
+        <li>&<lt;circle /> self-closing tags do not work</li>
         <li>
-          A &lt;slice> is converted to a SVG &lt;path> which can <b>not</b> contain HTML<br />
-          <pre>&lt;slize size="10">&lt;span> HTML here breaks the SVG &lt;/span>&lt;/slice></pre>
+          A &lt;slice> is converted to a SVG &lt;path> which can
+          <b>not</b> contain HTML<br />
+          <pre>
+&lt;slize size="10">&lt;span> HTML here breaks the SVG &lt;/span>&lt;/slice></pre
+          >
         </li>
         <li>
-          The word <b>'size'</b> in a <b>label</b> is replaced with the <attr-setting>slice size</attr-setting><br>
-          To prevent replacing regular words with the string 'size', add the (no space width) WordJoiner unicode character <attr-setting>&amp;#8288;</attr-setting> <br>so the replace code never finds the word 'size';
-            <pre class="language-html"><code>
+          The word <b>'size'</b> in a <b>label</b> is replaced with the
+          <attr-setting>slice size</attr-setting><br />
+          To prevent replacing regular words with the string 'size', add the (no
+          space width) WordJoiner unicode character
+          <attr-setting>&amp;#8288;</attr-setting> <br />so the replace code
+          never finds the word 'size';
+          <pre class="language-html"><code>
               &lt;pie-chart>
                 &lt;slice size="20%">Big si&amp;#8288;zed Apple (size)&lt;/slice>  &lt;!-- Big sized Apple (20%) -->
                 &lt;slice size="15%">Small si&amp;#8288;zed Apple (size)&lt;/slice> &lt;!-- Small sized Apple (15%) -->
@@ -432,17 +501,32 @@
       </ul>
     </section>
     <section hidden>
-      <pie-chart id="rounded" pull="-50" xgap="2" stroke-width="200" xstroke-linecap="round" stroke="red">
+      <pie-chart
+        id="rounded"
+        pull="-50"
+        xgap="2"
+        stroke-width="200"
+        xstroke-linecap="round"
+        stroke="red"
+      >
         <defs>
           <filter id="round">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur"></feGaussianBlur>
+            <feGaussianBlur
+              in="SourceGraphic"
+              stdDeviation="1.5"
+              result="blur"
+            ></feGaussianBlur>
             <feColorMatrix
               in="blur"
               mode="matrix"
               values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9"
               result="blurred"
             ></feColorMatrix>
-            <feComposite in="SourceGraphic" in2="blurred" operator="atop"></feComposite>
+            <feComposite
+              in="SourceGraphic"
+              in2="blurred"
+              operator="atop"
+            ></feComposite>
           </filter>
         </defs>
         <slice size="45" stroke="blue"></slice>
@@ -453,17 +537,97 @@
         <!-- <circle r="30" cx="50%" cy="50%" fill="beige"></circle> -->
       </pie-chart>
     </section>
-    <section>
-      <h2>GZip analysis</h2>
-      <p>Can you squeeze out more bytes? (orange, red = costly encoding)</p>
-      <img src="gzip_analysis.png" />
-      <!-- <img src="https://www.rgraph.net/images/svg-activity-meter-snippet.png"> -->
+    <section id="about">
+      <h2>About <meister-name></meister-name></h2>
+      <p>
+        My
+        <a href="https://en.wikipedia.org/wiki/TRS-80">first computer</a>
+        learned me to program in Z80 Assembly Language and 4 kB memory.
+      </p>
+      <p>I worked on Gopher systems for 4 years before I got hooked on HTML</p>
+      <p>
+        In the past decade I saw the development world change into a for
+        'rocket-scientists' only profession where tools became more important
+        than programming.
+      </p>
+      <p>
+        And then I learned about Web Components and fell in love with HTML, and
+        my job, again.
+      </p>
+      <p>
+        Developing Web Components requires a different mind-set, you can't
+        compare that to 'oldskool' framework development. It took me 5 years to
+        unlearn what I had learned in my WWW years. And re-learn HTML back to
+        basics.
+      </p>
+      <p>
+        It is 2021, I am slowly getting comfortable with Web Components, but
+        know it is still early days.
+      </p>
+      <p>
+        Where frameworks deliver (semi-) finished products, Web Components are
+        atoms.. or maybe we should say quarks, because, like many developers, a
+        lot of scientists do not understand those either.
+      </p>
+      <p>
+        And yes, Web Components <i>can</i> built (semi-)finished products like
+        Design Systems.
+      </p>
+      <p>
+        I foresee a future where Web Components are used like we use Libraries
+        and CDNs today. NPM is Evil!
+        <br />But contrary to libraries, Web Components won't have a pletora of
+        functionalities.
+      </p>
+      <p></p>
+      <ol>
+        <li>Good Web Components do one or two things very well</li>
+        <li>
+          Good Web Components, like Lego bricks, can be joined together to
+          create more functionality
+        </li>
+        <li>
+          Good Web Components can (IMHO) always be extracted from the 'finished'
+          product.
+        </li>
+        <li>Good Web Components will be free to re-use</li>
+        <li>
+          And yes,
+          <a
+            href="https://lea.verou.me/2020/09/the-failed-promise-of-web-components/"
+            >Lea</a
+          >, we need something to find those Good Web Components, <br />because
+          there already is a lot of shit out there. I am working on a Tabs
+          Meister Component.
+        </li>
+      </ol>
+      <p>
+        This is not a novel idea. This is how Tim Berners-Lee envisioned the Web
+        to be when he wrote the paper in 1989
+      </p>
+      <p>
+        <a href="https://webfoundation.org/about/vision/history-of-the-web/"
+          >https://webfoundation.org/about/vision/history-of-the-web/</a
+        >
+      </p>
+      <!-- <img
+        src="https://webfoundation.org/docs/2009/10/berners-lee.jpg"
+        style="width: 100%"
+      /> -->
     </section>
     <section>
-      <h2>Experiments</h2>
+      <h2><meister-name></meister-name> - Credits</h2>
+      <p>
+        All of the <content-length></content-length> in
+        <meister-name></meister-name> were lovingly crafted by Danny Engelman
+      </p>
+      <p>I am standing on the shoulders of Giants.<br>special thanks to Web Component developers on StackOverflow and GitHub who answered my questions.</p>
+    </section>
+    <section>
+      <h2><meister-name></meister-name> - Experiments</h2>
       <pie-demo>
         <pie-description>CSS filter styles all SVG elements.</pie-description>
-        <pie-chart pull="200">
+        <pie-chart pull="200" pulltext="300">
           <style>
             svg {
               background: transparent;
@@ -475,234 +639,19 @@
             }
           </style>
           <slice size="10%"></slice>
-          <slice size="20%" pull></slice>
-          <slice size="40%" x="400" y="100">Label</slice>
+          <slice size="20%" pulltext="1" pull></slice>
+          <slice size="40%">Label</slice>
           <slice size="30%"></slice>
         </pie-chart>
       </pie-demo>
     </section>
     <section>
-      <h2>About</h2>
-      <p>
-      I have been working with Web Components for some years now. And for the first time since my first HTML experience in 1994 I got excited again.
-      
-    </p>
-    <p>
-      Developing Web Components requires a different mind-set, you can't compare that to 'oldskool' framework development.<br>
-      It took me 5 years to unlearn what I had learned in 25 years. It is 2021, I am slowly getting comfortable with Web Components, but know it is still early days.
-    </p>
-    <p>
-      Where frameworks deliver (semi-) finished products, Web Components are atoms.. or maybe we should say quarks, because a lot of scientists do not understand those either.
-    </p>
-    <p>
-      And yes, Web Components <i>can</i> built (semi-)finished products.
-    </p>
-    <p>
-      I foresee a future where Web Components are used like we use Libraries and CDNs today.
-      <br>But contrary to libraries, Web Components won't have a pletora of functionalities.
-    </p>
-    <p>
-      <ol>
-        <li>Good Web Components do one or two things very well</li>
-        <li>Good Web Components, like Lego bricks, can be joined together to create more functionality</li>
-        <li>Good Web Components can (IMHO) always be extracted from the 'finished' product.</li>
-        <li>Good Web Components will be free to re-use</li>
-        <li>And yes, Leah, we need something to find those Good Web Components, because there already is a lot of shit out there.</p>
-      </ol>
-    </p>
-    <p>
-      This is not a weird idea. This is how Tim Berners-Lee imagined the Web to be
-    </p>
-    <p>
-      <a href="https://webfoundation.org/about/vision/history-of-the-web/">https://webfoundation.org/about/vision/history-of-the-web/</a>
-    </p>
-
+      <h2>
+        <meister-name></meister-name> - GZip analysis - Can you squeeze out more
+        bytes?
+      </h2>
+      <img src="gzip_analysis.png" />
+      <!-- <img src="https://www.rgraph.net/images/svg-activity-meter-snippet.png"> -->
     </section>
-    <section>
-      <h2>Or if you do not prefer Web Components and want to use React:</h2>
-      <pre><code class="language-javascript">
-        import React from 'react';
-        import { storiesOf } from '@storybook/react';
-        import { PieChart } from '../src';
-        import FullOption from './FullOption';
-        import InteractionStory from './InteractionStory';
-        import InteractionTabStory from './InteractionTabStory';
-        import LoadingIndicatorStory from './LoadingIndicatorStory';
-        import PartialLoadingIndicatorStory from './PartialLoadingIndicatorStory';
-        import Tooltip from './Tooltip';
-        
-        const dataMock = [
-          { title: 'One', value: 10, color: '#E38627' },
-          { title: 'Two', value: 15, color: '#C13C37' },
-          { title: 'Three', value: 20, color: '#6A2135' },
-        ];
-        
-        const defaultLabelStyle = {
-          fontSize: '5px',
-          fontFamily: 'sans-serif',
-        };
-        
-        storiesOf('Pie Chart', module)
-          .add('Full option', () => &lt;FullOption data={dataMock} />)
-          .add('Default', () => &lt;PieChart data={dataMock} />)
-          .add('Custom size', () => (
-            &lt;PieChart data={dataMock} style={{ height: '100px' }} />
-          ))
-          .add('Exploded', () => {
-            const shiftSize = 7;
-            return (
-              &lt;PieChart
-                data={dataMock}
-                radius={PieChart.defaultProps.radius - shiftSize}
-                segmentsShift={(index) => (index === 0 ? shiftSize : 0.5)}
-                label={({ dataEntry }) => dataEntry.value}
-                labelStyle={{
-                  ...defaultLabelStyle,
-                }}
-              />
-            );
-          });
-        
-        storiesOf('Donut Chart', module)
-          .add("Custom arcs' width", () => &lt;PieChart data={dataMock} lineWidth={15} />)
-          .add('Rounded arcs', () => (
-            &lt;PieChart data={dataMock} lineWidth={15} rounded />
-          ))
-          .add('Padded arcs', () => (
-            &lt;PieChart data={dataMock} lineWidth={15} paddingAngle={5} />
-          ));
-        
-        storiesOf('Loading indicator', module)
-          .add('360° indicator', () => &lt;LoadingIndicatorStory />)
-          .add('270° indicator with background', () => (
-            &lt;PartialLoadingIndicatorStory />
-          ));
-        
-        storiesOf('Partial chart', module)
-          .add('180° chart', () => (
-            &lt;PieChart
-              data={dataMock}
-              startAngle={180}
-              lengthAngle={180}
-              viewBoxSize={[100, 50]}
-            />
-          ))
-          .add('90° chart', () => (
-            &lt;PieChart
-              data={dataMock}
-              center={[100, 100]}
-              startAngle={-180}
-              lengthAngle={90}
-              radius={100}
-            />
-          ))
-          .add('Missing slice', () => &lt;PieChart data={dataMock} totalValue={60} />)
-          .add('Missing slice with background', () => (
-            &lt;PieChart data={dataMock} totalValue={60} background="#bfbfbf" />
-          ));
-        
-        storiesOf('Labels', module)
-          .add('Default labels', () => (
-            &lt;PieChart
-              data={dataMock}
-              label={({ dataEntry }) => dataEntry.value}
-              labelStyle={{
-                ...defaultLabelStyle,
-              }}
-            />
-          ))
-          .add('Outer labels', () => (
-            &lt;PieChart
-              data={dataMock}
-              label={({ dataEntry }) => dataEntry.value}
-              labelStyle={(index) => ({
-                fill: dataMock[index].color,
-                fontSize: '5px',
-                fontFamily: 'sans-serif',
-              })}
-              radius={42}
-              labelPosition={112}
-            />
-          ))
-          .add('Inner labels', () => (
-            &lt;PieChart
-              data={dataMock}
-              lineWidth={20}
-              paddingAngle={18}
-              rounded
-              label={({ dataEntry }) => dataEntry.value}
-              labelStyle={(index) => ({
-                fill: dataMock[index].color,
-                fontSize: '5px',
-                fontFamily: 'sans-serif',
-              })}
-              labelPosition={60}
-            />
-          ))
-          .add('Single label', () => (
-            &lt;PieChart
-              data={[{ value: 82, color: '#E38627' }]}
-              totalValue={100}
-              lineWidth={20}
-              label={({ dataEntry }) => dataEntry.value}
-              labelStyle={{
-                fontSize: '25px',
-                fontFamily: 'sans-serif',
-                fill: '#E38627',
-              }}
-              labelPosition={0}
-            />
-          ))
-          .add('Percentage', () => (
-            &lt;PieChart
-              data={dataMock}
-              label={({ dataEntry }) => Math.round(dataEntry.percentage) + '%'}
-              labelStyle={defaultLabelStyle}
-            />
-          ));
-        
-        storiesOf('Animation', module)
-          .add('On mount clockwise', () => &lt;PieChart data={dataMock} animate />)
-          .add('On mount counterclockwise', () => (
-            &lt;PieChart data={dataMock} lengthAngle={-360} animate />
-          ));
-        
-        storiesOf('Interaction', module)
-          .addParameters({ options: { showPanel: true, panelPosition: 'bottom' } })
-          .add('click, mouseOver, mouseOut callbacks', () => (
-            &lt;InteractionStory data={dataMock} />
-          ))
-          .add('Tab + Enter key press', () => &lt;InteractionTabStory data={dataMock} />);
-        
-        storiesOf('Misc', module)
-          .add('Single gradient', () => (
-            &lt;PieChart
-              data={[{ value: 10, color: 'url(#gradient1)' }]}
-              startAngle={-180}
-              lengthAngle={180}
-              lineWidth={20}
-              viewBoxSize={[100, 50]}
-            >
-              &lt;defs>
-                &lt;linearGradient id="gradient1">
-                  &lt;stop offset="0%" stopColor="#4CAF50" />
-                  &lt;stop offset="45%" stopColor="#ffb961" />
-                  &lt;stop offset="55%" stopColor="#ffb961" />
-                  &lt;stop offset="100%" stopColor="#C13C37" />
-                &lt;/linearGradient>
-              &lt;/defs>
-            &lt;/PieChart>
-          ))
-          .add('Squared pie', () => (
-            &lt;PieChart
-              data={dataMock}
-              label={({ dataEntry }) => dataEntry.value}
-              labelStyle={defaultLabelStyle}
-              radius={75}
-            />
-          ))
-          .add('Tooltip integration', () => &lt;Tooltip data={dataMock} />);</code></pre>
-    </section>
-
   </body>
 </html>

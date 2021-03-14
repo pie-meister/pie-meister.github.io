@@ -36,7 +36,7 @@ customElements.define(
   "meister-name",
   class extends HTMLElement {
     connectedCallback() {
-      this.innerHTML = `Pie Meister v3.14 `;
+      this.innerHTML = `Pie Meister Web Component v3.14 `;
     }
   }
 );
@@ -53,10 +53,13 @@ class PieMeister extends HTMLElement {
   }
   showPrismContent() {
     setTimeout(() => {
-      if (!window.Prism) return requestAnimationFrame(() => this.showPrismContent());
+      if (!window.Prism)
+        return requestAnimationFrame(() => this.showPrismContent());
       else {
         let pre = document.createElement("pre");
-        [...this.attributes].map((attr) => pre.setAttribute(attr.name, attr.value));
+        [...this.attributes].map((attr) =>
+          pre.setAttribute(attr.name, attr.value)
+        );
         pre.slot = "html";
         pre.innerHTML = `<code class="language-html"></code>`;
         this.prepend(pre);
@@ -77,8 +80,14 @@ customElements.define(
   "content-length",
   class extends HTMLElement {
     connectedCallback() {
-      fetch(this.getAttribute("src")).then(
-        (res) => (this.innerHTML = " " + res.headers.get("content-length") + "&nbsp;Bytes")
+      let src =
+        this.getAttribute("src") ||
+        "https://qomponents.github.io/class/PieMeister.min.js";
+      console.log(src);
+      fetch(src).then(
+        (res) =>
+          (this.innerHTML =
+            " " + res.headers.get("content-length") + "&nbsp;Bytes")
       );
     }
   }
@@ -137,33 +146,56 @@ customElements.define(
       let rows = [
         {
           name: "ZoomCharts",
-          uri: "https://zoomcharts.com/en/javascript-charts-library/html5-charts/piechart/",
+          uri:
+            "https://zoomcharts.com/en/javascript-charts-library/html5-charts/piechart/",
           size: "300 kB",
         },
-        { name: "AMCharts", uri: "https://www.amcharts.com/demos/dragging-pie-slices/", size: "272 kB" },
-        { name: "HighCharts", uri: "https://www.highcharts.com/demo/pie-basic", size: "95 kB" },
+        {
+          name: "AMCharts",
+          uri: "https://www.amcharts.com/demos/dragging-pie-slices/",
+          size: "272 kB",
+        },
+        {
+          name: "HighCharts",
+          uri: "https://www.highcharts.com/demo/pie-basic",
+          size: "95 kB",
+        },
         {
           name: "GoogleCharts",
-          uri: "https://developers.google.com/chart/interactive/docs/gallery/piechart",
+          uri:
+            "https://developers.google.com/chart/interactive/docs/gallery/piechart",
           size: "66 kB",
         },
-        { name: "D3.js", uri: "http://bl.ocks.org/dbuezas/9306799", size: "64 kB" },
-        { name: "ChartJS", uri: "https://www.chartjs.org/samples/latest/charts/pie.html", size: "51 kB" },
-        { name: "React Minimal Pie", uri: "https://bundlephobia.com/result?p=react-minimal-pie-chart@8.1.0", size: "2.1 kB",
-        comment:"+ React itself ofcourse!" },
         {
-          name: "<meister-name></meister-name>",
-          uri: "https://pie-meister.github.io",
-          size: "<content-length src='https://qomponents.github.io/class/PieMeister.js'></content-length>",
-          comment:`<a href="https://github.com/pie-meister/pie-meister.github.io">available on GitHub</a>`
+          name: "D3.js",
+          uri: "http://bl.ocks.org/dbuezas/9306799",
+          size: "64 kB",
+        },
+        {
+          name: "ChartJS",
+          uri: "https://www.chartjs.org/samples/latest/charts/pie.html",
+          size: "51 kB",
+        },
+        {
+          name: "React Minimal Pie",
+          uri:
+            "https://bundlephobia.com/result?p=react-minimal-pie-chart@8.1.0",
+          size: "2.1 kB",
+          comment:
+            "yeah right... + React 2.8 kB + React-DOM 39.4 kB  = <b>43.3 kB</b> !",
         },
         {
           name: "<meister-name></meister-name>",
           uri: "https://pie-meister.github.io",
-          size: "<content-length src='https://raw.githubusercontent.com/qomponents/qomponents.github.io/master/class/PieMeister.js'></content-length>",
-          comment:`minified`
+          size: "<b><content-length></content-length></b>",
+          comment: ``,
         },
-      ].map((c) => `<tr><td><a href="${c.uri}">${c.name}</a></td><td align=right>${c.size}</td><td>${c.comment||""}</td></tr>`).join``;
+      ].map(
+        (c) =>
+          `<tr><td><a href="${c.uri}">${c.name}</a></td><td align=right>${
+            c.size
+          }</td><td>${c.comment || ""}</td></tr>`
+      ).join``;
       this.innerHTML =
         `<table>
         <thead>
@@ -182,3 +214,71 @@ customElements.define(
     }
   }
 );
+
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOMContentLoaded");
+  setTimeout(() => {
+    let pies = document.querySelector("#pies");
+    pies.addEventListener("slice", (evt) => {
+      console.warn(evt,evt.composedPath());
+      let slice = evt.target.g;
+      slice.pull(!slice.pulled);
+    });
+    pies.$.map((slice, idx) => {
+      if (idx == 2) {
+        let svg = slice.parentNode;
+        let p1 = slice.create(180, 20, "brown"); //radius,slicesize,stroke-width,color
+        console.log(p1.point());
+        p1.setAttribute("opacity", "1");
+        slice.append(p1);
+      }
+    });
+  }, 0);
+});
+
+function Development() {
+  function attachPullHandlers() {
+    // [...document.querySelectorAll("pie-chart[pull]")].map(pieChart=>{
+    //   pieChart.addEventListener("slice", (evt) => {
+    //     let slice = evt.target.g;
+    //     slice.pull(!slice.pulled);
+    //   });
+    // })
+  }
+  attachPullHandlers();
+
+  setTimeout(() => {
+    let pies = document.querySelector("#sw");
+    pies.slice.map((slice, idx) => {
+      let svg = slice.parentNode;
+      let path = slice.path;
+      let circle = (pt, fill = "black", r = 10) => {
+        let c = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "circle"
+        );
+        c.setAttribute("cx", pt.x);
+        c.setAttribute("cy", pt.y);
+        c.setAttribute("r", r);
+        c.setAttribute("fill", fill);
+        svg.append(c);
+      };
+      circle(slice.path.point());
+      circle(slice.path.point(0, 50), "red");
+      if (idx == 0) {
+        console.warn("slice group:", slice);
+        console.warn("slice size:", slice.getAttribute("size"));
+        console.warn("slice path:", path.width);
+        console.warn("slice path.size:", typeof path.size);
+        let R = 0; // middleradius
+        let newpath = slice.create(0);
+        //newpath.setAttribute("stroke-width",5);
+        //newpath.setAttribute("stroke-dashoffset",38);
+        newpath.setAttribute("stroke", "red");
+        console.error(newpath);
+        //newpath.setAttribute("fill","red");
+        svg.append(newpath);
+      }
+    });
+  }, 0);
+}
