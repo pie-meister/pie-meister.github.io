@@ -1,7 +1,8 @@
 .gitignore
 .vscode
-build.cmd
+build
 terser.json
 elements.pie-meister.min_save.js.gz
-PieMeister*.*
+PieMeisterMin.js
+Pie*
 
