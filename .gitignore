@@ -4,6 +4,5 @@ build
 terser.json
 elements.pie-meister.min_save.js.gz
 PieMeister.min.js
-PieMeister.js
 PieMeisterInteractive.js
-
+PieMeister.js

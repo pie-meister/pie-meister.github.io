@@ -13,7 +13,7 @@
 //            - path.point
 //            - create ( extraRadius , )  creates new slice <path> Element (doesn't overwrite the current slice)
 //            - pull
-console.log("PieMeister 3.14");
+window.console.log("PieMeister 3.14");
 export default class PieMeister extends HTMLElement {
   connectedCallback() {
     this.svg();
