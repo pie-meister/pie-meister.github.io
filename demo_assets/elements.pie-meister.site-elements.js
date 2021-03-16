@@ -1,3 +1,34 @@
+/*
+  Under active development
+
+  For questions contact: Danny@Engelman.nl
+
+*/
+
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("%c PieMeister ","background:purple;color:yellow");
+  setTimeout(() => {
+    let pies = document.querySelector("#pies");
+    // pies.addEventListener("slice", (evt) => {
+    //   let slice = evt.target.slice;
+    //   slice.pull(!slice.pulled);
+    // });
+    let slices = [...pies.shadowRoot.querySelectorAll("g")];
+    slices.map((slice, idx) => {
+      if (idx == 5) {
+        let svg = slice.parentNode;
+        let strokeWidth = ~~slice
+          .querySelector("path")
+          .getAttribute("stroke-width");
+        // add a crust
+        let p1 = slice.create(strokeWidth / 2, 20, "brown"); //radius,slicesize,stroke-width,color
+        p1.setAttribute("opacity", "1");
+        slice.append(p1);
+      }
+    });
+  }, 0);
+});
+
 function stripControlCharacters(s) {
   return s
     .split("")
@@ -83,7 +114,6 @@ customElements.define(
       let src =
         this.getAttribute("src") ||
         "https://qomponents.github.io/class/PieMeister.min.js";
-      console.log(src);
       fetch(src).then(
         (res) =>
           (this.innerHTML =
@@ -108,7 +138,6 @@ customElements.define(
   class extends HTMLElement {
     connectedCallback() {
       if (this.hasAttribute("hide")) {
-        console.log(this);
         //this.closest("pie-demo").style.setProperty("--description-fr","0fr")
         //this.closest("pie-demo").style.setProperty("--pie-fr","2fr");
         this.remove();
@@ -122,7 +151,6 @@ customElements.define(
   class extends HTMLElement {
     connectedCallback() {
       let html1 = (str, ...v) => {
-        console.log(str.raw, "\n", v);
         if (typeof v == "string") return v;
         try {
           // return new Function("v", "return((" + Object.keys(v).join(",") + ")=>`" + str + "`)(...Object.values(v))")(v);
@@ -133,7 +161,6 @@ customElements.define(
       };
       function html(strings, ...keys) {
         return function (...values) {
-          console.log(20, values);
           let dict = values[values.length - 1] || {};
           let result = [strings[0]];
           keys.forEach(function (key, i) {
@@ -215,28 +242,7 @@ customElements.define(
   }
 );
 
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("DOMContentLoaded");
-  setTimeout(() => {
-    let pies = document.querySelector("#pies");
-    // pies.addEventListener("slice", (evt) => {
-    //   let slice = evt.target.slice;
-    //   slice.pull(!slice.pulled);
-    // });
-    let slices = [...pies.shadowRoot.querySelectorAll("g")];
-    slices.map((slice, idx) => {
-      if (idx == 2) {
-        let svg = slice.parentNode;
-        let p1 = slice.create(180, 20, "brown"); //radius,slicesize,stroke-width,color
-        console.log(p1.point());
-        p1.setAttribute("opacity", "1");
-        slice.append(p1);
-      }
-    });
-  }, 0);
-});
-
-function Development() {
+function Qomponents_Development_Extension() {
   function attachPullHandlers() {
     // [...document.querySelectorAll("pie-chart[pull]")].map(pieChart=>{
     //   pieChart.addEventListener("slice", (evt) => {

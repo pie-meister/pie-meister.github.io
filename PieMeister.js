@@ -19,7 +19,7 @@ export default class PieMeister extends HTMLElement {
     this.svg();
   }
   // declared as method .svg so user can redraw a chart
-  // this Component does not track for changed attributes (yet)
+  // Component does not track for changed attributes (yet)
   // Process the user-defined lightDOM, create an SVG element, then replace all <slice> with:
   // <g slice> grouped as one slice
   //    <path>  using stroke-dasharray to draw slices!
@@ -31,11 +31,12 @@ export default class PieMeister extends HTMLElement {
       // todo: add constructor
       mode: `open`,
     }),
+    THIS = this,
     // =========================================================================== optional user parameters
-    colors = (this.getAttribute`stroke` || `#e33,#3e3,#35e,#ee3,#e5e,#3ee`)
+    colors = (THIS.getAttribute`stroke` || `#e33,#3e3,#35e,#ee3,#e5e,#3ee`)
       .split`,`, //  #f2e  #962
-    pull = ~~this.getAttribute`pull`, // how far a slice can be pulled outward
-    //gap = Number(this.getAttribute`gap`), //! between slices, messes up % calcs
+    pull = ~~THIS.getAttribute`pull`, // how far a slice can be pulled outward
+    //gap = Number(THIS.getAttribute`gap`), //! between slices, messes up % calcs
     // =========================================================================== configuration
     // Component controlled variables (code golf, saves 4 bytes let statement)
     dashoffset = 0, // clockwise - incremental stroke offset for each slice
@@ -51,10 +52,10 @@ export default class PieMeister extends HTMLElement {
       // default viewBox = 1000 x 1000 extra padding with pull attribute
       root.innerHTML = `<style>:host{display:inline-block}svg{width:100%}</style><svg xmlns=http://www.w3.org/2000/svg viewBox=0,0,${
         1000 + pull
-      },${1000 + pull}>${this.innerHTML}</svg>`;
+      },${1000 + pull}>${THIS.innerHTML}</svg>`;
       // append user <slice> as HTML so we keep all <slice>
       // =========================================================================== convert <slice>s to paths
-      //this.$ = [...root.querySelectorAll`slice`].map((sliceDefinition, idx) => {
+      //THIS.$ =
       [...root.querySelectorAll`slice`].map((sliceDefinition, idx) => {
         // <g> is the slice containing <path> and <text> label
         let group = document.createElementNS(`http://www.w3.org/2000/svg`, `g`);
@@ -67,7 +68,7 @@ export default class PieMeister extends HTMLElement {
         // strokeWidth = slice radius size from SVG centerpoint (500,500)
         let strokeWidth =
           ~~sliceDefinition.getAttribute`stroke-width` || // <slice stroke width=X>
-          ~~this.getAttribute`stroke-width` || // <pie-chart stroke width=X>
+          ~~THIS.getAttribute`stroke-width` || // <pie-chart stroke width=X>
           500 + pull / 2 - pull; // default Center + HALF pull margin - the pulled slice distance
         //! slice START dashoffset
         let slice_dashoffset = dashoffset;
@@ -89,7 +90,7 @@ export default class PieMeister extends HTMLElement {
           R = (500 + pull / 2) / 2 /* center point of SVG */ -
             pull / 2 +
             extraRadius -
-            (this.getAttribute`fill` == `stroke-width`
+            (THIS.getAttribute`fill` == `stroke-width`
               ? (500 - pull / 2 - __strokeWidth) / 2
               : 0),
           //! `fill` on <pie-chart> value is not used for anything
@@ -123,7 +124,7 @@ export default class PieMeister extends HTMLElement {
           // function returns the middle of the slice arc
           // becuase the method is defined within! each slice scope all variables for that one slice can be used
           // a class method would require everything as function parameters
-          // this takes more memory (who cares about memory when the full library is 1K?)
+          // takes more memory (who cares about memory when the full library is 1K?)
           // is only slower when you do over a million calls (that is 1000 pies with 1000 slices each)
           // only Mr Creosote (see Youtube) can eat that many pies
           (path.point = (offset = 0, radius) =>
@@ -144,13 +145,13 @@ export default class PieMeister extends HTMLElement {
           // NO % on first size=`N`
           if (!pathLength) {
             // calculate AND set the pathlength for No Percentage pie
-            [...this.querySelectorAll`slice`].map(
+            [...THIS.querySelectorAll`slice`].map(
               //(slice) => (pathLength += ~~slice.getAttribute`size` + gap)
               (slice) => (pathLength += ~~slice.getAttribute`size`)
             );
           }
         } else {
-          pathLength = ~~this.getAttribute`size` || 100; // default 100% pie // todo move to parameter
+          pathLength = ~~THIS.getAttribute`size` || 100; // default 100% pie // todo move to parameter
         }
         // ----------------------------------------------------------- calc remainder slice
         // size=`0` or size= `` calculates % remainder
@@ -168,7 +169,7 @@ export default class PieMeister extends HTMLElement {
         group.setAttribute(
           `label`,
           //! if a <style> is defined show a Label
-          (label.innerHTML = this.querySelector`style` // set the svg innerHTML
+          (label.innerHTML = THIS.querySelector`style` // set the svg innerHTML
             ? /* if sliceBase has a label */ (sliceDefinition.innerHTML &&
                 /* then replace % */ sliceDefinition.innerHTML.replace(
                   `size`,
@@ -194,7 +195,7 @@ export default class PieMeister extends HTMLElement {
           group.point(
             0,
             ~~sliceDefinition.getAttribute`pulltext` ||
-              ~~this.getAttribute`pulltext` ||
+              ~~THIS.getAttribute`pulltext` ||
               0
           ).y
         );
@@ -203,7 +204,7 @@ export default class PieMeister extends HTMLElement {
           group.point(
             0,
             ~~sliceDefinition.getAttribute`pulltext` ||
-              ~~this.getAttribute`pulltext` ||
+              ~~THIS.getAttribute`pulltext` ||
               0
           ).x
         );
