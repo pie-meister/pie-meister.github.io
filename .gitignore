@@ -2,5 +2,6 @@
 .vscode
 build.cmd
 terser.json
-PieMeister.js
 elements.pie-meister.min_save.js.gz
+PieMeister.js
+PieMeister.min.js

@@ -117,7 +117,7 @@ export default class PieMeister extends HTMLElement {
               R * 2
             }a2 2 0 000-${R * 2}`
           ),
-          
+
           // No fill because the path IS A FULL circle, we only see parts/slices because of the stroke-dasharray!
           path.setAttribute(`fill`, `none`),
           (path.width = __strokeWidth),
@@ -213,14 +213,14 @@ export default class PieMeister extends HTMLElement {
         group.append(path, label);
         // parentNode can be SVG or user element <g>
         sliceDefinition.parentNode.replaceChild(group, sliceDefinition);
-        let pt = group.point(
+        path = group.point(
           0,
           Math.abs(~~sliceDefinition.getAttribute`pull` || pull)
         );
         if (sliceDefinition.hasAttribute`pull`) {
           group.setAttribute(
             `transform`,
-            `translate(${pt.x - group.point().x} ${pt.y - group.point().y})`
+            `translate(${path.x - group.point().x} ${path.y - group.point().y})`
           );
         }
         // ----------------------------------------------------------- pull current slice
