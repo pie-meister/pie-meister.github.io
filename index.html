@@ -4,8 +4,6 @@
     <link rel="stylesheet" href="./demo_assets/prism.css" data-noprefix />
     <script type="module">
       import PieMeister1 from "https://qomponents.github.io/class/PieMeister.min.js";
-      import PieMeister2 from "./PieMeister.min.js";
-      import PieMeister3 from "./PieMeister.js";
       customElements.define("pie-chart", PieMeister1);
     </script>
     <script src="./demo_assets/elements.pie-meister.site-elements.js"></script>
@@ -44,15 +42,33 @@
     </template>
     <style>
       body {
-        --pie-demo-background: lightgrey;
+        --pie-demo-background: #e2e2e2;
+        --pie-demo-body-background:#222222;
+        --pie-demo-body-color:lightgrey;
+        --pie-demo-attr-background:grey;
+        --pie-demo-attr-color:white;
+        --pie-prism-background:hsla(20, 20%, 100%, 1);
+
+        background: var(--pie-demo-body-background);
+        color: var(--pie-demo-body-color);
         font-family: Arial;
         font-size: 14px;
         max-width: 1100px;
         margin: 0 auto;
       }
+      a{
+        color:cornflowerblue;
+      }
+      [slot="html"]{
+        background: var(--pie-prism-background)
+      }
+attr-setting{
+        background:var(--pie-demo-attr-background);
+        color:var(--pie-demo-attr-color);
+      }
       pie-chart {
         max-width: 49vw;
-        background: var(--pie-demo-background);
+        background: var(--pie-prism-background);
         aspect-ratio: 1/1;
         width: 100%;
         object-fit: contain;
@@ -61,21 +77,26 @@
       .pi {
         font-size: 1.2em;
       }
+      section > p{
+        padding:0 1em;
+      }
+      .pie-code,
       pie-example,
       pie-demo {
-        padding-top: 1em;
+        margin:1em;
+        padding: 1em;
+        background:var(--pie-demo-background,#e2e2e2);
+        width:100%;
       }
       pie-example pre,
       pie-demo pre {
-        padding-left: 2em;
-      }
-      pie-example p,
-      pie-demo p {
-        padding: 0em 1em;
+        margin:0;
+        padding: 1em;
       }
       pie-description {
         font-size: 1.2em;
         padding: 1em;
+        color: var(--pie-demo-description-color,black);
       }
       header {
         /* display: grid;
@@ -103,37 +124,38 @@
     <section>
       <header>
         <div>
+          <br>
           <h1><meister-name></meister-name></h1>
           <p>
-            Pi-Day was approaching; how appropriate to create a pie-chart Web
-            Component
+            [Todo:] Write a cool intro explaining how Web Components saved me from a unhealthy JSX addiction and rekindled my love for semantic HTML.
           </p>
-          <p>The internet had plenty of inspiration how not to do it.</p>
           <p>
-            You have to understand, I once fell in love with HTML, and modern
-            Web Components have rekindled that love for semantic HTML.
+            A client wanted to <b>draw pie charts easily</b>, and display them on a high volume fast web page.
           </p>
-
           <chart-libraries-table></chart-libraries-table>
         </div>
       </header>
     </section>
     <section>
       <h2>Load <meister-name></meister-name></h2>
+      <p>
       No vendor lock. You can extend and built a Web Component with PieMeister
       as Base-Class. And Provide your own Custom Element name.
+      <div class="pie-code">
       <pre class="language-html"><code >
       &lt;script type="module">
         import PieMeisterClass from 'https://qomponents.github.io/class/PieMeister.min.js';
         customElements.define( 'pie-chart' , PieMeisterClass );
       &lt;/script>
     </code></pre>
+  </div>
+</p>
     </section>
 
     <section>
       <h2>Then ALL HTML required is:</h2>
       <pie-example>
-        <pie-chart id="pies" pulltext="100" pull="50">
+        <pie-chart id="pies" pulltext="100" pull="50" gap="0">
           <slice size="20%" stroke="#66cc33">Apple size</slice>
           <slice size="18%" stroke="#fc5a8d">Strawberry size</slice>
           <slice size="16%" stroke="#ff7518">Pumpkin size</slice>
@@ -147,9 +169,6 @@
           <style>
             svg {
               background: grey;
-            }
-            [slice] {
-              cursor: pointer;
             }
             [label] {
               font-size: 2em;
@@ -196,7 +215,7 @@
       </pie-demo>
       <pie-demo>
         <pie-description
-          >Specify the distance with <attr-setting>pull="200"</attr-setting> and
+          >Specify the distance with <attr-setting>pull="100"</attr-setting> and
           which slice to pull<br /><br />The SVG has a default 1000 x 1000 units
           viewBox<br /><attr-setting>pull="100"</attr-setting> creates a
           1100x1100 viewBox so pulled slices are not cut off</pie-description
@@ -253,19 +272,19 @@
           play with
         </pie-description>
         <pie-chart>
+          <slice size="10%"></slice>
+          <slice size="20%"></slice>
+          <slice size="40%"></slice>
           <style>
             text {
               font-size: 5em;
               text-anchor: middle;
             }
-            [slice="4"] {
+            [slice="3"] {
               font-size: 1.5em;
               fill: red;
             }
           </style>
-          <slice size="10%"></slice>
-          <slice size="20%"></slice>
-          <slice size="40%"></slice>
           <slice size=""></slice>
         </pie-chart>
       </pie-demo>
@@ -308,7 +327,7 @@
       </pie-demo>
       <pie-demo>
         <pie-description
-          >A negative pull value <attr-setting>pull="-85"</attr-setting>makes
+          >A negative pull value <attr-setting>pull="-85"</attr-setting> makes
           the viewBox <b>smaller</b>, removing (unwanted) padding.
           <br /><br />The
           <attr-setting>&lt;slice size="20" pull></attr-setting> is
@@ -498,6 +517,10 @@
               &lt;/pie-chart>
             </code></pre>
         </li>
+        <li>
+          Fun fact: <meister-name></meister-name> does not use any Pi
+          calculations!
+        </li>
       </ul>
     </section>
     <section hidden>
@@ -536,92 +559,6 @@
         <slice size="45" stroke="firebrick" pull></slice>
         <!-- <circle r="30" cx="50%" cy="50%" fill="beige"></circle> -->
       </pie-chart>
-    </section>
-    <section id="about">
-      <h2>About <meister-name></meister-name></h2>
-      <p>
-        My
-        <a href="https://en.wikipedia.org/wiki/TRS-80">first computer</a>
-        learned me to program in Z80 Assembly Language and 4 kB memory.
-      </p>
-      <p>I worked on Gopher systems for 4 years before I got hooked on HTML</p>
-      <p>
-        In the past decade I saw the development world change into a for
-        'rocket-scientists' only profession where tools became more important
-        than programming.
-      </p>
-      <p>
-        And then I learned about Web Components and fell in love with HTML, and
-        my job, again.
-      </p>
-      <p>
-        Developing Web Components requires a different mind-set, you can't
-        compare that to 'oldskool' framework development. It took me 5 years to
-        unlearn what I had learned in my WWW years. And re-learn HTML back to
-        basics.
-      </p>
-      <p>
-        It is 2021, I am slowly getting comfortable with Web Components, but
-        know it is still early days.
-      </p>
-      <p>
-        Where frameworks deliver (semi-) finished products, Web Components are
-        atoms.. or maybe we should say quarks, because, like many developers, a
-        lot of scientists do not understand those either.
-      </p>
-      <p>
-        And yes, Web Components <i>can</i> built (semi-)finished products like
-        Design Systems.
-      </p>
-      <p>
-        I foresee a future where Web Components are used like we use Libraries
-        and CDNs today. NPM is Evil!
-        <br />But contrary to libraries, Web Components won't have a pletora of
-        functionalities.
-      </p>
-      <p></p>
-      <ol>
-        <li>Good Web Components do one or two things very well</li>
-        <li>
-          Good Web Components, like Lego bricks, can be joined together to
-          create more functionality
-        </li>
-        <li>
-          Good Web Components can (IMHO) always be extracted from the 'finished'
-          product.
-        </li>
-        <li>Good Web Components will be free to re-use</li>
-        <li>
-          And yes,
-          <a
-            href="https://lea.verou.me/2020/09/the-failed-promise-of-web-components/"
-            >Lea</a
-          >, we need something to find those Good Web Components, <br />because
-          there already is a lot of shit out there. I am working on a Tabs
-          Meister Component.
-        </li>
-      </ol>
-      <p>
-        This is not a novel idea. This is how Tim Berners-Lee envisioned the Web
-        to be when he wrote the paper in 1989
-      </p>
-      <p>
-        <a href="https://webfoundation.org/about/vision/history-of-the-web/"
-          >https://webfoundation.org/about/vision/history-of-the-web/</a
-        >
-      </p>
-      <!-- <img
-        src="https://webfoundation.org/docs/2009/10/berners-lee.jpg"
-        style="width: 100%"
-      /> -->
-    </section>
-    <section>
-      <h2><meister-name></meister-name> - Credits</h2>
-      <p>
-        All of the <content-length></content-length> in
-        <meister-name></meister-name> were lovingly crafted by Danny Engelman
-      </p>
-      <p>I am standing on the shoulders of Giants.<br>special thanks to Web Component developers on StackOverflow and GitHub who answered my questions.</p>
     </section>
     <section>
       <h2><meister-name></meister-name> - Experiments</h2>

@@ -98,7 +98,7 @@ customElements.define(
     connectedCallback() {
       setTimeout(() => {
         //this.attachShadow({mode:"open"}).innerHTML=`<code>${this.innerHTML}</code>`;
-        this.innerHTML = `<code style="background:lightgrey">${this.innerHTML}</code>`;
+        this.innerHTML = `<code>${this.innerHTML}</code>`;
       });
     }
   }
@@ -219,12 +219,12 @@ document.addEventListener("DOMContentLoaded", () => {
   console.log("DOMContentLoaded");
   setTimeout(() => {
     let pies = document.querySelector("#pies");
-    pies.addEventListener("slice", (evt) => {
-      console.warn(evt,evt.composedPath());
-      let slice = evt.target.g;
-      slice.pull(!slice.pulled);
-    });
-    pies.$.map((slice, idx) => {
+    // pies.addEventListener("slice", (evt) => {
+    //   let slice = evt.target.slice;
+    //   slice.pull(!slice.pulled);
+    // });
+    let slices = [...pies.shadowRoot.querySelectorAll("g")];
+    slices.map((slice, idx) => {
       if (idx == 2) {
         let svg = slice.parentNode;
         let p1 = slice.create(180, 20, "brown"); //radius,slicesize,stroke-width,color
@@ -240,7 +240,7 @@ function Development() {
   function attachPullHandlers() {
     // [...document.querySelectorAll("pie-chart[pull]")].map(pieChart=>{
     //   pieChart.addEventListener("slice", (evt) => {
-    //     let slice = evt.target.g;
+    //     let slice = evt.target.slice;
     //     slice.pull(!slice.pulled);
     //   });
     // })
