@@ -117,6 +117,7 @@ export default class PieMeister extends HTMLElement {
               R * 2
             }a2 2 0 000-${R * 2}`
           ),
+          
           // No fill because the path IS A FULL circle, we only see parts/slices because of the stroke-dasharray!
           path.setAttribute(`fill`, `none`),
           (path.width = __strokeWidth),
