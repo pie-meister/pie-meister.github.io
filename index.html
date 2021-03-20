@@ -5,7 +5,11 @@
     <script type="module">
       import PieMeister1 from "https://qomponents.github.io/class/PieMeister.min.js";
       import PieMeister2 from "./PieMeister.min.js";
-      customElements.define("pie-chart", PieMeister2);
+      import PieMeister3 from "./PieMeisterInteractive.js";
+      import PieMeister4 from "./PieMeister.js";
+      import PieMeisterProgress from "./PieMeisterProgress.js";
+      customElements.define("pie-chart", PieMeister1);
+      customElements.define("progress-circle", PieMeisterProgress);
     </script>
     <script src="./demo_assets/elements.pie-meister.site-elements.js"></script>
     <template id="PIE-DEMO">
@@ -15,7 +19,7 @@
         }
         div {
           display: grid;
-          grid-template-columns: var(--description-fr, 1fr) 2fr auto;
+          grid-template-columns: var(--description-fr, 1fr) 3fr 2fr;
           gap: 1em;
         }
       </style>
@@ -54,7 +58,8 @@
         color: var(--pie-demo-body-color);
         font-family: Arial;
         font-size: 14px;
-        max-width: 1100px;
+        width:88vw;
+        max-width:1100px;
         margin: 0 auto;
       }
       a{
@@ -93,6 +98,9 @@ attr-setting{
       pie-demo pre {
         margin:0;
         padding: 1em;
+        overflow: auto;
+        word-wrap: normal;
+        white-space: pre;
       }
       pie-description {
         font-size: 1.2em;
@@ -113,8 +121,16 @@ attr-setting{
       :not(:defined) {
         opacity: 0;
       }
+      table{
+        font-size:1em;
+      }
+      table a{
+        text-decoration: none;
+      }
       table content-length {
         padding-left: 3em;
+        font-size: 1.1em;
+        color:gold;
       }
       #about {
         font-size: 1.5em;
@@ -244,7 +260,7 @@ attr-setting{
             }
           </style>
           <slice size="10%"></slice>
-          <slice size="20%">Green!</slice>
+          <slice size="20%">Red!</slice>
           <slice size="40%">size Blue!</slice>
           <slice size=""></slice>
         </pie-chart>
@@ -359,7 +375,7 @@ attr-setting{
           know SVG: all slice attributes will be copied to the SVG
           &lt;path></pie-description
         >
-        <pie-chart id="sw" stroke-width="200" pull="-140">
+        <pie-chart stroke-width="200" pull="-140">
           <style>
             text {
               font-size: 4em;
@@ -409,7 +425,92 @@ attr-setting{
           <slice size="40"></slice>
         </pie-chart>
       </pie-demo>
+      <pie-demo>
+        <pie-description>Progress circle<br><br>Use SVG <attr-setting>tspan</attr-setting> (textspan) elements to create more complex labels.</pie-description>
+        <pie-chart offset="top" pull="-250">
+          <style>
+            [slice="0"] text{
+              display:none
+            }
+            path {
+              stroke-linecap: round;
+              stroke-width:15%;
+              transition: 2s;
+            }
+            text{
+              text-anchor:middle;
+              alignment-baseline:middle;
+              fill:black;
+            }
+            tspan:nth-of-type(1){
+              font-size:80;
+            }
+            tspan:nth-of-type(2){
+              font-size:150;
+            }
+          </style>
+          <slice size="100%" stroke="grey"></slice>
+          <slice size="70%"><tspan y=350>Progress</tspan><tspan x="400" y="500">size</tspan></slice>
+        </pie-chart>
+      </pie-demo>
+      <hr>
+      <style>
+        progress-circle:nth-of-type(1) pie-chart::part(text){
+          fill:hotpink;
+        }
+        progress-circle::part(chart)::part(label){
+          font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+          fill:red;
+        }
+        progress-circle{
+          background:blueviolet;
+          width:160px;
+        }
+      </style>
+      <progress-circle value="80%">default:green</progress-circle>
+      <progress-circle value="10%" stroke="red">stroke=red</progress-circle>
+      <progress-circle value="50%" width="50">width=50</progress-circle>
+      <progress-circle value="25%" fill="lightgreen">fill=lightgreen</progress-circle>
+      <progress-circle value="10%" color="red">color=red</progress-circle>
+      <hr>
+      <progress-circle base="pie-chart">
+        <style>
+          [slice="0"] [part="path"]{
+            xfill:indianred;
+          }
+          path{
+            transform: translate(0px,0px);
+            }
+          [part="label"]{
+            font-size:180;
+            fill:darkgreen;
+          }
+          [part="value"]{
+            fill:black;
+            transform: translate(100 0) scale(2);
+          }
+        </style>
+        <progress value=75% width=70 stroke1="magenta">One</progress>
+      </progress-circle>
+      <hr>
+      regular progress element
+      <progress max=100 value="70">70%</progress>
     </section>
+    <!-- <linearGradient id="greenish">
+      <stop offset="0" stop-color="darkgreen"></stop>
+      <stop offset="1" stop-color="green"></stop>
+    </linearGradient> -->
+    <!-- <slice id="percentage" size="70%" stroke="url(#greenish)"><tspan>SEO</tspan><tspan x="400" y="500">size</tspan></slice> -->
+    <!-- <animate href="#percentage"
+      attributeName="stroke-dasharray" begin="0.5s" values="-25;70" dur="1s" repeatCount="1" calcMode="linear" ></animate> -->
+    <!-- <animate href="#percentage"
+      attributeName="stroke-dashoffset" from="0,100" to="75,25"
+      dur="1s" repeatCount="1" ></animate> -->
+    
+
+
+
+
     <section>
       <h2><meister-name></meister-name> - interacting with a pie</h2>
       <p>
@@ -562,6 +663,27 @@ attr-setting{
           <slice size="20%" pulltext="1" pull></slice>
           <slice size="40%">Label</slice>
           <slice size="30%"></slice>
+        </pie-chart>
+      </pie-demo>
+      <pie-demo>
+        <pie-description>Recreating Google Analytics multiple percentages</pie-description>
+        <pie-chart id="GoogleAnalytics" offset="top">
+          <style>
+            text {
+              font-size: 4em;
+              text-anchor: middle;
+            }
+            path {
+              stroke-linecap: round;
+              stroke-width:10%;
+            }
+
+          </style>
+          <slice size="100%" stroke="grey"></slice>
+          <slice size="75%" x="50%" y="50%">SEO</slice>
+          <slice size="60%">Social</slice>
+          <slice size="65%">Maps</slice>
+          <slice size="50%">Traffic</slice>
         </pie-chart>
       </pie-demo>
     </section>
