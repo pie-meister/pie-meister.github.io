@@ -1,9 +1,10 @@
 .gitignore
 .vscode
 build
-terser.json
+dev
 elements.pie-meister.min_save.js.gz
 PieMeister.min.js
 PieMeisterInteractive.js
+PieMeisterProgress.js
+PieMeisterProgress.min.js
 PieMeister.js
-dev
