@@ -271,7 +271,7 @@ try {
     class extends HTMLElement {
       // ------------------------------------------------------------------
       connectedCallback() {
-        let src = this.getAttribute("src") || "https://chart-meister.github.io/PieMeister.min.js";
+        let src = this.getAttribute("src") || "https://pie-meister.github.io/PieMeisterProgress.min.js";
         fetch(src, { mode: "cors" }).then(
           (res) => (this.innerHTML = " " + res.headers.get("content-length") + "&nbsp;Bytes")
         );
@@ -360,15 +360,9 @@ try {
           },
           {
             name: "<b><meister-name></meister-name></b>",
-            uri: "https://chart-meister.github.io",
+            uri: "https://pie-meister.github.io",
             size: "<b><content-length></content-length></b>",
             comment: ``,
-          },
-          {
-            name: "<b>Pie Meister Progress Circle</b>",
-            uri: "https://chart-meister.github.io",
-            size: "<b><content-length src='./ProgressMeister.min.js'></content-length></b>",
-            comment: `includes Pie Meister`,
           },
         ].map(
           (c) =>
