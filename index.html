@@ -28,7 +28,7 @@
         background: var(--meister-demo-body-background);
         color: var(--meister-demo-body-color);
         font-family: Arial;
-        font-size: 16px;
+        font-size: 21px;
         width: 88vw;
         max-width: 1600px;
         margin: 0 auto;
@@ -65,7 +65,7 @@
           devFolder = "./dev";
         }
         await import(QomponentURI("")); // default PieMeister
-        await import(QomponentURI("-Progress")); //
+        await import(QomponentURI("-with-Progress")); //
         // const { default: PieMeister } = await import(pieMeisterSource);
         // const { default: PieMeisterProgress } = await import(
         //   QomponentURI("-Progress")
@@ -98,9 +98,13 @@
     </template>
     <!-- -------------------------------------------------- -->
     <template id="MEISTER-DEMO-21">
+      <!-- 
+        2 columns for Description (3fr) and SVG (1fr)
+        code full width
+      -->
       <style>
         :host {
-          --columns: var(--description-fr, 2fr) 1fr;
+          --columns: var(--description-fr, 3fr) 1fr;
           display: grid;
           grid-template-areas: "topleft topright" "bottom bottom";
           grid-template-columns: var(--columns);
@@ -187,6 +191,7 @@
         margin: var(--margin);
         padding: var(--margin);
         background: var(--meister-demo-background, #e2e2e2);
+        font-size: 16px; /* back to version 1 em size for all SVG examples */
         width: 100%;
       }
       meister-example pre,
@@ -198,10 +203,14 @@
         white-space: pre;
       }
       meister-description {
+        font-size: 1.3em;
         color: var(--meister-demo-description-color, black);
       }
       :not(:defined) {
         opacity: 0;
+      }
+      table {
+        font-size: 1em;
       }
       table a {
         text-decoration: none;
@@ -333,7 +342,7 @@
       <section>
         <h2><meister-name></meister-name> - documentation</h2>
         <meister-demo template="-21">
-          <pie-chart id="colors">
+          <pie-chart>
             <slice size="10"></slice>
             <slice size="20"></slice>
             <slice size="40"></slice>
