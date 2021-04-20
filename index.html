@@ -1,10 +1,41 @@
 <html>
+  <!-- 
+
+    Proof of Concept : Web Component <pie-chart>
+
+    This is UNlicensed source code; a STARTING POINT for your own Web Components
+
+   -->
   <head>
     <style>
       section:not(#DEV) {
         /* display: none; */
       }
+      body {
+        --blue: cornflowerblue;
+        --margin: 1em;
+        --h1_color: orangered;
+        --h2_color: orangered;
+        --h3_color: black;
+        --almostblack: #222222;
+        --meister-demo-background: #e2e2e2;
+        --meister-demo-body-background: var(--almostblack);
+        --meister-demo-body-color: lightgrey;
+        --meister-demo-attr-background: grey;
+        --meister-demo-attr-color: white;
+        --pie-prism-background: hsla(20, 20%, 100%, 1);
+
+        background: var(--meister-demo-body-background);
+        color: var(--meister-demo-body-color);
+        font-family: Arial;
+        font-size: 16px;
+        width: 88vw;
+        max-width: 1600px;
+        margin: 0 auto;
+      }
     </style>
+
+    <!-- I should investigate Prism further -->
     <script src="./demo_assets/prism/prism.js"></script>
     <!-- <script src="https://blissfuljs.com/bliss.shy.min.js"></script> -->
     <!-- <script src="https://prismjs.com/prism.js"></script> -->
@@ -18,21 +49,27 @@
 
     <script type="module">
       (async () => {
-        let Qomponent =
-          "HTMLElementZ2V0QXR0cmlidXRlLHNldEF0dHJpYnV0ZSxoYXNBdHRyaWJ1dGUsYXR0cmlidXRlcyxpbm5lckhUTUwsY3JlYXRlRWxlbWVudE5TLHF1ZXJ5U2VsZWN0b3JBbGwscXVlcnlTZWxlY3RvcixodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyxzbGljZSxzdHJva2Utd2lkdGgsc3Ryb2tlLHN0cm9rZS1kYXNoYXJyYXksc3Ryb2tlLWRhc2hvZmZzZXQsb2Zmc2V0LHB1bGx0ZXh0LHB1bGwsdGV4dCxnZXRUb3RhbExlbmd0aCxnZXRQb2ludEF0TGVuZ3RoLHBhdGgscGF0aExlbmd0aCxyZXBsYWNlV2l0aCxyZXBsYWNlLHNpemUscGFydCxtYXAsZ2V0UG9pbnQsdG9wLHN0eWxlLGFwcGVuZCxmaWxsLG5vbmUsdHJhbnNmb3JtLHJhZGl1cyxsYWJlbCxwb2ludHM=HTMLElement";
-        let min = ".min";
-        //min = "";
-        let dev = "/dev";
-        dev="";
-        let QomponentURI = (x) => `.${dev}/PieMeister${x}${min}.js?Qomponent=` + Qomponent;
-        let pieMeisterSource = QomponentURI("");
-        // if (location.href.includes("github")) {
-        //   pieMeisterSource = "https://qomponents.github.io/class/PieMeister.min.js";
-        // }
+        let minifiedExt = "";
+        let devFolder = "";
+        let QomponentURI = (x) => {
+          let uri = `.${devFolder}/PieMeister${x}${minifiedExt}.js`;
+          console.log("%c PieMeister 3.14 ", "background:purple;color:yellow", "LOAD:", uri, x, devFolder);
+          // uri += /* Qomponents Obfuscation */ `?Qomponent="HTMLElementZ2V0QXR0cmlidXRlLHNldEF0dHJpYnV0ZSxoYXNBdHRyaWJ1dGUsYXR0cmlidXRlcyxpbm5lckhUTUwsY3JlYXRlRWxlbWVudE5TLHF1ZXJ5U2VsZWN0b3JBbGwscXVlcnlTZWxlY3RvcixodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyxzbGljZSxzdHJva2Utd2lkdGgsc3Ryb2tlLHN0cm9rZS1kYXNoYXJyYXksc3Ryb2tlLWRhc2hvZmZzZXQsb2Zmc2V0LHB1bGx0ZXh0LHB1bGwsdGV4dCxnZXRUb3RhbExlbmd0aCxnZXRQb2ludEF0TGVuZ3RoLHBhdGgscGF0aExlbmd0aCxyZXBsYWNlV2l0aCxyZXBsYWNlLHNpemUscGFydCxtYXAsZ2V0UG9pbnQsdG9wLHN0eWxlLGFwcGVuZCxmaWxsLG5vbmUsdHJhbnNmb3JtLHJhZGl1cyxsYWJlbCxwb2ludHM=HTMLElement`;
+          return uri;
+        };
+
+        if (location.href.includes("github")) {
+          minifiedExt = ".min";
+        } else {
+          minifiedExt = "";
+          devFolder = "./dev";
+        }
+        await import(QomponentURI("")); // default PieMeister
+        await import(QomponentURI("-Progress")); //
         // const { default: PieMeister } = await import(pieMeisterSource);
-        const { default: PieMeisterProgress } = await import(
-          QomponentURI("Progress")
-        );
+        // const { default: PieMeisterProgress } = await import(
+        //   QomponentURI("-Progress")
+        // );
       })();
     </script>
 
@@ -113,28 +150,6 @@
     </template>
     <!-- -------------------------------------------------- -->
     <style>
-      body {
-        --blue: cornflowerblue;
-        --margin: 1em;
-        --h1_color:orangered;
-        --h2_color:gold;
-        --h3_color:black;
-        --almostblack:#222222;
-        --meister-demo-background: #e2e2e2;
-        --meister-demo-body-background: var(--almostblack);
-        --meister-demo-body-color: lightgrey;
-        --meister-demo-attr-background: grey;
-        --meister-demo-attr-color: white;
-        --pie-prism-background: hsla(20, 20%, 100%, 1);
-
-        background: var(--meister-demo-body-background);
-        color: var(--meister-demo-body-color);
-        font-family: Arial;
-        font-size: 16px;
-        width: 88vw;
-        max-width: 1100px;
-        margin: 0 auto;
-      }
       a {
         color: var(--blue);
       }
@@ -143,7 +158,7 @@
       }
       h1 {
         color: var(--h1_color);
-        font-size:2em;
+        font-size: 2em;
       }
       h2 {
         color: var(--h2_color);
@@ -200,9 +215,9 @@
       }
       #top {
         position: fixed;
-        background:var(--blue);
+        background: var(--blue);
         color: var(--almostblack);
-        padding:2px;
+        padding: 2px;
         margin: 0;
         margin-left: -3em;
         font-size: 100%;
@@ -213,595 +228,619 @@
   <body>
     <div id="top">TOP</div>
     <header>
-    <section>
+      <section>
         <div>
           <br />
           <h1><meister-name></meister-name></h1>
-          <p style="color: gold">
-            Todo: Write cool intro explaining how Web Components saved me from a unhealthy JSX addiction and rekindled
-            my love for semantic HTML.
+          <p>
+            This is UNlicensed
+            <a href="https://github.com/pie-meister/pie-meister.github.io" target="_blank"
+              >vanilla JavaScript source code</a
+            >; a starting point for your own Web Component
           </p>
-          <p>A client wanted to <b>draw pie charts easily</b>, and display them on a high volume fast web page.</p>
+          <b>Related Dev.to posts:</b>
+          <ul>
+            <li>
+              <a
+                href="https://dev.to/dannyengelman/what-web-technologies-are-required-to-draw-a-pie-chart-in-2021-spoiler-alert-a-standard-web-component-will-do-1j56"
+                target="_blank"
+                >What Web Technologies are required to draw a Pie Chart in 2021?</a
+              >
+            </li>
+            <li>
+              <a href="" target="_blank"
+                >The Good, The Bad, The Ugly; Unknown &lt;slice> elements in &lt;pie-chart> Web Components</a
+              >
+            </li>
+          </ul>
+          <p style="color: gold">
+            Todo: Write intro how Web Components saved me from a JSX addiction, and rekindled my love for semantic HTML.
+          </p>
+          <p>A client wanted to <b>draw pie charts easily</b>, and display them on a high volume web page.</p>
+          <b>Alternative solutions:</b>
           <chart-libraries-table></chart-libraries-table>
         </div>
       </section>
     </header>
     <main>
-    <style>
-      #Examples {
-        cursor: pointer;
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: var(--margin);
-        padding-left: var(--margin);
-      }
-      #Examples ::part(svg) {
-    background: darkslategrey;
-}
-    </style>
-    <section>
-      <h2>&lt;pie-chart> and &lt;progress-circle> Web Component examples</h2>
-      <div id="Examples"></div>
-    </section>
-    <section>
-      <h2>Load <meister-name></meister-name></h2>
-      <div class="meister-code">
-        <pre class="language-html"><code>&lt;script src="https://chart-meister.github.io/PieMeister.min.js">&lt;/script>
-    </code></pre>
-      </div>
-    </section>
-
-    <section>
-      <meister-demo template="-21" columns="3fr 2fr" example>
-        <meister-description>
-          <h3>Then ALL HTML required to display a pie-chart is:</h3>
-          <p>
-            The &lt;pie-chart> Web Component processes all innerHTML &lt;slice> elements and <b>creates</b> an SVG
-            Element <b>in shadowDOM</b>
-            <attr-setting></attr-setting>
-          </p>
-          <p>The <attr-setting>style</attr-setting> element is <b>copied</b> to shadowDOM</p>
-        </meister-description>
-        <pie-chart id="pies" pulltext="100" pull="60" offset="100">
-          <slice size="20%" stroke="#66cc33">Apple $size</slice>
-          <slice size="18%" stroke="#fc5a8d">Strawberry $size</slice>
-          <slice size="16%" stroke="#ff7518">Pumpkin $size</slice>
-          <slice size="10%" stroke="#790604">Cherry‍‍ $size</slice>
-          <slice size="5%" stroke="#4f86f7">Blueberry $size</slice>
-          <slice size="5%" stroke="#fff44f" pulltext="100" pull> Lemon $size</slice>
-          <slice size="5%" stroke="#d2691e">Chocolate $size</slice>
-          <slice size stroke="lightgrey">Other $size</slice>
-          <style>
-            svg {
-              background: grey;
-            }
-            [label] {
-              font-size: 35;
-              text-anchor: middle;
-              fill: blue;
-            }
-            [label*="Lemon"] text {
-              fill: black;
-              font-size: 45;
-              font-weight: bold;
-            }
-          </style>
-        </pie-chart>
-      </meister-demo>
-    </section>
-    <section>
-      <h2><meister-name></meister-name> - documentation</h2>
-      <meister-demo>
-        <pie-chart id="colors">
-          <slice size="10"></slice>
-          <slice size="20"></slice>
-          <slice size="40"></slice>
-          <slice size="10"></slice>
-          <slice size="20"></slice>
-          <slice size="40"></slice>
-          <slice size="10"></slice>
-        </pie-chart>
-        <meister-description
-          >Minimal HTML to hap<i class="pi"></i>pi</i>ness.
-          <p>Get 6 colors free</p></meister-description
-        >
-      </meister-demo>
-      <meister-demo>
-        <pie-chart>
-          <slice size="10%"></slice>
-          <slice size="20"></slice>
-          <slice size="40"></slice>
-        </pie-chart>
-        <meister-description
-          >Mark the <b>first</b> slice as a percentage <attr-setting>size="10%"</attr-setting> to create a 100 percent
-          pie</meister-description
-        >
-      </meister-demo>
-      <meister-demo>
-        <meister-description
-          >Specify the distance with <attr-setting>pull="100"</attr-setting> and which slice to pull<br /><br />The SVG
-          has a default 1000 x 1000 units viewBox<br /><attr-setting>pull="100"</attr-setting> creates a 1100x1100
-          viewBox so pulled slices are not cut off</meister-description
-        >
-        <pie-chart pull="100">
-          <slice size="10" pull></slice>
-          <slice size="20"></slice>
-          <slice size="40"></slice>
-        </pie-chart>
-      </meister-demo>
-      <meister-demo example>
-        <meister-description
-          >Add a &lt;style> tag to activate labels. <br /><br />If a custom label is declared, the word 'size' is
-          replaced. <br /><br />
-          An empty slice auto-completes a
-          <b>percentage pie</b></meister-description
-        >
-        <pie-chart>
-          <style>
-            text {
-              font-size: 5em;
-              text-anchor: middle;
-              fill: white;
-            }
-          </style>
-          <slice size="10%"></slice>
-          <slice size="20%">Red!</slice>
-          <slice size="40%">$size Blue!</slice>
-          <slice size=""></slice>
-        </pie-chart>
-      </meister-demo>
-      <meister-demo>
-        <meister-description
-          >Similar concept to <attr-setting>pull</attr-setting> <br /><br />
-          <b>labels</b> can be pulled with <attr-setting>pulltext=</attr-setting> in or outward from the slice middle
-          point</meister-description
-        >
-        <pie-chart pulltext="120">
-          <style>
-            text {
-              font-size: 5em;
-              text-anchor: middle;
-              fill: white;
-            }
-          </style>
-          <slice size="10%"></slice>
-          <slice size="20%"></slice>
-          <slice size="40%" pulltext="-150"></slice>
-          <slice size=""></slice>
-        </pie-chart>
-      </meister-demo>
-      <meister-demo>
-        <meister-description
-          >Format a single slice <br /><br />
-          See F12 console: There are plenty of extra attributes available to play with
-        </meister-description>
-        <pie-chart>
-          <slice size="10%"></slice>
-          <slice size="20%"></slice>
-          <slice size="40%"></slice>
-          <style>
-            text {
-              font-size: 5em;
-              text-anchor: middle;
-            }
-            [part="slice2"] {
-              font-size: 1.5em;
-              fill: gold;
-            }
-          </style>
-          <slice size=""></slice>
-        </pie-chart>
-      </meister-demo>
-      <meister-demo template="-21">
-        <meister-description><h3>Add any SVG you want</h3> </meister-description>
-        <pie-chart pull="30" pulltext="100">
-          <circle r="505" cx="50%" cy="50%" fill="green"></circle>
-
-          <slice size="10%"></slice>
-          <slice size="20%"></slice>
-          <slice size="40%"></slice>
-
-          <circle r="100" cx="50%" cy="50%" fill="darkgreen"></circle>
-
-          <slice size="0" stroke="grey">$size to go!</slice>
-
-          <text id="title" x="50%" y="50%" fill="white">Pie Meister</text>
-          <style>
-            text {
-              font-size: 4em;
-              text-anchor: middle;
-              fill: gold;
-            }
-            #title {
-              font-size: 8em;
-            }
-          </style>
-        </pie-chart>
-      </meister-demo>
-      <meister-demo template="-21" example>
-        <meister-description
-          ><h3>SVG Fill patterns</h3>
-          <p>
-            As the &lt;pie-chart> element <b>copies</b> all SVG, you can apply all SVG patterns,masks,animations you can
-            find online.
-          </p>
-          <p>Note that in SVG <b>styles</b> have higher <b>Specificity</b> than SVG element <b>attributes</b></p>
-          <p>Thus an <b>inline style</b> is used to override the stroke color.</p>
-        </meister-description>
-        <pie-chart pull="100">
-          <defs>
-            <pattern id="hatch" patternUnits="userSpaceOnUse" width="15" height="15">
-              <rect width="100%" height="100%" fill="beige"></rect>
-              <line x1="0" y1="0" x2="15" y2="15" stroke="brown" stroke-width="5"></line>
-            </pattern>
-          </defs>
-          <style>
-            svg {
-              background: grey;
-            }
-            path {
-              stroke: yellow;
-            }
-          </style>
-          <slice size="10"> </slice>
-          <slice size="10" style="stroke: url(#hatch)" pull stroke-width="200"> </slice>
-          <slice size="40"> </slice>
-        </pie-chart>
-      </meister-demo>
-
-      <meister-demo>
-        <meister-description
-          >Set the <attr-setting>(default) stroke-width="500"</attr-setting> to a <b>lower</b> value to create a Donut
-          chart</meister-description
-        >
-        <pie-chart stroke-width="200">
-          <slice size="10"></slice>
-          <slice size="20"></slice>
-          <slice size="40"></slice>
-          <slice size="40"></slice>
-        </pie-chart>
-      </meister-demo>
-      <meister-demo>
-        <meister-description
-          >A negative pull value <attr-setting>pull="-85"</attr-setting> makes the viewBox <b>smaller</b>, removing
-          (unwanted) padding. <br /><br />The <attr-setting>&lt;slice size="20" pull></attr-setting> is
-          <b>still</b> pulled outward</meister-description
-        >
-        <pie-chart stroke-width="200" pull="-85">
-          <slice size="10"></slice>
-          <slice size="20" pull></slice>
-
-          <style>
-            text {
-              font-size: 4em;
-              text-anchor: middle;
-            }
-          </style>
-
-          <slice size="40"></slice>
-          <slice size="40"></slice>
-        </pie-chart>
-      </meister-demo>
-      <meister-demo example>
-        <meister-description
-          >Slices can have different <attr-setting>pull</attr-setting> and
-          <attr-setting>stroke-width</attr-setting> values.<br /><br />If you know SVG: all slice attributes will be
-          copied to the SVG &lt;path><br /><br />But note: in SVG STYLE has higher Specificity over
-          Attributes</meister-description
-        >
-        <pie-chart stroke-width="200" pull="-140">
-          <style>
-            text {
-              font-size: 4em;
-              text-anchor: middle;
-            }
-          </style>
-          <slice size="20" stroke-width="80">80</slice>
-          <slice size="30" stroke-width="120">120</slice>
-          <slice size="40" stroke-width="160">160</slice>
-          <slice size="50">default 200</slice>
-        </pie-chart>
-      </meister-demo>
-      <meister-demo example>
-        <meister-description
-          ><attr-setting>fill="stroke-width"</attr-setting> on the &lt;pie-chart> makes the
-          <attr-setting>stroke-width</attr-setting> <b>start</b> from the Pie Chart <b>center</b> creating a Polar
-          chart</meister-description
-        >
-        <pie-chart fill="stroke-width" pull="50" pulltext="90">
-          <style>
-            text {
-              font-size: 4em;
-              text-anchor: middle;
-            }
-          </style>
-          <slice size="4" stroke-width="300">300</slice>
-          <slice size="1" stroke-width="200">200</slice>
-          <slice size="1" stroke-width="300">300</slice>
-          <slice size="1" stroke-width="400">400</slice>
-          <slice size="1">500 default</slice>
-        </pie-chart>
-      </meister-demo>
-      <meister-demo>
-        <meister-description
-          >Don't like the 6 default colors? Specify an array of colors:
-          <attr-setting>stroke="blue,red,green"</attr-setting><br /><br />And/or color a slice
-          <attr-setting>stroke="gold"</attr-setting>. <br /><br />The slice
-          <attr-setting>stroke="gold"</attr-setting> 'saves' using a color from the
-          <attr-setting>stroke</attr-setting> array</meister-description
-        >
-        <pie-chart pull="100" stroke="blue,red,green">
-          <slice size="10" pull></slice>
-          <slice size="40" stroke="gold"></slice>
-          <slice size="20" pull></slice>
-          <slice size="40"></slice>
-        </pie-chart>
-      </meister-demo>
+      <style>
+        #Examples {
+          cursor: pointer;
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+          gap: var(--margin);
+          padding-left: var(--margin);
+        }
+        #Examples ::part(svg) {
+          background: darkslategrey;
+          animation: none;
+        }
+      </style>
       <section>
-        <meister-demo challenge template="-21" example>
+        <h2>&lt;pie-chart> and &lt;progress-circle> examples</h2>
+        <div id="Examples"></div>
+      </section>
+      <section>
+        <h2>Load <meister-name></meister-name></h2>
+        <div class="meister-code">
+          <pre
+            class="language-html"
+          ><code>&lt;script src="https://chart-meister.github.io/PieMeister.min.js">&lt;/script>
+&lt;script src="https://chart-meister.github.io/PieMeister-Progress.min.js">&lt;/script>
+        </code></pre>
+        </div>
+      </section>
+
+      <section>
+        <h2>Use <meister-name></meister-name></h2>
+        <meister-demo template="-21" columns="3fr 2fr" example>
           <meister-description>
-            <h3>&lt;pie-chart> Challenge: Radiation</h3>
-            <p>Now knowing &lt;pie-chart> syntax; how would you create this?</p>
-            <ul>
-              <li>How many slices do you see?</li>
-              <li>How many circles do you see?</li>
-              <li>Hint: The first slice starts at the <b>top</b></li>
-            </ul>
+            <h3>Then ALL HTML required to display a pie-chart is:</h3>
+            <p>
+              The &lt;pie-chart> Web Component processes all innerHTML &lt;slice> elements and <b>creates</b> an SVG
+              Element <b>in shadowDOM</b>
+              <attr-setting></attr-setting>
+            </p>
+            <p>The <attr-setting>style</attr-setting> element is <b>copied</b> to shadowDOM</p>
           </meister-description>
-          <pie-chart stroke-width="300">
+          <pie-chart id="pies" pulltext="100" pull="60" offset="100">
+            <slice size="20%" stroke="#66cc33">Apple $size</slice>
+            <slice size="18%" stroke="#fc5a8d">Strawberry $size</slice>
+            <slice size="16%" stroke="#ff7518">Pumpkin $size</slice>
+            <slice size="10%" stroke="#790604">Cherry‍‍ $size</slice>
+            <slice size="5%" stroke="#4f86f7">Blueberry $size</slice>
+            <slice size="5%" stroke="#fff44f" pulltext="100" pull> Lemon $size</slice>
+            <slice size="5%" stroke="#d2691e">Chocolate $size</slice>
+            <slice size stroke="lightgrey">Other $size</slice>
             <style>
-              [part*="slice"] path {
-                /* color all slices */
-                stroke: yellow;
-              }
-              [part*="slice"]:nth-of-type(even) path {
-                /* color 3 even slices */
-                stroke: black;
-              }
-            </style>
-            <!-- outercircle -->
-            <circle cx="50%" cy="50%" r="430" fill="yellow" stroke="black" stroke-width="15"></circle>
-            <!-- inner circle -->
-            <circle cx="50%" cy="50%" r="70"></circle>
-            <!-- "first" slice is the FIRST AND LAST SLICE creating an offset-->
-            <slice size="1"><!-- white space labels prevent displaying a label --> </slice>
-            <slice size="2"> </slice>
-            <slice size="2"> </slice>
-            <slice size="2"> </slice>
-            <slice size="2"> </slice>
-            <slice size="2"> </slice>
-            <slice size="1"> </slice>
-            <style>
-              @keyframes pulse {
-                50% {
-                  transform: scale(1.05);
-                }
-              }
               svg {
-                transform-origin: center center;
-                animation: pulse 1s infinite;
+                background: grey;
+              }
+              [label] {
+                font-size: 35;
+                text-anchor: middle;
+                fill: blue;
+              }
+              [label*="Lemon"] text {
+                fill: black;
+                font-size: 45;
+                font-weight: bold;
               }
             </style>
           </pie-chart>
         </meister-demo>
       </section>
-      <meister-demo template="-21" example>
-        <meister-description
-          ><h3>Progress Circle</h3>
-          <p>
-            Use SVG
-            <attr-setting>tspan</attr-setting> (textspan) elements to create more complex labels.
-          </p>
-          <p>See the &lt;progress-circle> below for a advanced version</p>
-        </meister-description>
-        <pie-chart offset="top" pull="-250">
-          <style>
-            path {
-              stroke-linecap: round;
-              stroke-width: 90;
-            }
-            tspan {
-              text-anchor: middle;
-              alignment-baseline: middle;
-              fill: black;
-              font-size: 200;
-            }
-            #textPATH {
-              stroke: black;
-              stroke-width: 1;
-            }
-            textPath {
-              text-anchor: middle;
-              font-size: 90;
-            }
-          </style>
-          <slice size="100%" stroke="grey" fill="lightgreen"> </slice>
-          <slice size="70%" stroke-width="90">
-            <tspan x="50%" y="50%">$size</tspan>
-            <textPath href="#textpath" startoffset="50" letter-spacing="10">Progress</textPath>
-          </slice>
-          <slice id="textpath" radius="20" opacity="0"> </slice>
-        </pie-chart>
-      </meister-demo>
-    </section>
-    <section>
-      <meister-demo template="-21" example>
-        <meister-description>
-          <h3>Recreating Google Analytics multiple percentages</h3>
-          <p>
-            By adding extra slices, that always start at <attr-setting>offset="top"</attr-setting> and clever CSS
-            translating the label locations this chart with 4 percentages can be created.
-          </p>
-          <p>The &lt;progress-circle> Web Component (below) creates this &lt;pie-chart> code in 6 HTML lines</p>
-        </meister-description>
-        <pie-chart id="GAdev" offset="top">
-          <style>
-            text {
-              font-size: 3em;
-              text-anchor: end;
-            }
-            path {
-              stroke-linecap: round;
-              stroke-width: 90;
-            }
-            [color1] {
-              stroke: green;
-            }
-            [color2] {
-              stroke: orange;
-            }
-            [color3] {
-              stroke: teal;
-            }
-            [color4] {
-              stroke: orangered;
-            }
-            [part="path"]:not([y]) {
-              opacity: 0.3;
-            }
-            [part="text"] {
-              transform: translate(89px, 4px);
-            }
-            [part="text"] tspan:nth-child(2) {
-              font-size: 1.3em;
-              fill: white;
-              font-weight: bold;
-            }
-          </style>
-          <slice color1 size="100%" radius="200"><!--No label--></slice>
-          <slice color1 size="75%" radius="200" y="65"><tspan>SEO </tspan><tspan> $size</tspan></slice>
-          <slice color2 size="100%" radius="100"> </slice>
-          <slice color2 size="60%" radius="100" y="165"><tspan>Social </tspan><tspan> $size</tspan></slice>
-          <slice color3 size="100%" radius="0"> </slice>
-          <slice color3 size="65%" radius="0" y="265"><tspan>Maps </tspan><tspan> $size</tspan></slice>
-          <slice color4 size="100%" radius="-100"> </slice>
-          <slice color4 size="50%" radius="-100" y="365"><tspan>Traffic </tspan><tspan> $size</tspan></slice>
-        </pie-chart>
-      </meister-demo>
-    </section>
-    <section>
-      <meister-demo template="-21">
-        <meister-description>
-          <h3>The &lt;progress-circle> Web Component</h3>
-          <p>Is built on top of the PieMeister Base Class and converts innerHTML to pie-chart notation</p>
-<p>All HTML required is:</p>
-        </meister-description>
-        <progress-circle edge="grey">
-          <progress value="75%" stroke="green">SEO</progress>
-          <progress value="60%" stroke="orange">Social</progress>
-          <progress value="65%" stroke="teal" edge="black">Maps</progress>
-          <progress value="50%" stroke="orangered">Traffic</progress>
-        </progress-circle>
-      </meister-demo>
-    </section>
-    <section>
-      <meister-demo template="-21">
-        <meister-description>
-          <h3>A single &lt;progress-circle> Element</h3>
-          <p>can be configured with Attributes:</p>
-          <ul>
-            <li>width</li>
-            <li>fill</li>
-            <li>stroke</li>
-            <li>color</li>
-            <li>edge</li>
-          </ul>
+      <section>
+        <h2><meister-name></meister-name> - documentation</h2>
+        <meister-demo template="-21">
+          <pie-chart id="colors">
+            <slice size="10"></slice>
+            <slice size="20"></slice>
+            <slice size="40"></slice>
+            <slice size="10"></slice>
+            <slice size="20"></slice>
+            <slice size="40"></slice>
+            <slice size="10"></slice>
+          </pie-chart>
+          <meister-description
+            >Minimal HTML to hap<i class="pi">pie</i>ness.
+            <p>Get 6 colors free</p></meister-description
+          >
+        </meister-demo>
+        <meister-demo>
+          <pie-chart>
+            <slice size="10%"></slice>
+            <slice size="20"></slice>
+            <slice size="40"></slice>
+          </pie-chart>
+          <meister-description
+            >Mark the <b>first</b> slice as a percentage <attr-setting>size="10%"</attr-setting> to create a 100 percent
+            pie</meister-description
+          >
+        </meister-demo>
+        <meister-demo>
+          <meister-description
+            >Specify the distance with <attr-setting>pull="100"</attr-setting> and which slice to pull<br /><br />The
+            SVG has a default 1000 x 1000 units viewBox<br /><attr-setting>pull="100"</attr-setting> creates a 1100x1100
+            viewBox so pulled slices are not cut off</meister-description
+          >
+          <pie-chart pull="100">
+            <slice size="10" pull></slice>
+            <slice size="20"></slice>
+            <slice size="40"></slice>
+          </pie-chart>
+        </meister-demo>
+        <meister-demo example>
+          <meister-description
+            >Add a &lt;style> tag to activate labels. <br /><br />If a custom label is declared, the word 'size' is
+            replaced. <br /><br />
+            An empty slice auto-completes a
+            <b>percentage pie</b></meister-description
+          >
+          <pie-chart>
+            <style>
+              text {
+                font-size: 5em;
+                text-anchor: middle;
+                fill: white;
+              }
+            </style>
+            <slice size="10%"></slice>
+            <slice size="20%">Red!</slice>
+            <slice size="40%">$size Blue!</slice>
+            <slice size=""></slice>
+          </pie-chart>
+        </meister-demo>
+        <meister-demo>
+          <meister-description
+            >Similar concept to <attr-setting>pull</attr-setting> <br /><br />
+            <b>labels</b> can be pulled with <attr-setting>pulltext=</attr-setting> in or outward from the slice middle
+            point</meister-description
+          >
+          <pie-chart pulltext="120">
+            <style>
+              text {
+                font-size: 5em;
+                text-anchor: middle;
+                fill: white;
+              }
+            </style>
+            <slice size="10%"></slice>
+            <slice size="20%"></slice>
+            <slice size="40%" pulltext="-150"></slice>
+            <slice size=""></slice>
+          </pie-chart>
+        </meister-demo>
+        <meister-demo>
+          <meister-description
+            >Format a single slice <br /><br />
+            See F12 console: There are plenty of extra attributes available to play with
+          </meister-description>
+          <pie-chart>
+            <slice size="10%"></slice>
+            <slice size="20%"></slice>
+            <slice size="40%"></slice>
+            <style>
+              text {
+                font-size: 5em;
+                text-anchor: middle;
+              }
+              [part="slice2"] {
+                font-size: 1.5em;
+                fill: gold;
+              }
+            </style>
+            <slice size=""></slice>
+          </pie-chart>
+        </meister-demo>
+        <meister-demo template="-21">
+          <meister-description><h3>Add any SVG you want</h3> </meister-description>
+          <pie-chart pull="30" pulltext="100">
+            <circle r="505" cx="50%" cy="50%" fill="green"></circle>
 
-          When no label is defined the presentation defaults to a large value in equal color.
-          <style>
-            progress-circle[size10]::part() {
-              background: lightcoral;
-            }
-            progress-circle::part(label) {
-              font-weight: bold;
-            }
-            progress-circle {
-              background: lightgrey;
-            }
-            #ProgressCircles {
-              display: flex;
-              gap: 0.2em;
-              justify-content: space-between;
-              display: grid;
-              grid-template-columns: 1fr 1fr;
-            }
-          </style>
-        </meister-description>
-        <div id="ProgressCircles" code>
-          <progress-circle value="80%"></progress-circle>
-          <progress-circle value="50%" width="50">width=50</progress-circle>
-          <progress-circle value="25%" fill="lightgreen">fill=lightgreen</progress-circle>
-          <progress-circle value="10%" stroke="red">stroke=red</progress-circle>
-          <progress-circle value="10%" color="red">color=red</progress-circle>
-          <progress-circle value="25%" edge="red">edge=red</progress-circle>
-        </div>
-      </meister-demo>
-    </section>
-    <section hidden>
-      <h2><meister-name></meister-name> - Todo</h2>
-      <ul>
-        <li>document size=360 , or set fixed pathLength=100</li>
-        <li>Document SVG &lt;tspan></li>
-        <li>Document gap</li>
-        <li>Document slice.point( x , y , z)</li>
-        <li>Fix .createSlice</li>
-      </ul>
-    </section>
-    <section>
-      <h2><meister-name></meister-name> - Notes</h2>
-      <ul>
-        <li>
-          (contrary to HTML) &lt;style> definitions overrule attributes on
-          <b>SVG</b> elements
-        </li>
-        <li>&lt;circle /> self-closing tags do not work</li>
-        <li>
-          A &lt;slice> is converted to a SVG &lt;path>, it can only contain SVG Elements <b>not</b> HTML elements<br />
-          <pre>&lt;slize size="10">&lt;span> HTML here breaks the SVG &lt;/span>&lt;/slice></pre>
-        </li>
-        <li>Fun fact: <meister-name></meister-name> does not use any Pi calculations!</li>
-      </ul>
-    </section>
-    <section>
-      <h1><meister-name></meister-name> - GZip analysis - Can you squeeze out more bytes?</h1>
-      <p>PieMeister code is an optimized balance between size and performance</p>
-      <h2>PieMeister</h2>
-      <img src="gzip_analysis_PieMeister.png" />
-      <h2>PieMeisterProgress</h2>
-      <img src="gzip_analysis_PieMeisterProgress.png" />
-      <!-- <img src="https://www.rgraph.net/images/svg-activity-meter-snippet.png"> -->
-    </section>
-    <section>
-      <h2><meister-name></meister-name> - Experiments</h2>
-      <meister-demo>
-        <meister-description
-          >CSS filter styles all SVG elements.
-          <p>
-            v2 could create multiple SVGs and stack them, like done in the
-            <a href="https://chessmeister.github.io">ChessMeister</a> experiment
-          </p>
-        </meister-description>
-        <pie-chart pull="200" pulltext="300">
-          <style>
-            svg {
-              background: transparent;
-              filter: drop-shadow(5px 0px 0px darkgreen);
-            }
-            text {
-              font-size: 4em;
-              text-anchor: middle;
-            }
-          </style>
-          <slice size="10%"></slice>
-          <slice size="20%" pulltext="1" pull></slice>
-          <slice size="40%">Label</slice>
-          <slice size="30%"></slice>
-        </pie-chart>
-      </meister-demo>
-    </section>
-  </main>
-  <footer>
+            <slice size="10%"></slice>
+            <slice size="20%"></slice>
+            <slice size="40%"></slice>
 
-  </footer>
+            <circle r="100" cx="50%" cy="50%" fill="darkgreen"></circle>
+
+            <slice size="0" stroke="grey">$size to go!</slice>
+
+            <text id="title" x="50%" y="50%" fill="white">Pie Meister</text>
+            <style>
+              text {
+                font-size: 4em;
+                text-anchor: middle;
+                fill: gold;
+              }
+              #title {
+                font-size: 8em;
+              }
+            </style>
+          </pie-chart>
+        </meister-demo>
+        <meister-demo template="-21" example>
+          <meister-description
+            ><h3>SVG Fill patterns</h3>
+            <p>
+              As the &lt;pie-chart> element <b>copies</b> all SVG, you can apply all SVG patterns,masks,animations you
+              can find online.
+            </p>
+            <p>Note that in SVG <b>styles</b> have higher <b>Specificity</b> than SVG element <b>attributes</b></p>
+            <p>Thus an <b>inline style</b> is used to override the stroke color.</p>
+          </meister-description>
+          <pie-chart pull="100">
+            <defs>
+              <pattern id="hatch" patternUnits="userSpaceOnUse" width="15" height="15">
+                <rect width="100%" height="100%" fill="beige"></rect>
+                <line x1="0" y1="0" x2="15" y2="15" stroke="brown" stroke-width="5"></line>
+              </pattern>
+            </defs>
+            <style>
+              svg {
+                background: grey;
+              }
+              path {
+                stroke: yellow;
+              }
+            </style>
+            <slice size="10"> </slice>
+            <slice size="10" style="stroke: url(#hatch)" pull stroke-width="200"> </slice>
+            <slice size="40"> </slice>
+          </pie-chart>
+        </meister-demo>
+
+        <meister-demo>
+          <meister-description
+            >Set the <attr-setting>(default) stroke-width="500"</attr-setting> to a <b>lower</b> value to create a Donut
+            chart</meister-description
+          >
+          <pie-chart stroke-width="200">
+            <slice size="10"></slice>
+            <slice size="20"></slice>
+            <slice size="40"></slice>
+            <slice size="40"></slice>
+          </pie-chart>
+        </meister-demo>
+        <meister-demo>
+          <meister-description
+            >A negative pull value <attr-setting>pull="-85"</attr-setting> makes the viewBox <b>smaller</b>, removing
+            (unwanted) padding. <br /><br />The <attr-setting>&lt;slice size="20" pull></attr-setting> is
+            <b>still</b> pulled outward</meister-description
+          >
+          <pie-chart stroke-width="200" pull="-85">
+            <slice size="10"></slice>
+            <slice size="20" pull></slice>
+
+            <style>
+              text {
+                font-size: 4em;
+                text-anchor: middle;
+              }
+            </style>
+
+            <slice size="40"></slice>
+            <slice size="40"></slice>
+          </pie-chart>
+        </meister-demo>
+        <meister-demo example>
+          <meister-description
+            >Slices can have different <attr-setting>pull</attr-setting> and
+            <attr-setting>stroke-width</attr-setting> values.<br /><br />If you know SVG: all slice attributes will be
+            copied to the SVG &lt;path><br /><br />But note: in SVG STYLE has higher Specificity over
+            Attributes</meister-description
+          >
+          <pie-chart stroke-width="200" pull="-140">
+            <style>
+              text {
+                font-size: 4em;
+                text-anchor: middle;
+              }
+            </style>
+            <slice size="20" stroke-width="80">80</slice>
+            <slice size="30" stroke-width="120">120</slice>
+            <slice size="40" stroke-width="160">160</slice>
+            <slice size="50">default 200</slice>
+          </pie-chart>
+        </meister-demo>
+        <meister-demo example>
+          <meister-description
+            ><attr-setting>fill="stroke-width"</attr-setting> on the &lt;pie-chart> makes the
+            <attr-setting>stroke-width</attr-setting> <b>start</b> from the Pie Chart <b>center</b> creating a Polar
+            chart</meister-description
+          >
+          <pie-chart fill="stroke-width" pull="50" pulltext="90">
+            <style>
+              text {
+                font-size: 4em;
+                text-anchor: middle;
+              }
+            </style>
+            <slice size="4" stroke-width="300">300</slice>
+            <slice size="1" stroke-width="200">200</slice>
+            <slice size="1" stroke-width="300">300</slice>
+            <slice size="1" stroke-width="400">400</slice>
+            <slice size="1">500 default</slice>
+          </pie-chart>
+        </meister-demo>
+        <meister-demo>
+          <meister-description
+            >Don't like the 6 default colors? Specify an array of colors:
+            <attr-setting>stroke="blue,red,green"</attr-setting><br /><br />And/or color a slice
+            <attr-setting>stroke="gold"</attr-setting>. <br /><br />The slice
+            <attr-setting>stroke="gold"</attr-setting> 'saves' using a color from the
+            <attr-setting>stroke</attr-setting> array</meister-description
+          >
+          <pie-chart pull="100" stroke="blue,red,green">
+            <slice size="10" pull></slice>
+            <slice size="40" stroke="gold"></slice>
+            <slice size="20" pull></slice>
+            <slice size="40"></slice>
+          </pie-chart>
+        </meister-demo>
+        <section>
+          <meister-demo challenge template="-21" example>
+            <meister-description>
+              <h3>&lt;pie-chart> Challenge: Radiation</h3>
+              <p>Now knowing &lt;pie-chart> syntax; how would you create this?</p>
+              <ul>
+                <li>How many slices do you see?</li>
+                <li>How many circles do you see?</li>
+                <li>Hint: The first slice starts at the <b>top</b></li>
+              </ul>
+            </meister-description>
+            <pie-chart stroke-width="300">
+              <style>
+                [part*="slice"] path {
+                  /* color all slices */
+                  stroke: yellow;
+                }
+                [part*="slice"]:nth-of-type(even) path {
+                  /* color 3 even slices */
+                  stroke: black;
+                }
+              </style>
+              <!-- outercircle -->
+              <circle cx="50%" cy="50%" r="430" fill="yellow" stroke="black" stroke-width="15"></circle>
+              <!-- inner circle -->
+              <circle cx="50%" cy="50%" r="70"></circle>
+              <!-- "first" slice is the FIRST AND LAST SLICE creating an offset-->
+              <slice size="1"><!-- white space labels prevent displaying a label --> </slice>
+              <slice size="2"> </slice>
+              <slice size="2"> </slice>
+              <slice size="2"> </slice>
+              <slice size="2"> </slice>
+              <slice size="2"> </slice>
+              <slice size="1"> </slice>
+              <style>
+                @keyframes pulse {
+                  50% {
+                    transform: scale(1.05);
+                  }
+                }
+                svg {
+                  transform-origin: center center;
+                  animation: pulse 1s infinite;
+                }
+              </style>
+            </pie-chart>
+          </meister-demo>
+        </section>
+        <meister-demo template="-21" example>
+          <meister-description
+            ><h3>Progress Circle</h3>
+            <p>
+              Use SVG
+              <attr-setting>tspan</attr-setting> (textspan) elements to create more complex labels.
+            </p>
+            <p>See the &lt;progress-circle> below for a advanced version</p>
+          </meister-description>
+          <pie-chart offset="top" pull="-250">
+            <style>
+              path {
+                stroke-linecap: round;
+                stroke-width: 90;
+              }
+              tspan {
+                text-anchor: middle;
+                alignment-baseline: middle;
+                fill: black;
+                font-size: 200;
+              }
+              #textPATH {
+                stroke: black;
+                stroke-width: 1;
+              }
+              textPath {
+                text-anchor: middle;
+                font-size: 90;
+              }
+            </style>
+            <slice size="100%" stroke="grey" fill="lightgreen"> </slice>
+            <slice size="70%" stroke-width="90">
+              <tspan x="50%" y="50%">$size</tspan>
+              <textPath href="#textpath" startoffset="50" letter-spacing="10">Progress</textPath>
+            </slice>
+            <slice id="textpath" radius="20" opacity="0"> </slice>
+          </pie-chart>
+        </meister-demo>
+      </section>
+      <section>
+        <meister-demo template="-21" example>
+          <meister-description>
+            <h3>Recreating Google Analytics multiple percentages</h3>
+            <p>
+              By adding extra slices, that always start at <attr-setting>offset="top"</attr-setting> <br />and clever
+              CSS translating the label locations <br />this chart with 4 percentages can be created.
+            </p>
+            <p>The &lt;progress-circle> Web Component (below) creates this &lt;pie-chart> code in 6 HTML lines</p>
+          </meister-description>
+          <pie-chart id="GAdev" offset="top">
+            <style>
+              text {
+                font-size: 3em;
+                text-anchor: end;
+              }
+              path {
+                stroke-linecap: round;
+                stroke-width: 90;
+              }
+              [color1] {
+                stroke: green;
+              }
+              [color2] {
+                stroke: orange;
+              }
+              [color3] {
+                stroke: teal;
+              }
+              [color4] {
+                stroke: orangered;
+              }
+              [part="path"]:not([y]) {
+                opacity: 0.3;
+              }
+              [part="text"] {
+                transform: translate(89px, 4px);
+              }
+              [part="text"] tspan:nth-child(2) {
+                font-size: 1.3em;
+                fill: white;
+                font-weight: bold;
+              }
+            </style>
+            <slice color1 size="100%" radius="200"><!--No label--></slice>
+            <slice color1 size="75%" radius="200" y="65"><tspan>SEO </tspan><tspan> $size</tspan></slice>
+            <slice color2 size="100%" radius="100"> </slice>
+            <slice color2 size="60%" radius="100" y="165"><tspan>Social </tspan><tspan> $size</tspan></slice>
+            <slice color3 size="100%" radius="0"> </slice>
+            <slice color3 size="65%" radius="0" y="265"><tspan>Maps </tspan><tspan> $size</tspan></slice>
+            <slice color4 size="100%" radius="-100"> </slice>
+            <slice color4 size="50%" radius="-100" y="365"><tspan>Traffic </tspan><tspan> $size</tspan></slice>
+          </pie-chart>
+        </meister-demo>
+      </section>
+      <section>
+        <meister-demo template="-21" example>
+          <meister-description>
+            <h3>The &lt;progress-circle> Web Component</h3>
+            <p>Is built on top of the PieMeister Base Class and converts innerHTML to pie-chart notation</p>
+            <p>All HTML required is:</p>
+          </meister-description>
+          <progress-circle edge="grey">
+            <progress value="75%" stroke="green">SEO</progress>
+            <progress value="60%" stroke="orange">Social</progress>
+            <progress value="65%" stroke="teal" edge="black">Maps</progress>
+            <progress value="50%" stroke="orangered">Traffic</progress>
+          </progress-circle>
+        </meister-demo>
+      </section>
+      <section>
+        <meister-demo template="-21" example>
+          <meister-description>
+            <h3>A single &lt;progress-circle> Element</h3>
+            <p>can be configured with Attributes:</p>
+            <ul>
+              <li>width</li>
+              <li>fill</li>
+              <li>stroke</li>
+              <li>color</li>
+              <li>edge</li>
+            </ul>
+
+            When no label is defined the presentation defaults to a large value in equal color.
+            <style>
+              progress-circle[size10]::part() {
+                background: lightcoral;
+              }
+              progress-circle::part(label) {
+                font-weight: bold;
+              }
+              progress-circle {
+                background: lightgrey;
+              }
+              #ProgressCircles {
+                display: flex;
+                gap: 0.2em;
+                justify-content: space-between;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+              }
+            </style>
+          </meister-description>
+          <div id="ProgressCircles" code>
+            <progress-circle value="80%"></progress-circle>
+            <progress-circle value="50%" width="50">width=50</progress-circle>
+            <progress-circle value="25%" fill="lightgreen">fill=lightgreen</progress-circle>
+            <progress-circle value="10%" stroke="red">stroke=red</progress-circle>
+            <progress-circle value="10%" color="red">color=red</progress-circle>
+            <progress-circle value="25%" edge="red">edge=red</progress-circle>
+          </div>
+        </meister-demo>
+      </section>
+      <section hidden>
+        <h2><meister-name></meister-name> - Todo</h2>
+        <ul>
+          <li>document size=360 , or set fixed pathLength=100</li>
+          <li>Document SVG &lt;tspan></li>
+          <li>Document gap</li>
+          <li>Document slice.point( x , y , z)</li>
+          <li>Fix .createSlice</li>
+        </ul>
+      </section>
+      <section>
+        <h2><meister-name></meister-name> - Notes</h2>
+        <ul>
+          <li>
+            (contrary to HTML) &lt;style> definitions overrule attributes on
+            <b>SVG</b> elements
+          </li>
+          <li>&lt;circle /> self-closing tags do not work</li>
+          <li>
+            A &lt;slice> is converted to a SVG &lt;path>, it can only contain SVG Elements <b>not</b> HTML elements<br />
+            <pre>&lt;slize size="10">&lt;span> HTML here breaks the SVG &lt;/span>&lt;/slice></pre>
+          </li>
+          <li>Fun fact: <meister-name></meister-name> does not use any Pi calculations!</li>
+        </ul>
+      </section>
+      <section>
+        <h1><meister-name></meister-name> - GZip analysis - Can you squeeze out more bytes?</h1>
+        <p>PieMeister code is an optimized balance between size and performance</p>
+        <h2>PieMeister <content-length></content-length></h2>
+        <img src="gzip_analysis_PieMeister.png" />
+        <h2>PieMeister with Progress <content-length src="./PieMeister-with-Progress.min.js"></content-length></h2>
+        <img src="gzip_analysis_PieMeister-with-Progress.png" />
+        <!-- <img src="https://www.rgraph.net/images/svg-activity-meter-snippet.png"> -->
+      </section>
+      <section>
+        <h2><meister-name></meister-name> - Experiments</h2>
+        <meister-demo>
+          <meister-description
+            >CSS filter styles all SVG elements.
+            <p>
+              v2 could create multiple SVGs and stack them, like done in the
+              <a href="https://chessmeister.github.io">ChessMeister</a> experiment
+            </p>
+          </meister-description>
+          <pie-chart pull="200" pulltext="300">
+            <style>
+              svg {
+                background: transparent;
+                filter: drop-shadow(5px 0px 0px darkgreen);
+              }
+              text {
+                font-size: 4em;
+                text-anchor: middle;
+              }
+            </style>
+            <slice size="10%"></slice>
+            <slice size="20%" pulltext="1" pull></slice>
+            <slice size="40%">Label</slice>
+            <slice size="30%"></slice>
+          </pie-chart>
+        </meister-demo>
+      </section>
+    </main>
+    <footer></footer>
   </body>
 </html>

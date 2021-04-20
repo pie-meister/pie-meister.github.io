@@ -180,7 +180,7 @@ try {
     "meister-name",
     class extends HTMLElement {
       connectedCallback() {
-        this.innerHTML = `Pie Meister Web Component v3.14 `;
+        this.innerHTML = `&lt;pie-chart> Web Component v3.14 `;
       }
     }
   );
@@ -193,7 +193,8 @@ try {
         if (templ) return templ.content.cloneNode(true);
         else return []; // empty content for .append
       };
-      super().attachShadow({ mode: "open" }).append(template());
+      let defaultTemplate = "-21"; // ""
+      super().attachShadow({ mode: "open" }).append(template(defaultTemplate));
 
       //if there is no description column only show code and result
       if (this.hasAttribute("columns")) {
@@ -271,7 +272,7 @@ try {
     class extends HTMLElement {
       // ------------------------------------------------------------------
       connectedCallback() {
-        let src = this.getAttribute("src") || "https://pie-meister.github.io/PieMeisterProgress.min.js";
+        let src = this.getAttribute("src") || "https://pie-meister.github.io/PieMeister.min.js";
         fetch(src, { mode: "cors" }).then(
           (res) => (this.innerHTML = " " + res.headers.get("content-length") + "&nbsp;Bytes")
         );
@@ -360,9 +361,15 @@ try {
           },
           {
             name: "<b><meister-name></meister-name></b>",
-            uri: "https://pie-meister.github.io",
+            uri: "https://chart-meister.github.io",
             size: "<b><content-length></content-length></b>",
             comment: ``,
+          },
+          {
+            name: "<b>&lt;progress-circle></b>",
+            uri: "https://pie-meister.github.io",
+            size: "<b><content-length src='./PieMeister-with-Progress.min.js'></content-length></b>",
+            comment: `includes &lt;pie-chart>`,
           },
         ].map(
           (c) =>
