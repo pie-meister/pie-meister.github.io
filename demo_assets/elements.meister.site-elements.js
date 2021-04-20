@@ -155,18 +155,20 @@ try {
   }
   // ===========================================================================
   function PrismNormalizeCode(code) {
-    Prism.plugins.NormalizeWhitespace.normalize(code, {
-      "remove-trailing": true,
-      "remove-indent": true,
-      "left-trim": true,
-      "right-trim": true,
-      "remove-initial-line-feed": true,
+    let config1 = {
+      "remove-trailing": 1,
+      "remove-indent": 1,
+      "left-trim": 1,
+      "right-trim": 1,
+      "remove-initial-line-feed": 1,
       /*'break-lines': 80,
     'indent': 2,
     'tabs-to-spaces': 4,*/
-      "spaces-to-tabs": 4,
-    });
-    return Prism.highlight(code, Prism.languages.javascript);
+      "spaces-to-tabs": 2,
+    };
+    Prism.plugins.NormalizeWhitespace.normalize(code, config1);
+    return Prism.highlight(code, Prism.languages.html);
+    //return Prism.highlight(code, Prism.languages.javascript);
   }
   // ===========================================================================
   function formatHTMLasCode(html) {
@@ -201,6 +203,8 @@ try {
         let columns = this.getAttribute("columns") || "1fr 1fr 1fr";
         this.style.setProperty("--columns", columns);
       }
+    }
+    connectedCallback() {
       this.showPrismContent();
       this.showExample();
     }
@@ -212,7 +216,7 @@ try {
           try {
             let pre = document.createElement("pre");
             [...this.attributes].map((attr) => pre.setAttribute(attr.name, attr.value));
-            pre.innerHTML = `<code class="language-html"></code>`;
+            pre.innerHTML = `<code class="language-html" no-whitespace-normalization></code>`;
             if (this.hasAttribute("challenge")) {
               let details = document.createElement("details");
               let summary = document.createElement("summary");
@@ -261,7 +265,7 @@ try {
             console.warn("No code in example");
           }
         } else {
-          console.warn("no example",this);
+          console.warn("no example", this);
         }
       } catch (e) {
         console.error("pie-chart example", e);

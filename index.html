@@ -53,7 +53,7 @@
         let devFolder = "";
         let QomponentURI = (x) => {
           let uri = `.${devFolder}/PieMeister${x}${minifiedExt}.js`;
-          console.log("%c PieMeister 3.14 ", "background:purple;color:yellow", "LOAD:", {uri, x});
+          console.log("%c PieMeister 3.14 ", "background:purple;color:yellow", "LOAD:", { uri, x });
           // uri += /* Qomponents Obfuscation */ `?Qomponent="HTMLElementZ2V0QXR0cmlidXRlLHNldEF0dHJpYnV0ZSxoYXNBdHRyaWJ1dGUsYXR0cmlidXRlcyxpbm5lckhUTUwsY3JlYXRlRWxlbWVudE5TLHF1ZXJ5U2VsZWN0b3JBbGwscXVlcnlTZWxlY3RvcixodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyxzbGljZSxzdHJva2Utd2lkdGgsc3Ryb2tlLHN0cm9rZS1kYXNoYXJyYXksc3Ryb2tlLWRhc2hvZmZzZXQsb2Zmc2V0LHB1bGx0ZXh0LHB1bGwsdGV4dCxnZXRUb3RhbExlbmd0aCxnZXRQb2ludEF0TGVuZ3RoLHBhdGgscGF0aExlbmd0aCxyZXBsYWNlV2l0aCxyZXBsYWNlLHNpemUscGFydCxtYXAsZ2V0UG9pbnQsdG9wLHN0eWxlLGFwcGVuZCxmaWxsLG5vbmUsdHJhbnNmb3JtLHJhZGl1cyxsYWJlbCxwb2ludHM=HTMLElement`;
           return uri;
         };
@@ -233,6 +233,10 @@
         font-size: 100%;
         cursor: pointer;
       }
+      /* PRISM  properly indent code */
+      .token.property {
+        padding-left: 5em;
+      }
     </style>
   </head>
   <body>
@@ -293,9 +297,7 @@
       <section>
         <h2>Load <meister-name></meister-name></h2>
         <div class="meister-code">
-          <pre
-            class="language-html"
-          ><code>&lt;script src="https://pie-meister.github.io/PieMeister.min.js">&lt;/script>
+          <pre class="language-html"><code>&lt;script src="https://pie-meister.github.io/PieMeister.min.js">&lt;/script>
             OR
 &lt;script src="https://pie-meister.github.io/PieMeister-with-Progress.min.js">&lt;/script>
         </code></pre>
@@ -658,10 +660,6 @@
                 fill: black;
                 font-size: 200;
               }
-              #textPATH {
-                stroke: black;
-                stroke-width: 1;
-              }
               textPath {
                 text-anchor: middle;
                 font-size: 90;
@@ -670,9 +668,9 @@
             <slice size="100%" stroke="grey" fill="lightgreen"> </slice>
             <slice size="70%" stroke-width="90">
               <tspan x="50%" y="50%">$size</tspan>
-              <textPath href="#textpath" startoffset="50" letter-spacing="10">Progress</textPath>
+              <textPath href="#labelPosition" startoffset="50" letter-spacing="10">Progress</textPath>
             </slice>
-            <slice id="textpath" radius="20" opacity="0"> </slice>
+            <slice id="labelPosition" radius="20" opacity="0"> </slice>
           </pie-chart>
         </meister-demo>
       </section>
