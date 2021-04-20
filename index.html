@@ -53,19 +53,20 @@
         let devFolder = "";
         let QomponentURI = (x) => {
           let uri = `.${devFolder}/PieMeister${x}${minifiedExt}.js`;
-          console.log("%c PieMeister 3.14 ", "background:purple;color:yellow", "LOAD:", uri, x, devFolder);
+          console.log("%c PieMeister 3.14 ", "background:purple;color:yellow", "LOAD:", {uri, x});
           // uri += /* Qomponents Obfuscation */ `?Qomponent="HTMLElementZ2V0QXR0cmlidXRlLHNldEF0dHJpYnV0ZSxoYXNBdHRyaWJ1dGUsYXR0cmlidXRlcyxpbm5lckhUTUwsY3JlYXRlRWxlbWVudE5TLHF1ZXJ5U2VsZWN0b3JBbGwscXVlcnlTZWxlY3RvcixodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyxzbGljZSxzdHJva2Utd2lkdGgsc3Ryb2tlLHN0cm9rZS1kYXNoYXJyYXksc3Ryb2tlLWRhc2hvZmZzZXQsb2Zmc2V0LHB1bGx0ZXh0LHB1bGwsdGV4dCxnZXRUb3RhbExlbmd0aCxnZXRQb2ludEF0TGVuZ3RoLHBhdGgscGF0aExlbmd0aCxyZXBsYWNlV2l0aCxyZXBsYWNlLHNpemUscGFydCxtYXAsZ2V0UG9pbnQsdG9wLHN0eWxlLGFwcGVuZCxmaWxsLG5vbmUsdHJhbnNmb3JtLHJhZGl1cyxsYWJlbCxwb2ludHM=HTMLElement`;
           return uri;
         };
 
         if (location.href.includes("github")) {
           minifiedExt = ".min";
+          await import(QomponentURI("-with-Progress")); // <pie-chart> AND <progress-circle>
         } else {
           minifiedExt = "";
           devFolder = "./dev";
+          await import(QomponentURI("")); // default <pie-chart>
+          await import(QomponentURI("-Progress")); //
         }
-        await import(QomponentURI("")); // default PieMeister
-        await import(QomponentURI("-with-Progress")); //
         // const { default: PieMeister } = await import(pieMeisterSource);
         // const { default: PieMeisterProgress } = await import(
         //   QomponentURI("-Progress")
@@ -294,8 +295,9 @@
         <div class="meister-code">
           <pre
             class="language-html"
-          ><code>&lt;script src="https://chart-meister.github.io/PieMeister.min.js">&lt;/script>
-&lt;script src="https://chart-meister.github.io/PieMeister-Progress.min.js">&lt;/script>
+          ><code>&lt;script src="https://pie-meister.github.io/PieMeister.min.js">&lt;/script>
+            OR
+&lt;script src="https://pie-meister.github.io/PieMeister-with-Progress.min.js">&lt;/script>
         </code></pre>
         </div>
       </section>

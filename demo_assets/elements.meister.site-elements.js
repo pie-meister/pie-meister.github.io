@@ -223,7 +223,6 @@ try {
               summary.style = "color:black;cursor:pointer";
               summary.innerHTML = `<b>Show me the code!</b>`;
               details.append(summary, pre);
-              console.warn(this);
               this.prepend(details);
               pre = details;
             }
@@ -249,16 +248,21 @@ try {
       }, 0);
     }
     showExample() {
-      if (this.hasAttribute("example")) {
-        let pie = this.querySelector("pie-chart") || this.querySelector("progress-circle");
-        if (pie) {
-          let div = document.createElement("div");
-          div.append(pie.cloneNode(true));
-          div.onclick = (evt) => pie.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
-          Examples.append(div);
-        } else {
-          console.warn("No code in example");
+      try {
+        if (this.hasAttribute("example")) {
+          let pie = this.querySelector("pie-chart") || this.querySelector("progress-circle");
+          if (pie) {
+            let div = document.createElement("div");
+            console.warn("Show example", pie);
+            div.append(pie.cloneNode(true));
+            div.onclick = (evt) => pie.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+            Examples.append(div);
+          } else {
+            console.warn("No code in example");
+          }
         }
+      } catch (e) {
+        console.error("pie-chart example", e);
       }
     }
   }
