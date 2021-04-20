@@ -252,14 +252,16 @@ try {
         if (this.hasAttribute("example")) {
           let pie = this.querySelector("pie-chart") || this.querySelector("progress-circle");
           if (pie) {
-            let div = document.createElement("div");
             console.warn("Show example", pie);
+            let div = document.createElement("div");
             div.append(pie.cloneNode(true));
             div.onclick = (evt) => pie.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
             Examples.append(div);
           } else {
             console.warn("No code in example");
           }
+        } else {
+          console.warn("no example",this);
         }
       } catch (e) {
         console.error("pie-chart example", e);
@@ -365,7 +367,7 @@ try {
           },
           {
             name: "<b><meister-name></meister-name></b>",
-            uri: "https://chart-meister.github.io",
+            uri: "https://pie-meister.github.io",
             size: "<b><content-length></content-length></b>",
             comment: ``,
           },
