@@ -205,8 +205,10 @@ try {
       }
     }
     connectedCallback() {
-      this.showPrismContent();
-      this.showExample();
+      setTimeout(()=>{
+        this.showPrismContent();
+        this.showExample();
+      })
     }
     // ------------------------------------------------------------------
     showPrismContent() {
