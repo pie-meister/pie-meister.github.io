@@ -49,7 +49,7 @@
 
     <script type="module">
       (async () => {
-        let minifiedExt = "";
+        let minifiedExt = document.location.search.includes("min") ? ".min" : "";
         let devFolder = "";
         let QomponentURI = (x) => {
           let uri = `.${devFolder}/PieMeister${x}${minifiedExt}.js`;
@@ -59,7 +59,7 @@
         };
 
         if (location.href.includes("github")) {
-          minifiedExt = ".min";
+          //minifiedExt = ".min";
           await import(QomponentURI("-with-Progress")); // <pie-chart> AND <progress-circle>
         } else {
           minifiedExt = "";
@@ -216,9 +216,11 @@
       table a {
         text-decoration: none;
       }
+      content-length {
+        color: gold;
+      }
       table content-length {
         padding-left: 3em;
-        color: gold;
       }
       #about {
         font-size: 1.5em;
@@ -234,6 +236,7 @@
         cursor: pointer;
       }
       /* PRISM  properly indent code */
+      .token.selector,
       .token.property {
         padding-left: 5em;
       }
@@ -262,9 +265,10 @@
             </li>
             <li>
               <a href="" target="_blank"
-                >The Good, The Bad, The Ugly; Unknown &lt;slice> elements in &lt;pie-chart> Web Components</a
+                >The Good, Bad and Ugly; Unknown &lt;slice> elements in the &lt;pie-chart> Web Component</a
               >
             </li>
+            <!-- Oh, I do like those tiny Web Components -->
           </ul>
           <p style="color: gold">
             Todo: Write intro how Web Components saved me from a JSX addiction, and rekindled my love for semantic HTML.
@@ -446,7 +450,10 @@
           </pie-chart>
         </meister-demo>
         <meister-demo template="-21">
-          <meister-description><h3>Add any SVG you want</h3> </meister-description>
+          <meister-description>Add <b>any</b> SVG you want
+<p>The SVG &lt;circle>, &lt;text> and &lt;style> elements become part of the created &lt;svg> element</p>
+
+          </meister-description>
           <pie-chart pull="30" pulltext="100">
             <circle r="505" cx="50%" cy="50%" fill="green"></circle>
 
@@ -473,12 +480,12 @@
         </meister-demo>
         <meister-demo template="-21" example>
           <meister-description
-            ><h3>SVG Fill patterns</h3>
+            ><b>SVG Fill patterns</b>
             <p>
               As the &lt;pie-chart> element <b>copies</b> all SVG, you can apply all SVG patterns,masks,animations you
               can find online.
             </p>
-            <p>Note that in SVG <b>styles</b> have higher <b>Specificity</b> than SVG element <b>attributes</b></p>
+            <p>Note: in SVG, <b>styles</b> have higher <b>Specificity</b> than SVG element <b>attributes</b></p>
             <p>Thus an <b>inline style</b> is used to override the stroke color.</p>
           </meister-description>
           <pie-chart pull="100">
@@ -729,11 +736,11 @@
         </meister-demo>
       </section>
       <section>
+        <h2>&lt;progress-circle> Web Component</h2>
         <meister-demo template="-21" example>
           <meister-description>
-            <h3>The &lt;progress-circle> Web Component</h3>
-            <p>Is built on top of the PieMeister Base Class and converts innerHTML to pie-chart notation</p>
-            <p>All HTML required is:</p>
+            <p>Is built on top of the PieMeister Base Class and converts innerHTML to &lt;pie-chart> notation</p>
+            <p>The previous 30 lines HTML/CSS code can now be written as:</p>
           </meister-description>
           <progress-circle edge="grey">
             <progress value="75%" stroke="green">SEO</progress>
@@ -812,11 +819,12 @@
         </ul>
       </section>
       <section>
-        <h1><meister-name></meister-name> - GZip analysis - Can you squeeze out more bytes?</h1>
+        <h1>GZip analysis</h1>
         <p>PieMeister code is an optimized balance between size and performance</p>
-        <h2>PieMeister <content-length></content-length></h2>
+        <p>Can you squeeze out more bytes?</p>
+        <h2>PieMeister: <content-length></content-length></h2>
         <img src="gzip_analysis_PieMeister.png" />
-        <h2>PieMeister with Progress <content-length src="./PieMeister-with-Progress.min.js"></content-length></h2>
+        <h2>PieMeister with Progress: <content-length src="https://pie-meister.github.io/PieMeister-with-Progress.min.js"></content-length></h2>
         <img src="gzip_analysis_PieMeister-with-Progress.png" />
         <!-- <img src="https://www.rgraph.net/images/svg-activity-meter-snippet.png"> -->
       </section>

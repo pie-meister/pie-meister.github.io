@@ -258,7 +258,7 @@ try {
         if (this.hasAttribute("example")) {
           let pie = this.querySelector("pie-chart") || this.querySelector("progress-circle");
           if (pie) {
-            console.warn("Show example", pie);
+            // console.warn("Show example", pie);
             let div = document.createElement("div");
             div.append(pie.cloneNode(true));
             div.onclick = (evt) => pie.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
@@ -267,7 +267,7 @@ try {
             console.warn("No code in example");
           }
         } else {
-          console.warn("no example", this);
+          // console.warn("no example", this);
         }
       } catch (e) {
         console.error("pie-chart example", e);
