@@ -12,6 +12,7 @@
         /* display: none; */
       }
       body {
+        --bodywidth: 1100px;
         --blue: cornflowerblue;
         --margin: 1em;
         --h1_color: orangered;
@@ -30,7 +31,7 @@
         font-family: Arial;
         font-size: 21px;
         width: 88vw;
-        max-width: 1600px;
+        max-width: var(--bodywidth, 1100px);
         margin: 0 auto;
       }
     </style>
@@ -208,7 +209,7 @@
         color: var(--meister-demo-description-color, black);
       }
       :not(:defined) {
-        opacity: 0;
+        xopacity: 0;
       }
       table {
         font-size: 1em;
@@ -258,9 +259,9 @@
           <ul>
             <li>
               <a
-                href="https://dev.to/dannyengelman/what-web-technologies-are-required-to-draw-a-pie-chart-in-2021-spoiler-alert-a-standard-web-component-will-do-1j56"
+                href="https://dev.to/dannyengelman/web-components-using-unknownhtmlelements-for-better-semantic-html-1a0i-temp-slug-9494992"
                 target="_blank"
-                >What Web Technologies are required to draw a Pie Chart in 2021?</a
+                >Web Components using UnknownHTMLElements for better semantic HTML</a
               >
             </li>
             <li>
@@ -370,8 +371,8 @@
             <slice size="40"></slice>
           </pie-chart>
           <meister-description
-            >Mark the <b>first</b> slice as a percentage <attr-setting>size="10%"</attr-setting> to create a 100 percent
-            pie</meister-description
+            >Mark the <b>first</b> &lt;slice> as a percentage <attr-setting>size="10%"</attr-setting> to create a 100
+            percent pie</meister-description
           >
         </meister-demo>
         <meister-demo>
@@ -390,7 +391,7 @@
           <meister-description
             >Add a &lt;style> tag to activate labels. <br /><br />If a custom label is declared, the word '$size' is
             replaced. <br /><br />
-            An empty slice auto-completes a
+            An empty &lt;slice> auto-completes a
             <b>percentage pie</b></meister-description
           >
           <pie-chart>
@@ -450,9 +451,9 @@
           </pie-chart>
         </meister-demo>
         <meister-demo template="-21">
-          <meister-description>Add <b>any</b> SVG you want
-<p>The SVG &lt;circle>, &lt;text> and &lt;style> elements become part of the created &lt;svg> element</p>
-
+          <meister-description
+            >Add <b>any</b> SVG you want
+            <p>The SVG &lt;circle>, &lt;text> and &lt;style> elements become part of the created &lt;svg> element</p>
           </meister-description>
           <pie-chart pull="30" pulltext="100">
             <circle r="505" cx="50%" cy="50%" fill="green"></circle>
@@ -545,10 +546,9 @@
         <meister-demo example>
           <meister-description
             >Slices can have different <attr-setting>pull</attr-setting> and
-            <attr-setting>stroke-width</attr-setting> values.<br /><br />If you know SVG: all slice attributes will be
-            copied to the SVG &lt;path><br /><br />But note: in SVG STYLE has higher Specificity over
-            Attributes</meister-description
-          >
+            <attr-setting>stroke-width</attr-setting> values. <br /><br />If you know SVG: <b>all</b> &lt;slice>
+            attributes are copied to the SVG &lt;path> element
+          </meister-description>
           <pie-chart stroke-width="200" pull="-140">
             <style>
               text {
@@ -564,8 +564,8 @@
         </meister-demo>
         <meister-demo example>
           <meister-description
-            ><attr-setting>fill="stroke-width"</attr-setting> on the &lt;pie-chart> makes the
-            <attr-setting>stroke-width</attr-setting> <b>start</b> from the Pie Chart <b>center</b> creating a Polar
+            ><attr-setting>fill="stroke-width"</attr-setting> on the &lt;pie-chart> makes the &lt;slice>
+            <attr-setting>stroke-width</attr-setting> <b>start</b> from the Pie Chart <b>center</b>, creating a Polar
             chart</meister-description
           >
           <pie-chart fill="stroke-width" pull="50" pulltext="90">
@@ -819,12 +819,16 @@
         </ul>
       </section>
       <section>
-        <h1>GZip analysis</h1>
-        <p>PieMeister code is an optimized balance between size and performance</p>
+        <h2><meister-name></meister-name>GZip analysis</h2>
+        <p>PieMeister code is an optimized balance between function, size and performance</p>
+        <p>Blue is best compression, Red is worst compression</p>
         <p>Can you squeeze out more bytes?</p>
-        <h2>PieMeister: <content-length></content-length></h2>
+        <h3>PieMeister: <content-length></content-length></h3>
         <img src="gzip_analysis_PieMeister.png" />
-        <h2>PieMeister with Progress: <content-length src="https://pie-meister.github.io/PieMeister-with-Progress.min.js"></content-length></h2>
+        <h3>
+          PieMeister with Progress:
+          <content-length src="https://pie-meister.github.io/PieMeister-with-Progress.min.js"></content-length>
+        </h3>
         <img src="gzip_analysis_PieMeister-with-Progress.png" />
         <!-- <img src="https://www.rgraph.net/images/svg-activity-meter-snippet.png"> -->
       </section>
@@ -834,8 +838,8 @@
           <meister-description
             >CSS filter styles all SVG elements.
             <p>
-              v2 could create multiple SVGs and stack them, like done in the
-              <a href="https://chessmeister.github.io">ChessMeister</a> experiment
+              Maybe create multiple SVGs, for slices and labels, and stack them, like done in the
+              <a href="https://chessmeister.github.io">ChessMeister Chessboard</a> experiment
             </p>
           </meister-description>
           <pie-chart pull="200" pulltext="300">

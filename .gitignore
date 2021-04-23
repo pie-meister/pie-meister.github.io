@@ -1,4 +1,4 @@
 .gitignore
 .vscode
 build
-
+demo_assets\*.png
