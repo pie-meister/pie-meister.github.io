@@ -20,6 +20,7 @@
         --h1_color: orangered;
         --h2_color: orangered;
         --h3_color: black;
+        --contentlength:gold;
         --almostblack: #222222;
         --meister-demo-background: #e2e2e2;
         --meister-demo-body-background: var(--almostblack);
@@ -220,7 +221,7 @@
         text-decoration: none;
       }
       content-length {
-        color: gold;
+        color: var(--contentlength,gold);
       }
       table content-length {
         padding-left: 3em;
@@ -260,18 +261,17 @@
           <b>Related Dev.to posts:</b>
           <ul>
             <li>
+              <a href="https://dev.to/dannyengelman/what-web-technologies-are-required-to-draw-a-pie-chart-in-2021-spoiler-alert-a-standard-web-component-will-do-1j56" target="_blank"
+                >What Web technologies are required to draw a Pie Chart in 2021? (spoiler alert: a standard Web Component will do)</a
+              >
+            </li>
+            <li>
               <a
                 href="https://dev.to/dannyengelman/web-components-using-unknownhtmlelements-for-better-semantic-html-1a0i-temp-slug-9494992"
                 target="_blank"
                 >Web Components using UnknownHTMLElements for better semantic HTML</a
               >
             </li>
-            <li>
-              <a href="" target="_blank"
-                >The Good, Bad and Ugly; Unknown &lt;slice> elements in the &lt;pie-chart> Web Component</a
-              >
-            </li>
-            <!-- Oh, I do like those tiny Web Components -->
           </ul>
           <p style="color: gold">
             Todo: Write intro how Web Components saved me from a JSX addiction, and rekindled my love for semantic HTML.
@@ -821,16 +821,16 @@
         </ul>
       </section>
       <section>
-        <h2><meister-name></meister-name>GZip analysis</h2>
+        <h1><meister-name></meister-name>GZip analysis</h1>
         <p>PieMeister code is an optimized balance between function, size and performance</p>
         <p>Blue is best compression, Red is worst compression</p>
         <p>Can you squeeze out more bytes?</p>
-        <h3>PieMeister: <content-length></content-length></h3>
+        <h2>PieMeister: <content-length></content-length></h2>
         <img src="gzip_analysis_PieMeister.png" />
-        <h3>
+        <h2>
           PieMeister with Progress:
           <content-length src="https://pie-meister.github.io/PieMeister-with-Progress.min.js"></content-length>
-        </h3>
+        </h2>
         <img src="gzip_analysis_PieMeister-with-Progress.png" />
         <!-- <img src="https://www.rgraph.net/images/svg-activity-meter-snippet.png"> -->
       </section>
