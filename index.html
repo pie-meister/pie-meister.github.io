@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <!-- 
 
     Proof of Concept : Web Component <pie-chart>
@@ -6,8 +7,22 @@
     This is UNlicensed source code; a STARTING POINT for your own Web Components
 
    -->
-
-   <head>
+  <head>
+    <meta charset="utf-8" />
+    <title>PieMeister - &lt;pie-chart> and &lt;progress-circle> Web Components</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg style=&quot;width:100%;display:inline-block&quot; xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><path class=&quot;hexedpath&quot; d=&quot;M48 3l45 23v45l-45 22l-45-22v-45z&quot; stroke=&quot;gold&quot; stroke-width=&quot;6&quot; fill='darkgoldenrod' stroke-linejoin='round'/><text stroke='black' fill='gold' stroke-width='0.1' x='47' y='70'  font-size='60px' style='user-select:none' font-family='Verdana' text-anchor='middle' font-weight='bold'  >Pi</text></svg>"
+    />
+    <meta name="title" property="og:title" content="Catan - by Hexedland.com" />
+    <meta
+      name="description"
+      property="og:description"
+      content="Hexedland.com Play boardgames online at social distance, 'Make up your own rules' Online Gameboards: Video-call/Zoom your friends => share the Hexedland gameboard screen => You control the board"
+    />
+    <meta name="url" property="og:url" content="https://hexedland.com" />
+    <meta name="image" property="og:image" content="linkedin_hexedland.png" />
+    <meta name="viewport" property="viewport" content="width=device-width, initial-scale=1" />
     <style>
       /* section:not(#DEV) {
         display: none;
@@ -20,7 +35,7 @@
         --h1_color: orangered;
         --h2_color: orangered;
         --h3_color: black;
-        --contentlength:gold;
+        --contentlength: gold;
         --almostblack: #222222;
         --meister-demo-background: #e2e2e2;
         --meister-demo-body-background: var(--almostblack);
@@ -221,7 +236,7 @@
         text-decoration: none;
       }
       content-length {
-        color: var(--contentlength,gold);
+        color: var(--contentlength, gold);
       }
       table content-length {
         padding-left: 3em;
@@ -261,8 +276,10 @@
           <b>Related Dev.to posts:</b>
           <ul>
             <li>
-              <a href="https://dev.to/dannyengelman/what-web-technologies-are-required-to-draw-a-pie-chart-in-2021-spoiler-alert-a-standard-web-component-will-do-1j56" target="_blank"
-                >What Web technologies are required to draw a Pie Chart in 2021? (spoiler alert: a standard Web Component will do)</a
+              <a
+                href="https://dev.to/dannyengelman/what-web-technologies-are-required-to-draw-a-pie-chart-in-2021-spoiler-alert-a-standard-web-component-will-do-1j56"
+                target="_blank"
+                >What Web technologies are required to draw a Pie Chart in 2021?</a
               >
             </li>
             <li>
