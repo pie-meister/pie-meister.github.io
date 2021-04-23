@@ -1,6 +1,7 @@
 try {
   /*
-  Under active development
+  Supporting Web Components, under active development, 
+  just to make the Demo site run, not required by PieMeister charting code
 
   For questions contact: Danny@Engelman.nl
 
@@ -205,10 +206,10 @@ try {
       }
     }
     connectedCallback() {
-      setTimeout(()=>{
+      setTimeout(() => {
         this.showPrismContent();
         this.showExample();
-      })
+      });
     }
     // ------------------------------------------------------------------
     showPrismContent() {
@@ -284,13 +285,23 @@ try {
     class extends HTMLElement {
       // ------------------------------------------------------------------
       connectedCallback() {
-        let src = this.getAttribute("src") || "https://pie-meister.github.io/PieMeister.min.js";
-        fetch(src, { mode: "cors" }).then(
-          (res) => (this.innerHTML = " " + res.headers.get("content-length") + "&nbsp;Bytes")
+        let source = this.getAttribute("src") || "https://pie-meister.github.io/PieMeister.min.js";
+        this.setAttribute("title", source);
+        fetch(source, { mode: "cors" }).then(
+          (response) => (this.innerHTML = " " + response.headers.get("content-length") + "&nbsp;Bytes")
         );
       }
     }
   );
+  window.addEventListener("DOMContentLoaded", () => {
+    [...document.querySelectorAll(".contentlength")].forEach((span) => {
+      let source = span.getAttribute("src") || "https://pie-meister.github.io/PieMeister.min.js";
+      span.setAttribute("title", source);
+      fetch(source, { mode: "cors" }).then(
+        (response) => (span.innerHTML = " " + response.headers.get("content-length") + "&nbsp;Bytes")
+      );
+    });
+  });
   // ===========================================================================
   customElements.define(
     "attr-setting",
@@ -380,7 +391,8 @@ try {
           {
             name: "<b>&lt;progress-circle></b>",
             uri: "https://pie-meister.github.io",
-            size: "<b><content-length src='./PieMeister-with-Progress.min.js'></content-length></b>",
+            size:
+              "<b><content-length src='https://pie-meister.github.io/PieMeister-with-Progress.min.js'></content-length></b>",
             comment: `includes &lt;pie-chart>`,
           },
         ].map(
