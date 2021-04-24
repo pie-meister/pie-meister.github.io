@@ -339,7 +339,7 @@
             </p>
             <p>The <attr-setting>style</attr-setting> element is <b>copied</b> to shadowDOM</p>
           </meister-description>
-          <pie-chart id="pies" pulltext="100" pull="60" offset="100">
+          <pie-chart pulltext="100" pull="60" offset="100">
             <slice size="20%" stroke="#66cc33">Apple $size</slice>
             <slice size="18%" stroke="#fc5a8d">Strawberry $size</slice>
             <slice size="16%" stroke="#ff7518">Pumpkin $size</slice>
@@ -683,11 +683,12 @@
                 text-anchor: middle;
                 alignment-baseline: middle;
                 fill: black;
-                font-size: 200;
+                font-size: 10em;
               }
+              slice1,
               textPath {
                 text-anchor: middle;
-                font-size: 90;
+                font-size: 4em;
               }
             </style>
             <slice size="100%" stroke="grey" fill="lightgreen"> </slice>
@@ -709,7 +710,7 @@
             </p>
             <p>The &lt;progress-circle> Web Component (below) creates this &lt;pie-chart> code in 6 HTML lines</p>
           </meister-description>
-          <pie-chart id="GAdev" offset="top">
+          <pie-chart offset="top">
             <style>
               text {
                 font-size: 3em;
@@ -794,6 +795,7 @@
                 background: lightgrey;
               }
               #ProgressCircles {
+                font-size:16px;
                 display: flex;
                 gap: 0.2em;
                 justify-content: space-between;
