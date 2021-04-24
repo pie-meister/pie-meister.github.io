@@ -52,21 +52,19 @@ customElements.define("progress-circle", class extends(customElements.get("pie-c
     connectedCallback() {
         setTimeout((() => {
             let slice = (t, e, stroke, strokeWidth, i = "", label = "", radius) => `<slice part=${t} size=${e} stroke-width=${strokeWidth} radius=${radius} stroke=${stroke} ${i}>${label}</slice>`;
-            let progressSlice = (t, e, i = []) => {
-                let stroke = t.getAttribute("stroke") ? t.getAttribute("stroke") : "green";
+            let progressSlice = (t, e, i) => {
+                let stroke = t.getAttribute("stroke") || "green";
                 let width = this.getAttribute("width") ? ~~this.getAttribute("width") : t.getAttribute("width") ? ~~t.getAttribute("width") : 70;
                 let radius = -e * width - e * width / 10 + 30;
-                let s = i.length > 1;
-                let r = "" == t.innerHTML;
-                let l = false;
-                let a = this.getAttribute("fill") ? "fill=" + this.getAttribute("fill") : r ? (l = stroke, 
+                let s = false;
+                let r = this.getAttribute("fill") ? "fill=" + this.getAttribute("fill") : "" == t.innerHTML ? (s = stroke, 
                 "fill=" + stroke) : "fill=none";
-                let label = s ? "<tspan part=label>" + t.innerHTML + " </tspan><tspan part=value> $size</tspan>" : r ? `<tspan part=value x=50% y=62% ${l ? "font-size=250 fill=" + l : ""}>$size</tspan>` : "<tspan part=label x=50% y=350>" + t.innerHTML + "</tspan><tspan part=value x=50% y=500>$size</tspan>";
-                return slice("background", "100%", this.getAttribute("background") || stroke, width, a, " ", radius) + slice("edge", t.getAttribute("value"), t.getAttribute("edge") || this.getAttribute("edge") || "#000", width, void 0, " ", radius) + slice(`circle x=438 y=${64 + e * (1.1 * width)}`, t.getAttribute("value"), stroke, .9 * width, void 0, label, radius) + "<pie-chart></pie-chart>";
+                let label = i.length > 1 ? "<tspan part=label>" + t.innerHTML + " </tspan><tspan part=value> $size</tspan>" : "" == t.innerHTML ? `<tspan part=value x=50% y=62% ${s ? "font-size=250 fill=" + s : ""}>$size</tspan>` : "<tspan part=label x=50% y=350>" + t.innerHTML + "</tspan><tspan part=value x=50% y=500>$size</tspan>";
+                return slice("background", "100%", this.getAttribute("background") || stroke, width, r, " ", radius) + slice("edge", t.getAttribute("value"), t.getAttribute("edge") || this.getAttribute("edge") || "#000", width, void 0, " ", radius) + slice(`circle x=438 y=${64 + e * (1.1 * width)}`, t.getAttribute("value"), stroke, .9 * width, void 0, label, radius) + "<pie-chart></pie-chart>";
             };
             let t = [ ...this.querySelectorAll("progress") ];
             this.innerHTML = "<style>" + "path{stroke-linecap:round}" + (t.length > 1 ? "text{text-anchor:end;alignment-baseline:middle;font-size:30}" + "[part='text'] tspan:nth-child(2){font-size:40;fill:white;font-weight:bold}" : `text{text-anchor:middle;alignment-baseline:middle;font-size:150;fill:${this.getAttribute("color") || ""}}` + `[part="label"]{font-size:80}`) + "[part='background']{opacity:0.3}" + "</style>" + this.innerHTML + (this.getAttribute("value") ? (this.setAttribute("range" + 10 * ~~(this.getAttribute("value").replace("%", "") / 10), this.getAttribute("value")), 
-            progressSlice(this, 0)) : t.map(progressSlice).join(""));
+            progressSlice(this, 0, [])) : t.map(progressSlice).join(""));
             this.setAttribute("offset", "top");
             this.setAttribute("pull", this.getAttribute("pull") || "-230");
             this.setAttribute("part", "chart");
