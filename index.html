@@ -464,7 +464,7 @@
                 font-size: 5em;
                 text-anchor: middle;
               }
-              [part="slice2"] {
+              [part*="slice2"] {
                 font-size: 1.5em;
                 fill: gold;
               }
@@ -735,13 +735,13 @@
               [color4] {
                 stroke: orangered;
               }
-              [part="path"]:not([y]) {
+              [part*="path"]:not([y]) {
                 opacity: 0.3;
               }
-              [part="text"] {
+              [part*="text"] {
                 transform: translate(89px, 4px);
               }
-              [part="text"] tspan:nth-child(2) {
+              [part*="text"] tspan:nth-child(2) {
                 font-size: 1.3em;
                 fill: white;
                 font-weight: bold;
